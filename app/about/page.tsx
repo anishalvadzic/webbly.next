@@ -2,9 +2,25 @@ import type { Metadata } from "next";
 import AboutPage from "./AboutPage";
 
 export const metadata: Metadata = {
-  title: "Om Webbly | Norsk nettsidebyrå i Lørenskog",
+  title: "Om oss — Norsk nettsidebyrå i Lørenskog",
   description:
-    "Webbly er et norsk selskap fra Lørenskog som hjelper små og mellomstore bedrifter med moderne, profesjonelle nettsider, SEO og digital synlighet.",
+    "Webbly er et norsk nettsidebyrå fra Lørenskog som hjelper norske småbedrifter med moderne nettsider, SEO og digital synlighet. Møt teamet.",
+  keywords: [
+    "om Webbly",
+    "norsk nettsidebyrå",
+    "nettsidebyrå Lørenskog",
+    "nettsidebyrå Akershus",
+    "webdesign Norge",
+  ],
+  openGraph: {
+    title: "Om Webbly — Norsk nettsidebyrå i Lørenskog",
+    description:
+      "Webbly hjelper norske småbedrifter med moderne nettsider og digital synlighet.",
+    url: "https://webbly.no/about",
+  },
+  alternates: {
+    canonical: "https://webbly.no/about",
+  },
 };
 
 export default function Page() {
