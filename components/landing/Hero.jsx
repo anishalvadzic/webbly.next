@@ -67,7 +67,7 @@ export default function Hero({ lang }) {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.35 }}
-          className="font-display text-5xl md:text-7xl font-semibold text-deep-brown mb-6"
+          className="font-display text-4xl sm:text-5xl md:text-7xl font-semibold text-deep-brown mb-6"
           style={{ lineHeight: 1.5, textWrap: "balance" }}
         >
           {t.h1a}{" "}
