@@ -44,8 +44,12 @@ export default function Navbar({ lang, setLang }) {
   const scrollTo = (href, external) => {
     if (external) {
       window.location.href = href;
-    } else {
-      document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
+    } else if (href.startsWith("#")) {
+      if (window.location.pathname === "/") {
+        document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
+      } else {
+        window.location.href = "/" + href;
+      }
     }
     setMobileOpen(false);
   };
