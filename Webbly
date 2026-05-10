@@ -1,0 +1,7 @@
+cd path/to/your/webbly-project
+git init
+git add .
+git commit -m "Initial commit: Next.js migration"
+git branch -M main
+git remote add origin https://github.com/anishalvadzic/webbly.next.git
+git push -u origin main
