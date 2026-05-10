@@ -1,4 +1,4 @@
-# Webbly.Next
+# Webbly
 
 A modern, animated web application built with Next.js and React, featuring smooth animations and a beautiful UI.
 
