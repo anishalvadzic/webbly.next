@@ -100,7 +100,7 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ## Author
 
-[Anisha Lvadzic](https://github.com/anishalvadzic)
+[Anis Halvadzic](https://github.com/anishalvadzic)
 
 ---
 
