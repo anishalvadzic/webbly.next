@@ -1,17 +1,52 @@
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: 35 30% 97%;
+    --foreground: 25 15% 12%;
+    --card: 35 25% 98%;
+    --card-foreground: 25 15% 12%;
+    --popover: 35 25% 98%;
+    --popover-foreground: 25 15% 12%;
+    --primary: 25 20% 18%;
+    --primary-foreground: 35 30% 97%;
+    --secondary: 35 20% 92%;
+    --secondary-foreground: 25 15% 20%;
+    --muted: 35 15% 94%;
+    --muted-foreground: 25 10% 45%;
+    --accent: 32 40% 88%;
+    --accent-foreground: 25 15% 15%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 35 20% 88%;
+    --input: 35 20% 88%;
+    --ring: 25 20% 18%;
+    --radius: 0.75rem;
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-inter), sans-serif;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-playfair), serif;
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: var(--font-playfair), serif;
+  }
+  .font-body {
+    font-family: var(--font-inter), sans-serif;
+  }
 }
