@@ -18,18 +18,18 @@ const FloatingOrb = ({ cx, cy, r, delay, duration }) => (
 export default function Hero({ lang }) {
   const t = {
     no: {
-      h1a: "Få nettstedet",
-      h1b: "du fortjener.",
-      h1c: "Raskt og enkelt.",
-      sub: "Vi bygger profesjonelle nettsider for norske småbedrifter. Fast månedspris, ingen skjulte kostnader. Du er online på tre dager.",
+      h1a: "Profesjonelle nettsider",
+      h1b: "for småbedrifter",
+      h1c: "i Norge.",
+      sub: "Webbly bygger profesjonelle, raske og mobilvennlige nettsider for norske småbedrifter. Fast månedspris fra 499 kr, publisering på eget domene og online på tre virkedager.",
       cta: "Velg din pakke",
       scroll: "Utforsk",
     },
     en: {
-      h1a: "Get the website",
-      h1b: "you deserve.",
-      h1c: "Fast and simple.",
-      sub: "We build professional websites for Norwegian small businesses. Fixed monthly price, no hidden costs. You're online in three days.",
+      h1a: "Professional websites",
+      h1b: "for small businesses",
+      h1c: "in Norway.",
+      sub: "Webbly builds professional, fast and mobile-friendly websites for Norwegian small businesses. Fixed monthly price from 499 kr, published on your own domain and online in three business days.",
       cta: "Choose Your Plan",
       scroll: "Explore",
     },
