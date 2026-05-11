@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60" fill="none">
+  <rect width="200" height="60" rx="8" fill="hsl(32,25%,95%)"/>
+  <circle cx="30" cy="30" r="20" fill="hsl(20,20%,12%)"/>
+  <text x="30" y="36" font-family="Georgia, serif" font-size="20" font-weight="700" fill="hsl(32,25%,95%)" text-anchor="middle">W</text>
+  <text x="115" y="38" font-family="Georgia, serif" font-size="26" font-weight="700" fill="hsl(20,20%,12%)" text-anchor="middle">Webbly</text>
+</svg>
