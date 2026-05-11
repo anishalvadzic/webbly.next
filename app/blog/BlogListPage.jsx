@@ -47,10 +47,10 @@ export default function BlogListPage({ posts }) {
   const [cookieSettingsOpen, setCookieSettingsOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-beige-50">
+    <div className="min-h-screen bg-beige-50 flex flex-col">
       <Navbar lang={lang} setLang={setLang} />
 
-      <div className="max-w-5xl mx-auto px-6 pt-32 pb-24">
+      <div className="flex-1 max-w-5xl mx-auto w-full px-6 pt-32 pb-24">
         <div className="mb-14">
           <span className="block text-xs font-body font-semibold tracking-widest uppercase text-beige-400 mb-4">
             Blogg
