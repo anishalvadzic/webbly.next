@@ -34,9 +34,9 @@ export default function Footer({ lang, onOpenCookieSettings }) {
       <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="flex flex-col items-center md:items-start">
           <img
-            src="/logo.svg"
+            src="/logo-white.svg"
             alt="Webbly"
-            className="h-14 w-auto mb-2 brightness-0 invert opacity-80"
+            className="h-14 w-auto mb-2 opacity-80"
           />
           <p className="font-body text-sm text-beige-300">{t.tagline}</p>
         </div>
