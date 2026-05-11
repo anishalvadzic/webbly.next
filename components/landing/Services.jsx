@@ -11,9 +11,9 @@ const Card = ({ icon: Icon, title, desc, index }) => {
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 24 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, delay: index * 0.1, ease: "easeOut" }}
+      initial={{ opacity: 0, y: 20, scale: 0.97 }}
+      animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
+      transition={{ duration: 0.72, delay: index * 0.15, ease: "easeOut" }}
       className="group bg-white/60 border border-beige-200 rounded-2xl p-7 hover:bg-white/90 hover:border-beige-300 hover:shadow-md transition-all duration-300"
     >
       <div className="w-11 h-11 rounded-xl bg-beige-100 flex items-center justify-center mb-5 group-hover:bg-beige-200 transition-colors duration-300">
