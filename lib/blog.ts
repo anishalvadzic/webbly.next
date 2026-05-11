@@ -23,8 +23,7 @@ export const posts: BlogPost[] = [
     excerpt: "Priser, forskjeller og hva du bør vite før du investerer.",
     date: "2026-05-11",
     category: "Guider",
-    // Place the cover image at: /public/blog/hva-koster-en-nettside-2026.jpg
-    coverImage: "/blog/hva-koster-en-nettside-2026.jpg",
+    coverImage: "/hva-koster-en-nettside-2026.png",
     content: [
       {
         type: "paragraph",
