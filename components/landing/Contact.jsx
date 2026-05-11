@@ -7,7 +7,7 @@ import { Send, Check } from "lucide-react";
 export default function Contact({ lang }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
-  const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -18,6 +18,7 @@ export default function Contact({ lang }) {
       sub: "Har du spørsmål? Skriv til oss. Vi svarer innen én virkedag.",
       name: "Ditt navn",
       email: "E-post",
+      phone: "Telefonnummer",
       message: "Din melding",
       cta: "Send melding",
       sent: "Melding sendt!",
@@ -29,6 +30,7 @@ export default function Contact({ lang }) {
       sub: "Have questions? Write to us. We reply within one business day.",
       name: "Your name",
       email: "Email address",
+      phone: "Phone number",
       message: "Your message",
       cta: "Send Message",
       sent: "Message sent!",
@@ -99,6 +101,7 @@ export default function Contact({ lang }) {
             {[
               { key: "name", label: t.name, type: "text" },
               { key: "email", label: t.email, type: "email" },
+              { key: "phone", label: t.phone, type: "tel" },
             ].map((field) => (
               <div key={field.key}>
                 <label
