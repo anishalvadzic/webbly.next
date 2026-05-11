@@ -58,7 +58,7 @@ export default function Contact({ lang }) {
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.15 }}
+            transition={{ duration: 0.5, delay: 0.15, ease: "easeOut" }}
             className="font-display text-4xl md:text-5xl font-semibold text-deep-brown mb-4"
           >
             {t.h2}
@@ -77,6 +77,7 @@ export default function Contact({ lang }) {
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.35, ease: "easeOut" }}
             className="text-center bg-white rounded-3xl p-10 border border-beige-200"
           >
             <div className="w-14 h-14 rounded-full bg-emerald-100 flex items-center justify-center mx-auto mb-4">
@@ -89,9 +90,9 @@ export default function Contact({ lang }) {
           </motion.div>
         ) : (
           <motion.form
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.2 }}
+            transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
             onSubmit={handleSubmit}
             className="bg-white rounded-3xl p-8 border border-beige-200 space-y-5 shadow-sm"
           >

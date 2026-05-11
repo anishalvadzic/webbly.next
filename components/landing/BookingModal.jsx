@@ -113,7 +113,7 @@ export default function BookingModal({ plan, lang, onClose, onConfirm }) {
           initial={{ opacity: 0, scale: 0.95, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          transition={{ duration: 0.3 }}
+          transition={{ duration: 0.35, ease: "easeOut" }}
           className="bg-beige-50 rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden"
         >
           {/* Header */}
@@ -137,7 +137,7 @@ export default function BookingModal({ plan, lang, onClose, onConfirm }) {
 
           <div className="px-7 py-6">
             {step === "calendar" && (
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3, ease: "easeOut" }}>
                 {/* Month nav */}
                 <div className="flex items-center justify-between mb-5">
                   <button
@@ -206,6 +206,7 @@ export default function BookingModal({ plan, lang, onClose, onConfirm }) {
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, ease: "easeOut" }}
                     className="mt-6"
                   >
                     <p className="font-body text-xs font-medium text-warm-brown/60 uppercase tracking-wider mb-3">
@@ -251,6 +252,7 @@ export default function BookingModal({ plan, lang, onClose, onConfirm }) {
               <motion.div
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
               >
                 <div className="bg-beige-100 rounded-2xl p-4 mb-6 flex items-center gap-3">
                   <Calendar className="w-5 h-5 text-warm-brown flex-shrink-0" />
@@ -321,6 +323,7 @@ export default function BookingModal({ plan, lang, onClose, onConfirm }) {
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.35, ease: "easeOut" }}
                 className="text-center py-6"
               >
                 <motion.div
