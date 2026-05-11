@@ -9,7 +9,7 @@ const plans = {
     {
       name: "Start",
       price: "499",
-      tagline: "For små bedrifter som trenger en enkel og profesjonell nettside.",
+      tagline: "For bedrifter som trenger en enkel og profesjonell nettside.",
       features: [
         "Opptil 3 sider",
         "Cookie-banner inkludert",
@@ -66,7 +66,7 @@ const plans = {
     {
       name: "Start",
       price: "499",
-      tagline: "For small businesses that need a simple and professional website.",
+      tagline: "For businesses that need a simple and professional website.",
       features: [
         "Up to 3 pages",
         "Cookie banner included",
