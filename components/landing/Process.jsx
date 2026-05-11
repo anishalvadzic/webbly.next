@@ -59,7 +59,7 @@ export default function Process({ lang }) {
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.15 }}
+            transition={{ duration: 0.5, delay: 0.15, ease: "easeOut" }}
             className="font-display text-4xl md:text-5xl font-semibold text-deep-brown"
             style={{ textWrap: "balance" }}
           >
@@ -75,10 +75,10 @@ export default function Process({ lang }) {
               return (
                 <motion.div
                   key={i}
-                  initial={{ opacity: 0, y: 40 }}
+                  initial={{ opacity: 0, y: 24 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-60px" }}
-                  transition={{ duration: 0.55, delay: i * 0.15 }}
+                  transition={{ duration: 0.6, delay: i * 0.15, ease: "easeOut" }}
                   className="flex flex-col items-center text-center"
                 >
                   <div className="relative mb-6">

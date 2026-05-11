@@ -172,7 +172,7 @@ export default function Pricing({ lang, onSelectPlan }) {
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.15 }}
+            transition={{ duration: 0.5, delay: 0.15, ease: "easeOut" }}
             className="font-display text-4xl md:text-5xl font-semibold text-deep-brown whitespace-pre-line mb-4"
             style={{ textWrap: "balance" }}
           >
@@ -192,10 +192,10 @@ export default function Pricing({ lang, onSelectPlan }) {
           {currentPlans.map((plan, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, y: 40 }}
+              initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.55, delay: i * 0.12 }}
+              transition={{ duration: 0.6, delay: i * 0.12, ease: "easeOut" }}
               className={`relative rounded-3xl p-8 flex flex-col ${
                 plan.popular
                   ? "bg-deep-brown text-beige-50 shadow-2xl shadow-deep-brown/25 scale-[1.02]"

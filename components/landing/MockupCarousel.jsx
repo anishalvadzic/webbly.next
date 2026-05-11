@@ -307,7 +307,7 @@ export default function MockupCarousel({ lang }) {
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.15 }}
+            transition={{ duration: 0.5, delay: 0.15, ease: "easeOut" }}
             className="font-display text-4xl md:text-5xl font-semibold text-deep-brown whitespace-pre-line mb-4"
           >
             {t.h2}
@@ -350,10 +350,10 @@ export default function MockupCarousel({ lang }) {
             <AnimatePresence mode="wait">
               <motion.div
                 key={active + "-desktop"}
-                initial={{ opacity: 0, x: -30 }}
+                initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 30 }}
-                transition={{ duration: 0.4, ease: "easeInOut" }}
+                exit={{ opacity: 0, x: 20 }}
+                transition={{ duration: 0.5, ease: "easeInOut" }}
               >
                 <DesktopMockup m={m} lang={lang} />
               </motion.div>
@@ -364,10 +364,10 @@ export default function MockupCarousel({ lang }) {
             <AnimatePresence mode="wait">
               <motion.div
                 key={active + "-iphone"}
-                initial={{ opacity: 0, x: 30 }}
+                initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -30 }}
-                transition={{ duration: 0.4, ease: "easeInOut" }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.5, ease: "easeInOut" }}
                 className="flex justify-center"
               >
                 <IPhoneMockup m={m} lang={lang} />

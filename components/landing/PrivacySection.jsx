@@ -11,7 +11,7 @@ function AccordionItem({ title, content, index }) {
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ delay: index * 0.08 }}
+      transition={{ duration: 0.5, delay: index * 0.08, ease: "easeOut" }}
       className="border border-beige-200 rounded-2xl overflow-hidden bg-white/60"
     >
       <button
@@ -35,7 +35,7 @@ function AccordionItem({ title, content, index }) {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.35, ease: "easeOut" }}
           >
             <div className="px-6 pb-6 font-body text-sm text-warm-brown/80 leading-relaxed border-t border-beige-100">
               <div className="pt-4">{content}</div>
@@ -111,6 +111,7 @@ export default function PrivacySection({ lang }) {
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={inView ? { opacity: 1, scale: 1 } : {}}
+            transition={{ duration: 0.4, ease: "backOut" }}
             className="inline-flex w-12 h-12 rounded-full bg-deep-brown items-center justify-center mb-5"
           >
             <Shield className="w-5 h-5 text-beige-50" />
@@ -125,7 +126,7 @@ export default function PrivacySection({ lang }) {
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.15 }}
+            transition={{ duration: 0.5, delay: 0.15, ease: "easeOut" }}
             className="font-display text-4xl md:text-5xl font-semibold text-deep-brown whitespace-pre-line mb-4"
           >
             {t.h2}

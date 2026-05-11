@@ -125,7 +125,7 @@ export default function Navbar({ lang, setLang }) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
+              transition={{ duration: 0.3 }}
               className="md:hidden fixed inset-0 bg-beige-50 z-10"
               style={{ top: 64 }}
             />
@@ -133,7 +133,7 @@ export default function Navbar({ lang, setLang }) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.25 }}
+              transition={{ duration: 0.35, ease: "easeOut" }}
               className="md:hidden fixed left-0 right-0 z-10 bg-beige-50 border-t border-beige-200 px-6 pb-6 pt-4 flex flex-col gap-4"
               style={{ top: 64 }}
             >

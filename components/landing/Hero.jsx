@@ -64,9 +64,9 @@ export default function Hero({ lang }) {
 
       <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
         <motion.h1
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.35 }}
+          transition={{ duration: 0.8, delay: 0.35, ease: "easeOut" }}
           className="font-display text-4xl sm:text-5xl md:text-7xl font-semibold text-deep-brown mb-6"
           style={{ lineHeight: 1.5, textWrap: "balance" }}
         >
@@ -89,7 +89,7 @@ export default function Hero({ lang }) {
         <motion.button
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.4, delay: 0.7 }}
+          transition={{ duration: 0.5, delay: 0.7, ease: "easeOut" }}
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.97 }}
           onClick={() => scrollTo("#pricing")}
