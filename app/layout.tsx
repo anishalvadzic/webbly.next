@@ -70,7 +70,8 @@ const jsonLd = {
   "@type": "ProfessionalService",
   name: "Webbly",
   url: "https://webbly.no",
-  logo: "https://media.base44.com/images/public/69fe226358dd1ca54cd504b6/c256e94a2_weblly_logo.svg",
+  logo: "https://webbly.no/logo.svg",
+  telephone: "+4798136928",
   description:
     "Profesjonelle nettsider for norske småbedrifter. Fast månedspris fra 499 kr/mnd.",
   address: {
