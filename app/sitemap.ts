@@ -15,6 +15,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
+      url: "https://webbly.no/blog",
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    {
+      url: "https://webbly.no/blog/hva-koster-en-nettside-i-norge-i-2026",
+      lastModified: new Date("2026-05-11"),
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+    {
       url: "https://webbly.no/terms",
       lastModified: new Date(),
       changeFrequency: "yearly",
