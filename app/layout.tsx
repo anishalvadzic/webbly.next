@@ -23,15 +23,6 @@ export const metadata: Metadata = {
   },
   description:
     "Profesjonelle nettsider for norske småbedrifter. Fast månedspris, ingen skjulte kostnader. Du er online på tre dager.",
-  keywords: [
-    "nettside",
-    "nettside for bedrift",
-    "nettsidebyrå",
-    "norsk nettside",
-    "profesjonell nettside",
-    "Lørenskog",
-    "Norge",
-  ],
   authors: [{ name: "Webbly", url: "https://webbly.no" }],
   creator: "Webbly",
   robots: {
@@ -84,6 +75,54 @@ const jsonLd = {
   serviceType: "Webdesign og nettside-utvikling",
   priceRange: "499–999 kr/mnd",
   knowsLanguage: ["nb", "en"],
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: "Nettsidepakker",
+    itemListElement: [
+      {
+        "@type": "Offer",
+        name: "Start",
+        description: "Opptil 3 sider, mobiltilpasset design, kontaktskjema, SSL og publisering på eget domene.",
+        price: "499",
+        priceCurrency: "NOK",
+        priceSpecification: {
+          "@type": "UnitPriceSpecification",
+          price: "499",
+          priceCurrency: "NOK",
+          unitText: "månedlig",
+        },
+        url: "https://webbly.no/#pricing",
+      },
+      {
+        "@type": "Offer",
+        name: "Vekst",
+        description: "Opptil 5 sider, grunnleggende SEO, personvernerklæring, mobiltilpasset design og SSL.",
+        price: "799",
+        priceCurrency: "NOK",
+        priceSpecification: {
+          "@type": "UnitPriceSpecification",
+          price: "799",
+          priceCurrency: "NOK",
+          unitText: "månedlig",
+        },
+        url: "https://webbly.no/#pricing",
+      },
+      {
+        "@type": "Offer",
+        name: "Pro",
+        description: "Opptil 8 sider, SEO, analysedashboard, logo, 2 redaktørtimer/mnd og SSL.",
+        price: "999",
+        priceCurrency: "NOK",
+        priceSpecification: {
+          "@type": "UnitPriceSpecification",
+          price: "999",
+          priceCurrency: "NOK",
+          unitText: "månedlig",
+        },
+        url: "https://webbly.no/#pricing",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({

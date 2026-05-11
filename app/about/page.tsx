@@ -5,13 +5,6 @@ export const metadata: Metadata = {
   title: "Om oss — Norsk nettsidebyrå i Lørenskog",
   description:
     "Webbly er et norsk nettsidebyrå fra Lørenskog som hjelper norske småbedrifter med moderne nettsider, SEO og digital synlighet. Møt teamet.",
-  keywords: [
-    "om Webbly",
-    "norsk nettsidebyrå",
-    "nettsidebyrå Lørenskog",
-    "nettsidebyrå Akershus",
-    "webdesign Norge",
-  ],
   openGraph: {
     title: "Om Webbly — Norsk nettsidebyrå i Lørenskog",
     description:

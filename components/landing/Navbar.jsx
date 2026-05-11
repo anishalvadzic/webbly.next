@@ -67,9 +67,9 @@ export default function Navbar({ lang, setLang }) {
     >
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
         {/* Logo */}
-        <a href="#" className="flex items-center gap-2">
+        <a href="/" className="flex items-center gap-2">
           <img
-            src="https://media.base44.com/images/public/69fe226358dd1ca54cd504b6/c256e94a2_weblly_logo.svg"
+            src="/logo.svg"
             alt="Webbly"
             className="h-14 w-auto"
           />
@@ -78,13 +78,14 @@ export default function Navbar({ lang, setLang }) {
         {/* Desktop links */}
         <div className="hidden md:flex items-center gap-8">
           {links.map((link) => (
-            <button
+            <a
               key={link.href}
-              onClick={() => scrollTo(link.href, link.external)}
+              href={link.external ? link.href : `/${link.href}`}
+              onClick={(e) => { e.preventDefault(); scrollTo(link.href, link.external); }}
               className="text-sm font-body text-warm-brown/80 hover:text-deep-brown transition-colors duration-200 cursor-pointer"
             >
               {link.label}
-            </button>
+            </a>
           ))}
         </div>
 
@@ -98,12 +99,13 @@ export default function Navbar({ lang, setLang }) {
             {lang === "no" ? "EN" : "NO"}
           </button>
 
-          <button
-            onClick={() => scrollTo("#pricing")}
+          <a
+            href="/#pricing"
+            onClick={(e) => { e.preventDefault(); scrollTo("#pricing"); }}
             className="hidden md:block text-sm font-body bg-deep-brown text-beige-50 px-5 py-2 rounded-xl hover:bg-warm-brown hover:shadow-lg hover:shadow-deep-brown/25 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
           >
             {t.cta}
-          </button>
+          </a>
 
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
@@ -136,20 +138,22 @@ export default function Navbar({ lang, setLang }) {
               style={{ top: 64 }}
             >
               {links.map((link) => (
-                <button
+                <a
                   key={link.href}
-                  onClick={() => scrollTo(link.href, link.external)}
+                  href={link.external ? link.href : `/${link.href}`}
+                  onClick={(e) => { e.preventDefault(); scrollTo(link.href, link.external); }}
                   className="text-left text-base font-body text-warm-brown hover:text-deep-brown cursor-pointer py-2 border-b border-beige-100"
                 >
                   {link.label}
-                </button>
+                </a>
               ))}
-              <button
-                onClick={() => scrollTo("#pricing")}
-                className="text-sm font-body bg-deep-brown text-beige-50 px-5 py-3 rounded-xl w-full cursor-pointer hover:shadow-lg hover:shadow-deep-brown/25 transition-all duration-200 mt-2"
+              <a
+                href="/#pricing"
+                onClick={(e) => { e.preventDefault(); scrollTo("#pricing"); }}
+                className="text-sm font-body bg-deep-brown text-beige-50 px-5 py-3 rounded-xl w-full cursor-pointer hover:shadow-lg hover:shadow-deep-brown/25 transition-all duration-200 mt-2 text-center block"
               >
                 {t.cta}
-              </button>
+              </a>
             </motion.div>
           </>
         )}
