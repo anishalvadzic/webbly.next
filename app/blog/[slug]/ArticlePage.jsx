@@ -1,6 +1,12 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 import { format, parseISO } from "date-fns";
 import { nb } from "date-fns/locale";
+import Navbar from "@/components/landing/Navbar";
+import Footer from "@/components/landing/Footer";
+import CookieBanner from "@/components/landing/CookieBanner";
 
 function renderBlock(block, i) {
   switch (block.type) {
@@ -43,9 +49,7 @@ function renderBlock(block, i) {
         </ul>
       );
     case "divider":
-      return (
-        <hr key={i} className="my-8 border-beige-200" />
-      );
+      return <hr key={i} className="my-8 border-beige-200" />;
     case "faq":
       return (
         <div key={i} className="mt-10">
@@ -72,10 +76,15 @@ function renderBlock(block, i) {
 }
 
 export default function ArticlePage({ post }) {
+  const [lang, setLang] = useState("no");
+  const [cookieSettingsOpen, setCookieSettingsOpen] = useState(false);
+
   return (
     <div className="min-h-screen bg-beige-50">
-      {/* Cover image */}
-      <div className="w-full aspect-video md:aspect-[21/9] overflow-hidden bg-beige-200">
+      <Navbar lang={lang} setLang={setLang} />
+
+      {/* Cover image — sits below the fixed navbar */}
+      <div className="w-full mt-16 aspect-video md:aspect-[21/9] overflow-hidden bg-beige-200">
         <img
           src={post.coverImage}
           alt={post.title}
@@ -128,6 +137,13 @@ export default function ArticlePage({ post }) {
           </Link>
         </div>
       </div>
+
+      <Footer lang={lang} onOpenCookieSettings={() => setCookieSettingsOpen(true)} />
+      <CookieBanner
+        lang={lang}
+        forceOpen={cookieSettingsOpen}
+        onClose={() => setCookieSettingsOpen(false)}
+      />
     </div>
   );
 }

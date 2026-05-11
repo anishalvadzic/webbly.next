@@ -1,6 +1,12 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 import { format, parseISO } from "date-fns";
 import { nb } from "date-fns/locale";
+import Navbar from "@/components/landing/Navbar";
+import Footer from "@/components/landing/Footer";
+import CookieBanner from "@/components/landing/CookieBanner";
 
 function ArticleCard({ post }) {
   return (
@@ -37,9 +43,14 @@ function ArticleCard({ post }) {
 }
 
 export default function BlogListPage({ posts }) {
+  const [lang, setLang] = useState("no");
+  const [cookieSettingsOpen, setCookieSettingsOpen] = useState(false);
+
   return (
     <div className="min-h-screen bg-beige-50">
-      <div className="max-w-5xl mx-auto px-6 py-24">
+      <Navbar lang={lang} setLang={setLang} />
+
+      <div className="max-w-5xl mx-auto px-6 pt-32 pb-24">
         <div className="mb-14">
           <span className="block text-xs font-body font-semibold tracking-widest uppercase text-beige-400 mb-4">
             Blogg
@@ -49,7 +60,7 @@ export default function BlogListPage({ posts }) {
           </h1>
           <p className="font-body text-warm-brown/70 max-w-xl">
             Tips, guider og innsikt om nettsider, SEO og digital tilstedeværelse
-            for norske småbedrifter.
+            for norske bedrifter.
           </p>
         </div>
 
@@ -59,6 +70,13 @@ export default function BlogListPage({ posts }) {
           ))}
         </div>
       </div>
+
+      <Footer lang={lang} onOpenCookieSettings={() => setCookieSettingsOpen(true)} />
+      <CookieBanner
+        lang={lang}
+        forceOpen={cookieSettingsOpen}
+        onClose={() => setCookieSettingsOpen(false)}
+      />
     </div>
   );
 }
