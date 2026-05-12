@@ -10,6 +10,7 @@ export default function Contact({ lang }) {
   const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const t = {
     no: {
@@ -41,9 +42,20 @@ export default function Contact({ lang }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 1000));
-    setLoading(false);
-    setSent(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (!res.ok) throw new Error("server");
+      setSent(true);
+    } catch {
+      setError(lang === "no" ? "Noe gikk galt. Prøv igjen." : "Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -140,6 +152,9 @@ export default function Contact({ lang }) {
                 className="w-full bg-beige-50 border border-beige-200 rounded-xl px-4 py-3 font-body text-sm text-deep-brown resize-none focus:outline-none focus:ring-2 focus:ring-beige-300 transition-shadow"
               />
             </div>
+            {error && (
+              <p className="text-sm font-body text-red-600 text-center">{error}</p>
+            )}
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}

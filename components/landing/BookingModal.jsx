@@ -49,6 +49,7 @@ export default function BookingModal({ plan, lang, onClose, onConfirm }) {
   const [step, setStep] = useState("calendar");
   const [form, setForm] = useState({ name: "", email: "", company: "" });
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const locale = lang === "no" ? nb : enGB;
 
@@ -95,9 +96,27 @@ export default function BookingModal({ plan, lang, onClose, onConfirm }) {
 
   const handleSubmit = async () => {
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 1200));
-    setLoading(false);
-    setStep("done");
+    setError(null);
+    try {
+      const res = await fetch("/api/booking", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          company: form.company,
+          plan,
+          date: selectedDate.toLocaleDateString("sv-SE"),
+          time: selectedTime,
+        }),
+      });
+      if (!res.ok) throw new Error("server");
+      setStep("done");
+    } catch {
+      setError(lang === "no" ? "Noe gikk galt. Prøv igjen." : "Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -292,6 +311,10 @@ export default function BookingModal({ plan, lang, onClose, onConfirm }) {
                     </div>
                   ))}
                 </div>
+
+                {error && (
+                  <p className="text-sm font-body text-red-600 text-center mt-2">{error}</p>
+                )}
 
                 <div className="flex gap-3 mt-6">
                   <button
