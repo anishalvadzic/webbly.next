@@ -1,16 +1,20 @@
 import { google } from "googleapis";
 
 export function getCalendarClient() {
-  const privateKey = (process.env.GOOGLE_PRIVATE_KEY ?? "").replace(/\\n/g, "\n");
-  const clientEmail = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL ?? "";
+  const json = process.env.GOOGLE_SERVICE_ACCOUNT_JSON ?? "";
 
-  if (!privateKey || !clientEmail) {
-    throw new Error("Missing GOOGLE_SERVICE_ACCOUNT_EMAIL or GOOGLE_PRIVATE_KEY env vars");
+  if (!json) {
+    throw new Error("Missing GOOGLE_SERVICE_ACCOUNT_JSON env var");
   }
 
+  const credentials = JSON.parse(json) as {
+    client_email: string;
+    private_key: string;
+  };
+
   const auth = new google.auth.JWT({
-    email: clientEmail,
-    key: privateKey,
+    email: credentials.client_email,
+    key: credentials.private_key,
     scopes: ["https://www.googleapis.com/auth/calendar"],
   });
 
