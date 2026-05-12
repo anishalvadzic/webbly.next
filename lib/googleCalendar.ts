@@ -16,6 +16,7 @@ export function getCalendarClient() {
     email: credentials.client_email,
     key: credentials.private_key,
     scopes: ["https://www.googleapis.com/auth/calendar"],
+    subject: process.env.GOOGLE_CALENDAR_SUBJECT,
   });
 
   return google.calendar({ version: "v3", auth });
