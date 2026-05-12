@@ -11,6 +11,12 @@ export const metadata: Metadata = {
       "Webbly hjelper norske bedrifter med moderne nettsider og digital synlighet.",
     url: "https://webbly.no/about",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Om Webbly — Norsk nettsidebyrå i Lørenskog",
+    description:
+      "Webbly hjelper norske bedrifter med moderne nettsider og digital synlighet.",
+  },
   alternates: {
     canonical: "https://webbly.no/about",
   },
