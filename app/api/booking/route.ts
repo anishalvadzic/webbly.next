@@ -62,7 +62,7 @@ export async function POST(request: NextRequest) {
     await calendar.events.insert({
       calendarId: process.env.GOOGLE_CALENDAR_ID,
       requestBody: {
-        summary: `Intromøte — ${plan} — ${name}`,
+        summary: `Intromøte — ${company?.trim() || name} — ${plan}`,
         description: `Bedrift: ${company || "—"}\nE-post: ${email}\nPakke: ${plan}`,
         start: { dateTime: `${date}T${time}:00`, timeZone: "Europe/Oslo" },
         end: { dateTime: `${date}T${endTime}:00`, timeZone: "Europe/Oslo" },
