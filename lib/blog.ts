@@ -39,7 +39,7 @@ export const posts: BlogPost[] = [
     content: [
       {
         type: "paragraph",
-        text: "Mange små bedrifter lurer på det samme før de tar kontakt med et webbyrå:",
+        text: "Mange bedrifter lurer på det samme før de tar kontakt med et webbyrå:",
       },
       {
         type: "paragraph",
@@ -51,7 +51,7 @@ export const posts: BlogPost[] = [
       },
       {
         type: "paragraph",
-        text: "For små og mellomstore bedrifter ligger de fleste profesjonelle nettsider et sted mellom 10.000 og 50.000 kroner.",
+        text: "For bedrifter ligger de fleste profesjonelle nettsider et sted mellom 10.000 og 50.000 kroner.",
       },
       {
         type: "paragraph",
@@ -91,7 +91,7 @@ export const posts: BlogPost[] = [
       },
       {
         type: "heading2",
-        text: "Hva er vanlig pris for små bedrifter?",
+        text: "Hva er vanlig pris for bedrifter?",
       },
       {
         type: "paragraph",
@@ -111,7 +111,7 @@ export const posts: BlogPost[] = [
       },
       {
         type: "list",
-        items: ["enkeltpersonforetak", "små lokale tjenester", "enkle landingssider"],
+        items: ["enkeltpersonforetak", "lokale tjenester", "enkle landingssider"],
       },
       {
         type: "paragraph",
@@ -260,7 +260,7 @@ export const posts: BlogPost[] = [
       },
       {
         type: "heading2",
-        text: "Hva burde små bedrifter fokusere på?",
+        text: "Hva burde bedrifter fokusere på?",
       },
       {
         type: "paragraph",
@@ -290,7 +290,7 @@ export const posts: BlogPost[] = [
       },
       {
         type: "paragraph",
-        text: "En profesjonell nettside i Norge i 2026 koster vanligvis mellom 10.000 og 50.000 kroner for små og mellomstore bedrifter.",
+        text: "En profesjonell nettside i Norge i 2026 koster vanligvis mellom 10.000 og 50.000 kroner for bedrifter.",
       },
       {
         type: "paragraph",
@@ -318,7 +318,7 @@ export const posts: BlogPost[] = [
         items: [
           {
             q: "Hvor lang tid tar det å lage en nettside?",
-            a: "De fleste små bedriftsnettsider kan bygges på alt fra noen dager til noen uker, avhengig av omfang og innhold.",
+            a: "De fleste bedriftsnettsider kan bygges på alt fra noen dager til noen uker, avhengig av omfang og innhold.",
           },
           {
             q: "Må jeg ha SEO?",

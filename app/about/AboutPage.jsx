@@ -61,7 +61,7 @@ export default function AboutPage() {
             transition={{ delay: 0.2 }}
             className="font-body text-lg text-warm-brown/75 leading-relaxed mb-4"
           >
-            Webbly hjelper små og mellomstore bedrifter med å få profesjonelle
+            Webbly hjelper bedrifter med å få profesjonelle
             nettsider raskt, enkelt og til en fornuftig pris.
           </motion.p>
           <motion.p
@@ -94,7 +94,7 @@ export default function AboutPage() {
               Hvorfor Webbly?
             </h2>
             <p className="font-body text-warm-brown/70 max-w-2xl mx-auto leading-relaxed">
-              Mange små bedrifter trenger en god nettside, men opplever at det
+              Mange bedrifter trenger en god nettside, men opplever at det
               enten blir for dyrt, tar for lang tid eller blir for teknisk.
               Webbly er laget for å løse nettopp dette.
             </p>
@@ -226,7 +226,7 @@ export default function AboutPage() {
               ønsker en enklere vei til en profesjonell digital tilstedeværelse.
             </p>
             <p className="font-body text-warm-brown/75 leading-relaxed">
-              Vi forstår det norske markedet, norske kunder og behovene små
+              Vi forstår det norske markedet, norske kunder og behovene
               bedrifter har i hverdagen. Derfor bygger vi nettsider som er
               enkle å forstå, lette å bruke og laget for å skape tillit.
             </p>
