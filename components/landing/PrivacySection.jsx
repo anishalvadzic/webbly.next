@@ -80,7 +80,7 @@ export default function PrivacySection({ lang }) {
       updated: "Last updated: May 2026",
       s1title: "1. Who are we?",
       s1content:
-        "Webbly is a Norwegian company offering professional website solutions for small businesses. We are the data controller for personal information collected via this website. Contact: kontakt@webbly.no",
+        "Webbly is a Norwegian company offering professional website solutions for businesses. We are the data controller for personal information collected via this website. Contact: kontakt@webbly.no",
       s2title: "2. What data do we collect?",
       s2content:
         "We may collect: Name and email when you submit a contact form or book a meeting. Company name and contact information. Technical data such as IP address, browser type, and pages visited (via cookies). We never collect sensitive personal data without your explicit consent.",
