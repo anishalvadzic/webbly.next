@@ -16,6 +16,18 @@ export interface BlogPost {
   content: ContentBlock[];
 }
 
+export function readingTime(post: BlogPost): number {
+  let words = 0;
+  for (const block of post.content) {
+    if ("text" in block) words += block.text.split(/\s+/).length;
+    if (block.type === "list") block.items.forEach((i) => (words += i.split(/\s+/).length));
+    if (block.type === "faq") block.items.forEach((i) => {
+      words += i.q.split(/\s+/).length + i.a.split(/\s+/).length;
+    });
+  }
+  return Math.max(1, Math.ceil(words / 200));
+}
+
 export const posts: BlogPost[] = [
   {
     slug: "hva-koster-en-nettside-i-norge-i-2026",
