@@ -46,12 +46,23 @@ export default async function Page({
   const post = getPost(slug);
   if (!post) notFound();
 
+  let wordCount = 0;
+  for (const block of post.content) {
+    if ("text" in block) wordCount += block.text.split(/\s+/).length;
+    if (block.type === "list") block.items.forEach((i) => (wordCount += i.split(/\s+/).length));
+    if (block.type === "faq") block.items.forEach((i) => {
+      wordCount += i.q.split(/\s+/).length + i.a.split(/\s+/).length;
+    });
+  }
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Article",
     headline: post.title,
     description: post.excerpt,
     datePublished: post.date,
+    dateModified: post.date,
+    wordCount,
     image: `https://webbly.no${post.coverImage}`,
     author: {
       "@type": "Organization",

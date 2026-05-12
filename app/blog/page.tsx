@@ -9,6 +9,15 @@ export const metadata: Metadata = {
   openGraph: {
     url: "https://webbly.no/blog",
     type: "website",
+    title: "Blogg — Webbly",
+    description:
+      "Tips, guider og innsikt om nettsider, SEO og digital tilstedeværelse for norske bedrifter.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Blogg — Webbly",
+    description:
+      "Tips, guider og innsikt om nettsider, SEO og digital tilstedeværelse for norske bedrifter.",
   },
   alternates: {
     canonical: "https://webbly.no/blog",
