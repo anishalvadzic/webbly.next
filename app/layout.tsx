@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     template: "%s | Webbly",
   },
   description:
-    "Profesjonelle nettsider for norske småbedrifter. Fast månedspris, ingen skjulte kostnader. Du er online på tre dager.",
+    "Profesjonelle nettsider for norske bedrifter. Fast månedspris, ingen skjulte kostnader. Du er online på tre dager.",
   authors: [{ name: "Webbly", url: "https://webbly.no" }],
   creator: "Webbly",
   robots: {
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     siteName: "Webbly",
     title: "Webbly — Profesjonelt nettsidebyrå for norske bedrifter",
     description:
-      "Profesjonelle nettsider for norske småbedrifter. Fast månedspris fra 499 kr/mnd. Du er online på tre dager.",
+      "Profesjonelle nettsider for norske bedrifter. Fast månedspris fra 499 kr/mnd. Du er online på tre dager.",
     images: [
       {
         url: "/og-image.png",
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Webbly — Profesjonelt nettsidebyrå for norske bedrifter",
     description:
-      "Profesjonelle nettsider for norske småbedrifter. Fast månedspris fra 499 kr/mnd.",
+      "Profesjonelle nettsider for norske bedrifter. Fast månedspris fra 499 kr/mnd.",
     images: ["/og-image.png"],
   },
 };
@@ -64,7 +64,7 @@ const jsonLd = {
   logo: "https://webbly.no/logo.svg",
   telephone: "+4798136928",
   description:
-    "Profesjonelle nettsider for norske småbedrifter. Fast månedspris fra 499 kr/mnd.",
+    "Profesjonelle nettsider for norske bedrifter. Fast månedspris fra 499 kr/mnd.",
   address: {
     "@type": "PostalAddress",
     addressLocality: "Lørenskog",

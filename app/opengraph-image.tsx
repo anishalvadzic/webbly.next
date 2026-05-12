@@ -62,7 +62,7 @@ export default async function Image() {
               maxWidth: 700,
             }}
           >
-            Profesjonelle nettsider for norske småbedrifter
+            Profesjonelle nettsider for norske bedrifter
           </div>
           <div
             style={{
