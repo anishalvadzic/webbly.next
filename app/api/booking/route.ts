@@ -66,7 +66,6 @@ export async function POST(request: NextRequest) {
         description: `Bedrift: ${company || "—"}\nE-post: ${email}\nPakke: ${plan}`,
         start: { dateTime: `${date}T${time}:00`, timeZone: "Europe/Oslo" },
         end: { dateTime: `${date}T${endTime}:00`, timeZone: "Europe/Oslo" },
-        attendees: [{ email }],
         reminders: {
           useDefault: false,
           overrides: [
@@ -127,7 +126,7 @@ export async function POST(request: NextRequest) {
       <p style="margin:0;color:#8b7355;font-size:13px;">Pakke: ${escapeHtml(plan)}</p>
     </div>
     <p style="color:#8b7355;font-size:13px;line-height:1.7;">
-      Du vil motta en Google Calendar-invitasjon på denne adressen.
+      Vi tar kontakt for å bekrefte møtet og sende deg en kalenderinvitasjon.
       Møtet tar ca. 30–60 minutter.
     </p>
     <hr style="border:none;border-top:1px solid #e8e0d6;margin:24px 0;">
