@@ -49,7 +49,7 @@ const faqJsonLd = {
 };
 
 export const metadata: Metadata = {
-  title: "Nettside for bedrift | Webbly — Nettsidebyrå for småbedrifter i Norge",
+  title: "Nettside for bedrift | Webbly — Nettsidebyrå for bedrifter i Norge",
   description:
     "Få en profesjonell nettside for bedriften din fra 499 kr/mnd. Publisering på eget domene, ingen skjulte kostnader. Du er online på tre virkedager. Norsk nettsidebyrå i Lørenskog.",
   openGraph: {

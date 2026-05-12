@@ -163,7 +163,7 @@ export const posts: BlogPost[] = [
       },
       {
         type: "paragraph",
-        text: "Dette er nivået de fleste seriøse småbedrifter burde ligge på.",
+        text: "Dette er nivået de fleste seriøse bedrifter burde ligge på.",
       },
       {
         type: "divider",

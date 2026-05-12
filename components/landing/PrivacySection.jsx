@@ -59,7 +59,7 @@ export default function PrivacySection({ lang }) {
       updated: "Sist oppdatert: Mai 2026",
       s1title: "1. Hvem er vi?",
       s1content:
-        "Webbly er et norsk selskap som tilbyr profesjonelle nettsideløsninger for småbedrifter. Vi er behandlingsansvarlig for de personopplysningene vi samler inn via dette nettstedet. Kontaktinformasjon: kontakt@webbly.no",
+        "Webbly er et norsk selskap som tilbyr profesjonelle nettsideløsninger for bedrifter. Vi er behandlingsansvarlig for de personopplysningene vi samler inn via dette nettstedet. Kontaktinformasjon: kontakt@webbly.no",
       s2title: "2. Hvilke opplysninger samler vi inn?",
       s2content:
         "Vi kan samle inn følgende opplysninger: Navn og e-postadresse når du fyller ut kontaktskjema eller booker møte. Bedriftsnavn og kontaktinformasjon. Tekniske data som IP-adresse, nettlesertype og hvilke sider du besøker (via informasjonskapsler). Vi samler aldri inn sensitive personopplysninger uten ditt eksplisitte samtykke.",

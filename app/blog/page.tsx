@@ -5,7 +5,7 @@ import BlogListPage from "./BlogListPage";
 export const metadata: Metadata = {
   title: "Blogg — Webbly",
   description:
-    "Tips, guider og innsikt om nettsider, SEO og digital tilstedeværelse for norske småbedrifter.",
+    "Tips, guider og innsikt om nettsider, SEO og digital tilstedeværelse for norske bedrifter.",
   openGraph: {
     url: "https://webbly.no/blog",
     type: "website",
