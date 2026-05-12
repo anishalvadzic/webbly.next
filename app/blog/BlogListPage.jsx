@@ -7,6 +7,7 @@ import { nb } from "date-fns/locale";
 import Navbar from "@/components/landing/Navbar";
 import Footer from "@/components/landing/Footer";
 import CookieBanner from "@/components/landing/CookieBanner";
+import { readingTime } from "@/lib/blog";
 
 function ArticleCard({ post }) {
   return (
@@ -25,8 +26,10 @@ function ArticleCard({ post }) {
         </span>
       </div>
       <div className="p-6 flex flex-col flex-1">
-        <p className="font-body text-xs text-warm-brown/50 mb-3">
-          {format(parseISO(post.date), "d. MMMM yyyy", { locale: nb })}
+        <p className="font-body text-xs text-warm-brown/50 mb-3 flex items-center gap-2">
+          <span>{format(parseISO(post.date), "d. MMMM yyyy", { locale: nb })}</span>
+          <span>·</span>
+          <span>{readingTime(post)} min lesing</span>
         </p>
         <h2 className="font-display text-lg font-semibold text-deep-brown mb-2 leading-snug group-hover:text-warm-brown transition-colors">
           {post.title}

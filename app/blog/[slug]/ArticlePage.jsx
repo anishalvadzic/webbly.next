@@ -7,6 +7,7 @@ import { nb } from "date-fns/locale";
 import Navbar from "@/components/landing/Navbar";
 import Footer from "@/components/landing/Footer";
 import CookieBanner from "@/components/landing/CookieBanner";
+import { readingTime } from "@/lib/blog";
 
 function renderBlock(block, i) {
   switch (block.type) {
@@ -108,6 +109,10 @@ export default function ArticlePage({ post }) {
           </span>
           <span className="font-body text-xs text-warm-brown/50">
             {format(parseISO(post.date), "d. MMMM yyyy", { locale: nb })}
+          </span>
+          <span className="font-body text-xs text-warm-brown/30">·</span>
+          <span className="font-body text-xs text-warm-brown/50">
+            {readingTime(post)} min lesing
           </span>
         </div>
 
