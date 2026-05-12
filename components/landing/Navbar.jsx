@@ -23,6 +23,7 @@ export default function Navbar({ lang, setLang }) {
       contact: "Kontakt",
       terms: "Vilkår",
       blog: "Blogg",
+      faq: "FAQ",
       cta: "Kom i gang",
     },
     en: {
@@ -33,6 +34,7 @@ export default function Navbar({ lang, setLang }) {
       contact: "Contact",
       terms: "Terms",
       blog: "Blog",
+      faq: "FAQ",
       cta: "Get Started",
     },
   }[lang];
@@ -44,6 +46,7 @@ export default function Navbar({ lang, setLang }) {
     { label: t.about, href: "/about", external: true },
     { label: t.contact, href: "#contact" },
     { label: t.blog, href: "/blog", external: true },
+    { label: t.faq, href: "/faq", external: true },
     { label: t.terms, href: "/terms", external: true },
   ];
 

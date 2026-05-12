@@ -9,6 +9,7 @@ export default function Footer({ lang, onOpenCookieSettings }) {
       links: [
         { label: "Om oss", href: "/about", external: true },
         { label: "Blogg", href: "/blog", external: true },
+        { label: "FAQ", href: "/faq", external: true },
         { label: "Personvern", href: "#privacy-section" },
         { label: "Kontakt", href: "#contact" },
       ],
@@ -20,6 +21,7 @@ export default function Footer({ lang, onOpenCookieSettings }) {
       links: [
         { label: "About", href: "/about", external: true },
         { label: "Blog", href: "/blog", external: true },
+        { label: "FAQ", href: "/faq", external: true },
         { label: "Privacy", href: "#privacy-section" },
         { label: "Contact", href: "#contact" },
       ],
