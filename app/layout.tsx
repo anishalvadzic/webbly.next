@@ -25,6 +25,14 @@ export const metadata: Metadata = {
     "Profesjonelle nettsider for norske bedrifter. Fast månedspris, ingen skjulte kostnader. Du er online på tre dager.",
   authors: [{ name: "Webbly", url: "https://webbly.no" }],
   creator: "Webbly",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "32x32", type: "image/x-icon" },
+      { url: "/favicon.ico", sizes: "16x16", type: "image/x-icon" },
+      { url: "/icon", sizes: "32x32", type: "image/png" },
+    ],
+    apple: [{ url: "/apple-icon", sizes: "180x180", type: "image/png" }],
+  },
   robots: {
     index: true,
     follow: true,
