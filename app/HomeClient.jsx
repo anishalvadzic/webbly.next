@@ -8,6 +8,7 @@ import MockupCarousel from "@/components/landing/MockupCarousel";
 import Process from "@/components/landing/Process";
 import Pricing from "@/components/landing/Pricing";
 import Contact from "@/components/landing/Contact";
+import PackageQuiz from "@/components/landing/PackageQuiz";
 import PrivacySection from "@/components/landing/PrivacySection";
 import Footer from "@/components/landing/Footer";
 import BookingModal from "@/components/landing/BookingModal";
@@ -26,6 +27,7 @@ export default function HomeClient() {
       <MockupCarousel lang={lang} />
       <Process lang={lang} />
       <Pricing lang={lang} onSelectPlan={(name) => setBookingPlan(name)} />
+      <PackageQuiz lang={lang} onSelectPlan={(name) => setBookingPlan(name)} />
       <Contact lang={lang} />
       <PrivacySection lang={lang} />
       <Footer lang={lang} onOpenCookieSettings={() => setCookieSettingsOpen(true)} />

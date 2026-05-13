@@ -59,14 +59,21 @@ export async function POST(request: NextRequest) {
   try {
     const calendar = getCalendarClient();
 
-    await calendar.events.insert({
+    const event = await calendar.events.insert({
       calendarId: process.env.GOOGLE_CALENDAR_ID,
+      conferenceDataVersion: 1,
       requestBody: {
         summary: `Intromøte — ${company?.trim() || name} — ${plan}`,
         description: `Bedrift: ${company || "—"}\nE-post: ${email}\nPakke: ${plan}`,
         start: { dateTime: `${date}T${time}:00`, timeZone: "Europe/Oslo" },
         end: { dateTime: `${date}T${endTime}:00`, timeZone: "Europe/Oslo" },
         attendees: [{ email }],
+        conferenceData: {
+          createRequest: {
+            requestId: `webbly-${Date.now()}`,
+            conferenceSolutionKey: { type: "hangoutsMeet" },
+          },
+        },
         reminders: {
           useDefault: false,
           overrides: [
@@ -76,6 +83,9 @@ export async function POST(request: NextRequest) {
         },
       },
     });
+
+    const meetLink = event.data.conferenceData?.entryPoints
+      ?.find((e) => e.entryPointType === "video")?.uri ?? null;
 
     const notificationHtml = `<!DOCTYPE html>
 <html lang="no">
@@ -106,6 +116,10 @@ export async function POST(request: NextRequest) {
         <td style="padding:10px 0;color:#8b7355;font-size:13px;vertical-align:top;border-top:1px solid #e8e0d6;">Tidspunkt</td>
         <td style="padding:10px 0;color:#2c1810;font-size:14px;border-top:1px solid #e8e0d6;">${formattedDate} kl. ${time}</td>
       </tr>
+      ${meetLink ? `<tr>
+        <td style="padding:10px 0;color:#8b7355;font-size:13px;vertical-align:top;border-top:1px solid #e8e0d6;">Google Meet</td>
+        <td style="padding:10px 0;font-size:14px;border-top:1px solid #e8e0d6;"><a href="${meetLink}" style="color:#2c1810;text-decoration:underline;">${meetLink}</a></td>
+      </tr>` : ""}
     </table>
   </div>
 </body>
@@ -225,7 +239,8 @@ export async function POST(request: NextRequest) {
   <tr>
     <td style="background-color:#f5f0ea;border-top:1px solid #e8e0d6;border-bottom:1px solid #e8e0d6;padding:26px 40px;">
       <p style="margin:0 0 8px;font-family:Arial,Helvetica,sans-serif;font-size:10px;font-weight:700;color:#bfb09a;letter-spacing:2.5px;text-transform:uppercase;">Hva skjer videre</p>
-      <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:14px;color:#8b7355;line-height:1.75;">Du vil motta en Google Calendar-invitasjon på denne e-postadressen. Møtet er avslappet og uforpliktende — vi vil bare bli kjent med deg og bedriften din. Etter møtet lager vi nettsiden din, og den er klar innen 3 dager.</p>
+      <p style="margin:0 0 ${meetLink ? "16px" : "0"};font-family:Arial,Helvetica,sans-serif;font-size:14px;color:#8b7355;line-height:1.75;">Du vil motta en Google Calendar-invitasjon på denne e-postadressen. Møtet er avslappet og uforpliktende — vi vil bare bli kjent med deg og bedriften din. Etter møtet lager vi nettsiden din, og den er klar innen 3 dager.</p>
+      ${meetLink ? `<a href="${meetLink}" style="display:inline-block;background-color:#1e140e;color:#ffffff;font-family:Arial,Helvetica,sans-serif;font-size:13px;font-weight:700;text-decoration:none;padding:11px 22px;border-radius:8px;">Bli med på Google Meet &#8599;</a>` : ""}
     </td>
   </tr>
 
