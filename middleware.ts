@@ -26,18 +26,24 @@ export async function middleware(request: NextRequest) {
   const limiter =
     request.nextUrl.pathname === "/api/booking" ? bookingLimit : contactLimit;
 
-  const { success, limit, remaining, reset } = await limiter.limit(ip);
+  let result: { success: boolean; limit: number; remaining: number; reset: number };
+  try {
+    result = await limiter.limit(ip);
+  } catch {
+    // Redis unavailable — fail open so forms still work
+    return NextResponse.next();
+  }
 
-  if (!success) {
+  if (!result.success) {
     return new NextResponse(
       JSON.stringify({ error: "For mange forespørsler. Prøv igjen senere." }),
       {
         status: 429,
         headers: {
           "Content-Type": "application/json",
-          "X-RateLimit-Limit": String(limit),
-          "X-RateLimit-Remaining": String(remaining),
-          "Retry-After": String(Math.ceil((reset - Date.now()) / 1000)),
+          "X-RateLimit-Limit": String(result.limit),
+          "X-RateLimit-Remaining": String(result.remaining),
+          "Retry-After": String(Math.ceil((result.reset - Date.now()) / 1000)),
         },
       }
     );
