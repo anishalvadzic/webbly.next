@@ -21,6 +21,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
+      url: "https://webbly.no/blog/hvorfor-norske-bedrifter-taper-kunder-pa-darlig-nettside-2026",
+      lastModified: new Date("2026-05-14"),
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+    {
       url: "https://webbly.no/blog/hva-koster-en-nettside-i-norge-i-2026",
       lastModified: new Date("2026-05-11"),
       changeFrequency: "monthly",
