@@ -24,6 +24,7 @@ export default function Navbar({ lang, setLang }) {
       terms: "Vilkår",
       blog: "Blogg",
       faq: "FAQ",
+      examples: "Eksempler",
       cta: "Kom i gang",
     },
     en: {
@@ -35,6 +36,7 @@ export default function Navbar({ lang, setLang }) {
       terms: "Terms",
       blog: "Blog",
       faq: "FAQ",
+      examples: "Examples",
       cta: "Get Started",
     },
   }[lang];
@@ -44,6 +46,7 @@ export default function Navbar({ lang, setLang }) {
     { label: t.pricing, href: "#pricing" },
     { label: t.process, href: "#process" },
     { label: t.about, href: "/about", external: true },
+    { label: t.examples, href: "/examples", external: true },
     { label: t.contact, href: "#contact" },
     { label: t.blog, href: "/blog", external: true },
     { label: t.faq, href: "/faq", external: true },
