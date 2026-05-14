@@ -4,7 +4,6 @@ import { useState } from "react";
 import Navbar from "@/components/landing/Navbar";
 import Hero from "@/components/landing/Hero";
 import Services from "@/components/landing/Services";
-import MockupCarousel from "@/components/landing/MockupCarousel";
 import Process from "@/components/landing/Process";
 import Pricing from "@/components/landing/Pricing";
 import Contact from "@/components/landing/Contact";
@@ -24,7 +23,6 @@ export default function HomeClient() {
       <Navbar lang={lang} setLang={setLang} />
       <Hero lang={lang} />
       <Services lang={lang} />
-      <MockupCarousel lang={lang} />
       <Process lang={lang} />
       <Pricing lang={lang} onSelectPlan={(name) => setBookingPlan(name)} />
       <PackageQuiz lang={lang} onSelectPlan={(name) => setBookingPlan(name)} />
