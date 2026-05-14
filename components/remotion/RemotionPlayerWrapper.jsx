@@ -8,11 +8,14 @@ export default function RemotionPlayerWrapper({
   fps = 30,
   width = 1200,
   height = 750,
+  scrollDriven = false,
+  playerRef,
   style,
   inputProps = {},
 }) {
   return (
     <Player
+      ref={playerRef}
       component={component}
       durationInFrames={durationInFrames}
       compositionWidth={width}
@@ -26,8 +29,8 @@ export default function RemotionPlayerWrapper({
         ...style,
       }}
       inputProps={inputProps}
-      autoPlay
-      loop
+      autoPlay={!scrollDriven}
+      loop={!scrollDriven}
       controls={false}
       clickToPlay={false}
     />
