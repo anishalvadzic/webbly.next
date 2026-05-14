@@ -53,6 +53,14 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Invalid time slot" }, { status: 400 });
   }
 
+  if (
+    name.length > 100 ||
+    email.length > 254 ||
+    (company && company.length > 100)
+  ) {
+    return NextResponse.json({ error: "Ugyldig input" }, { status: 400 });
+  }
+
   const endTime = addOneHour(time);
   const formattedDate = formatDateNorwegian(date);
 

@@ -20,6 +20,15 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Invalid email address" }, { status: 400 });
   }
 
+  if (
+    name.length > 100 ||
+    email.length > 254 ||
+    (phone && phone.length > 30) ||
+    message.length > 2000
+  ) {
+    return NextResponse.json({ error: "Ugyldig input" }, { status: 400 });
+  }
+
   const html = `<!DOCTYPE html>
 <html lang="no">
 <head><meta charset="utf-8"><title>Ny henvendelse</title></head>
