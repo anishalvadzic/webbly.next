@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowDown } from "lucide-react";
+import { ArrowDown, Mail } from "lucide-react";
 
 const FloatingOrb = ({ cx, cy, r, delay, duration }) => (
   <motion.circle
@@ -23,6 +23,7 @@ export default function Hero({ lang }) {
       h1c: "i Norge.",
       sub: "Webbly bygger profesjonelle, raske og mobilvennlige nettsider for norske bedrifter. Fast månedspris fra 499 kr, publisering på eget domene og online på tre virkedager.",
       cta: "Velg din pakke",
+      ctaSecondary: "Ta kontakt",
       scroll: "Utforsk",
     },
     en: {
@@ -31,6 +32,7 @@ export default function Hero({ lang }) {
       h1c: "in Norway.",
       sub: "Webbly builds professional, fast and mobile-friendly websites for Norwegian businesses. Fixed monthly price from 499 kr, published on your own domain and online in three business days.",
       cta: "Choose Your Plan",
+      ctaSecondary: "Contact us",
       scroll: "Explore",
     },
   }[lang];
@@ -86,18 +88,32 @@ export default function Hero({ lang }) {
           {t.sub}
         </motion.p>
 
-        <motion.button
+        <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, delay: 0.7, ease: "easeOut" }}
-          whileHover={{ scale: 1.03 }}
-          whileTap={{ scale: 0.97 }}
-          onClick={() => scrollTo("#pricing")}
-          className="inline-flex items-center gap-2 bg-deep-brown text-beige-50 px-8 py-4 rounded-xl text-sm font-body font-medium shadow-lg hover:bg-warm-brown hover:shadow-xl hover:shadow-deep-brown/25 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
+          className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4"
         >
-          {t.cta}
-          <ArrowDown className="w-4 h-4" />
-        </motion.button>
+          <motion.button
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            onClick={() => scrollTo("#pricing")}
+            className="inline-flex items-center gap-2 bg-deep-brown text-beige-50 px-8 py-4 rounded-xl text-sm font-body font-medium shadow-lg hover:bg-warm-brown hover:shadow-xl hover:shadow-deep-brown/25 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
+          >
+            {t.cta}
+            <ArrowDown className="w-4 h-4" />
+          </motion.button>
+
+          <motion.button
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            onClick={() => scrollTo("#contact")}
+            className="inline-flex items-center gap-2 text-deep-brown px-6 py-4 rounded-xl text-sm font-body font-medium hover:text-warm-brown transition-colors duration-200 cursor-pointer"
+          >
+            <Mail className="w-4 h-4" />
+            {t.ctaSecondary}
+          </motion.button>
+        </motion.div>
       </div>
 
       {/* Scroll indicator */}
