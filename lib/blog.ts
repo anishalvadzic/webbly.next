@@ -35,7 +35,7 @@ export const posts: BlogPost[] = [
     excerpt: "En dårlig nettside sender kunder videre til konkurrentene. Her er hva du bør vite.",
     date: "2026-05-14",
     category: "Innsikt",
-    coverImage: "/darlig-nettside-2026.jpg",
+    coverImage: "/darlig-nettside-2026.png",
     content: [
       { type: "paragraph", text: "Mange bedrifter tenker fortsatt på nettsiden sin som et digitalt visittkort." },
       { type: "paragraph", text: "Det var kanskje nok før." },
