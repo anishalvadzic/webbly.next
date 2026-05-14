@@ -1,18 +1,32 @@
 'use client';
 
+import { forwardRef, useImperativeHandle, useRef } from 'react';
 import { Player } from '@remotion/player';
 
-export default function RemotionPlayerWrapper({
-  component,
-  durationInFrames = 90,
-  fps = 30,
-  width = 1200,
-  height = 750,
-  style,
-  inputProps = {},
-}) {
+const RemotionPlayerWrapper = forwardRef(function RemotionPlayerWrapper(
+  {
+    component,
+    durationInFrames = 90,
+    fps = 30,
+    width = 1200,
+    height = 750,
+    scrollDriven = false,
+    style,
+    inputProps = {},
+  },
+  ref
+) {
+  const playerRef = useRef(null);
+
+  useImperativeHandle(ref, () => ({
+    seekTo: (frame) => playerRef.current?.seekTo(frame),
+    pause: () => playerRef.current?.pause(),
+    play: () => playerRef.current?.play(),
+  }));
+
   return (
     <Player
+      ref={playerRef}
       component={component}
       durationInFrames={durationInFrames}
       compositionWidth={width}
@@ -26,10 +40,12 @@ export default function RemotionPlayerWrapper({
         ...style,
       }}
       inputProps={inputProps}
-      autoPlay
-      loop
+      autoPlay={!scrollDriven}
+      loop={!scrollDriven}
       controls={false}
       clickToPlay={false}
     />
   );
-}
+});
+
+export default RemotionPlayerWrapper;
