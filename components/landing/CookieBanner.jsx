@@ -17,14 +17,14 @@ export default function CookieBanner({ lang, forceOpen, onClose }) {
   }, [forceOpen]);
 
   const accept = () => {
-    localStorage.setItem("webbly_cookie_consent", "accepted");
     setVisible(false);
     onClose?.();
+    setTimeout(() => localStorage.setItem("webbly_cookie_consent", "accepted"), 0);
   };
   const decline = () => {
-    localStorage.setItem("webbly_cookie_consent", "declined");
     setVisible(false);
     onClose?.();
+    setTimeout(() => localStorage.setItem("webbly_cookie_consent", "declined"), 0);
   };
 
   const t = {
