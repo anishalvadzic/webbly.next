@@ -1,8 +1,9 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
-import { Check, AlertCircle } from "lucide-react";
+import { Check, AlertCircle, ChevronDown } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const plans = {
   no: [
@@ -130,6 +131,7 @@ const labels = {
     note: "eks. mva, 12 mnd. avtale",
     cta: "Velg pakke",
     popular: "Mest populær",
+    expandHint: "Hold musen over for å se hva som er inkludert",
     disclaimer:
       "Alle priser er eks. mva. 12 måneders avtaleperiode. Ekstra arbeid faktureres etter avtale.",
     notIncludedTitle: "Hva er ikke inkludert?",
@@ -144,6 +146,7 @@ const labels = {
     note: "excl. VAT, 12 month agreement",
     cta: "Choose Plan",
     popular: "Most popular",
+    expandHint: "Hover to see what's included",
     disclaimer:
       "All prices excl. VAT. 12-month agreement. Additional work billed separately.",
     notIncludedTitle: "What's not included?",
@@ -152,9 +155,162 @@ const labels = {
   },
 };
 
+function PriceCard({ plan, t, onSelectPlan, alwaysExpanded, index }) {
+  const [isHovered, setIsHovered] = useState(false);
+  const isExpanded = alwaysExpanded || isHovered;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6, delay: index * 0.12, ease: "easeOut" }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onFocus={() => setIsHovered(true)}
+      onBlur={() => setIsHovered(false)}
+      tabIndex={0}
+      aria-expanded={isExpanded}
+      className={`relative rounded-3xl p-8 flex flex-col cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-warm-brown/40 transition-shadow duration-300 ${
+        plan.popular
+          ? "bg-deep-brown text-beige-50 shadow-2xl shadow-deep-brown/25 scale-[1.02] hover:shadow-deep-brown/40"
+          : "bg-white border border-beige-200 shadow-sm hover:shadow-xl hover:shadow-deep-brown/10"
+      }`}
+    >
+      {plan.popular && (
+        <div className="absolute -top-4 left-1/2 -translate-x-1/2">
+          <span className="bg-beige-200 text-warm-brown text-xs font-body font-semibold px-4 py-1.5 rounded-full shadow-sm">
+            {t.popular}
+          </span>
+        </div>
+      )}
+
+      <div className="mb-6 pt-2">
+        <h3
+          className={`font-display text-2xl font-semibold mb-2 ${
+            plan.popular ? "text-beige-50" : "text-deep-brown"
+          }`}
+        >
+          {plan.name}
+        </h3>
+        <p
+          className={`font-body text-sm leading-relaxed ${
+            plan.popular ? "text-beige-300" : "text-warm-brown/65"
+          }`}
+        >
+          {plan.tagline}
+        </p>
+      </div>
+
+      <div className="mb-2">
+        <div className="flex items-end gap-1">
+          <span
+            className={`font-display text-5xl font-semibold tracking-tight ${
+              plan.popular ? "text-beige-50" : "text-deep-brown"
+            }`}
+          >
+            {plan.price}kr
+          </span>
+          <span
+            className={`font-body text-sm mb-2 ${
+              plan.popular ? "text-beige-300" : "text-warm-brown/60"
+            }`}
+          >
+            {t.monthly}
+          </span>
+        </div>
+        <p
+          className={`font-body text-xs mt-1 ${
+            plan.popular ? "text-beige-400" : "text-warm-brown/50"
+          }`}
+        >
+          {t.note}
+        </p>
+      </div>
+
+      {!alwaysExpanded && (
+        <motion.div
+          aria-hidden="true"
+          animate={{ opacity: isExpanded ? 0 : 1, height: isExpanded ? 0 : "auto" }}
+          transition={{ duration: 0.25, ease: "easeOut" }}
+          className="overflow-hidden"
+        >
+          <div
+            className={`flex items-center gap-1.5 mt-4 font-body text-xs ${
+              plan.popular ? "text-beige-400" : "text-warm-brown/45"
+            }`}
+          >
+            <ChevronDown className="w-3.5 h-3.5" />
+            <span>{t.expandHint}</span>
+          </div>
+        </motion.div>
+      )}
+
+      <motion.div
+        initial={false}
+        animate={{
+          height: isExpanded ? "auto" : 0,
+          opacity: isExpanded ? 1 : 0,
+        }}
+        transition={{
+          height: { duration: 0.45, ease: [0.16, 1, 0.3, 1] },
+          opacity: {
+            duration: 0.3,
+            ease: "easeOut",
+            delay: isExpanded ? 0.1 : 0,
+          },
+        }}
+        className="overflow-hidden"
+      >
+        <div
+          className={`w-full h-px mt-6 mb-6 ${
+            plan.popular ? "bg-beige-600/30" : "bg-beige-200"
+          }`}
+        />
+
+        <ul className="space-y-3 mb-8">
+          {plan.features.map((f, j) => (
+            <li key={j} className="flex items-start gap-3">
+              <Check
+                className={`w-4 h-4 mt-0.5 flex-shrink-0 ${
+                  plan.popular ? "text-beige-300" : "text-warm-brown/60"
+                }`}
+              />
+              <span
+                className={`font-body text-sm ${
+                  plan.popular ? "text-beige-100" : "text-warm-brown/80"
+                }`}
+              >
+                {f}
+              </span>
+            </li>
+          ))}
+        </ul>
+
+        <motion.button
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          onClick={(e) => {
+            e.stopPropagation();
+            onSelectPlan(plan.name);
+          }}
+          className={`w-full py-3.5 rounded-xl font-body text-sm font-medium transition-all duration-200 cursor-pointer hover:shadow-lg hover:-translate-y-0.5 ${
+            plan.popular
+              ? "bg-beige-50 text-deep-brown hover:bg-beige-100 hover:shadow-beige-200/60"
+              : "bg-deep-brown text-beige-50 hover:bg-warm-brown hover:shadow-deep-brown/25"
+          }`}
+        >
+          {t.cta}
+        </motion.button>
+      </motion.div>
+    </motion.div>
+  );
+}
+
 export default function Pricing({ lang, onSelectPlan }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
+  const isMobile = useIsMobile();
   const t = labels[lang];
   const currentPlans = plans[lang];
 
@@ -188,109 +344,16 @@ export default function Pricing({ lang, onSelectPlan }) {
           </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
           {currentPlans.map((plan, i) => (
-            <motion.div
+            <PriceCard
               key={i}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: i * 0.12, ease: "easeOut" }}
-              className={`relative rounded-3xl p-8 flex flex-col ${
-                plan.popular
-                  ? "bg-deep-brown text-beige-50 shadow-2xl shadow-deep-brown/25 scale-[1.02]"
-                  : "bg-white border border-beige-200 shadow-sm"
-              }`}
-            >
-              {plan.popular && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                  <span className="bg-beige-200 text-warm-brown text-xs font-body font-semibold px-4 py-1.5 rounded-full shadow-sm">
-                    {t.popular}
-                  </span>
-                </div>
-              )}
-
-              <div className="mb-6 pt-2">
-                <h3
-                  className={`font-display text-2xl font-semibold mb-2 ${
-                    plan.popular ? "text-beige-50" : "text-deep-brown"
-                  }`}
-                >
-                  {plan.name}
-                </h3>
-                <p
-                  className={`font-body text-sm leading-relaxed ${
-                    plan.popular ? "text-beige-300" : "text-warm-brown/65"
-                  }`}
-                >
-                  {plan.tagline}
-                </p>
-              </div>
-
-              <div className="mb-8">
-                <div className="flex items-end gap-1">
-                  <span
-                    className={`font-display text-5xl font-semibold tracking-tight ${
-                      plan.popular ? "text-beige-50" : "text-deep-brown"
-                    }`}
-                  >
-                    {plan.price}kr
-                  </span>
-                  <span
-                    className={`font-body text-sm mb-2 ${
-                      plan.popular ? "text-beige-300" : "text-warm-brown/60"
-                    }`}
-                  >
-                    {t.monthly}
-                  </span>
-                </div>
-                <p
-                  className={`font-body text-xs mt-1 ${
-                    plan.popular ? "text-beige-400" : "text-warm-brown/50"
-                  }`}
-                >
-                  {t.note}
-                </p>
-              </div>
-
-              <div
-                className={`w-full h-px mb-6 ${
-                  plan.popular ? "bg-beige-600/30" : "bg-beige-200"
-                }`}
-              />
-
-              <ul className="space-y-3 mb-8 flex-1">
-                {plan.features.map((f, j) => (
-                  <li key={j} className="flex items-start gap-3">
-                    <Check
-                      className={`w-4 h-4 mt-0.5 flex-shrink-0 ${
-                        plan.popular ? "text-beige-300" : "text-warm-brown/60"
-                      }`}
-                    />
-                    <span
-                      className={`font-body text-sm ${
-                        plan.popular ? "text-beige-100" : "text-warm-brown/80"
-                      }`}
-                    >
-                      {f}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                onClick={() => onSelectPlan(plan.name)}
-                className={`w-full py-3.5 rounded-xl font-body text-sm font-medium transition-all duration-200 cursor-pointer hover:shadow-lg hover:-translate-y-0.5 ${
-                  plan.popular
-                    ? "bg-beige-50 text-deep-brown hover:bg-beige-100 hover:shadow-beige-200/60"
-                    : "bg-deep-brown text-beige-50 hover:bg-warm-brown hover:shadow-deep-brown/25"
-                }`}
-              >
-                {t.cta}
-              </motion.button>
-            </motion.div>
+              plan={plan}
+              t={t}
+              onSelectPlan={onSelectPlan}
+              alwaysExpanded={isMobile}
+              index={i}
+            />
           ))}
         </div>
 
