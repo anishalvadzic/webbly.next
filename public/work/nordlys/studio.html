@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="nb">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Studio — Nordlys</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+  .studio-grid { max-width: 1500px; margin: 0 auto; padding: 0 40px 120px; display: grid; grid-template-columns: 1fr 1fr; gap: 100px; }
+  .studio-grid h2 { font-family: 'Fraunces', serif; font-weight: 300; font-size: clamp(36px, 4.6vw, 64px); letter-spacing: -.03em; line-height: .98; margin: 0 0 28px; }
+  .studio-grid h2 em { font-style: italic; color: var(--accent); }
+  .studio-grid p { font-family: 'Fraunces', serif; font-weight: 300; font-size: 20px; line-height: 1.5; color: var(--ink-2); margin: 0 0 18px; max-width: 540px; }
+  .studio-grid p.small { font-family: 'Inter', sans-serif; font-size: 15px; color: var(--muted); }
+
+  .studio-img { aspect-ratio: 4/5; background: #c8bfb2; overflow: hidden; position: relative; }
+  .studio-img img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(15%); }
+  .studio-img .cap { position: absolute; bottom: 0; left: 0; right: 0; padding: 14px 18px; color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .16em; text-transform: uppercase; background: linear-gradient(transparent, rgba(0,0,0,.4)); }
+
+  .team { max-width: 1500px; margin: 80px auto 0; padding: 0 40px 140px; border-top: 1px solid var(--line); padding-top: 80px; }
+  .team-head { display: flex; justify-content: space-between; align-items: end; margin-bottom: 60px; }
+  .team-head h2 { font-family: 'Fraunces', serif; font-weight: 300; font-size: clamp(36px, 4.6vw, 64px); letter-spacing: -.03em; margin: 0; }
+  .team-head h2 em { font-style: italic; color: var(--accent); }
+  .team-head .lbl { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+  .team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
+  .person { display: flex; flex-direction: column; gap: 14px; }
+  .person .portrait { aspect-ratio: 3/4; background: linear-gradient(140deg, #b8a89a, #5e554a); overflow: hidden; filter: grayscale(30%); transition: filter .4s; }
+  .person:hover .portrait { filter: grayscale(0%); }
+  .person .portrait img { width:100%; height:100%; object-fit: cover; }
+  .person h3 { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 400; letter-spacing: -.01em; margin: 0; line-height: 1.1; }
+  .person .role { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+
+  .contact-block { background: var(--ink); color: var(--paper); padding: 140px 40px; }
+  .contact-block .inner { max-width: 1500px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 100px; }
+  .contact-block h2 { font-family: 'Fraunces', serif; font-weight: 300; font-size: clamp(48px, 7vw, 112px); letter-spacing: -.04em; line-height: .92; margin: 0; }
+  .contact-block h2 em { font-style: italic; color: var(--accent); }
+  .contact-rows { display: flex; flex-direction: column; }
+  .contact-row { display: grid; grid-template-columns: 120px 1fr; gap: 28px; padding: 26px 0; border-top: 1px solid rgba(255,255,255,.15); align-items: baseline; }
+  .contact-row:last-child { border-bottom: 1px solid rgba(255,255,255,.15); }
+  .contact-row .lbl { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: rgba(255,255,255,.5); }
+  .contact-row .val { font-family: 'Fraunces', serif; font-size: 26px; font-weight: 400; letter-spacing: -.01em; }
+  .contact-row .val em { font-style: italic; color: var(--accent); }
+
+  @media (max-width: 860px) {
+    .studio-grid { grid-template-columns: 1fr; padding: 0 22px 60px; gap: 40px; }
+    .team { padding: 60px 22px; margin-top: 0; }
+    .team-grid { grid-template-columns: 1fr 1fr; gap: 22px; }
+    .contact-block { padding: 80px 22px; }
+    .contact-block .inner { grid-template-columns: 1fr; gap: 40px; }
+    .contact-row { grid-template-columns: 1fr; gap: 6px; padding: 20px 0; }
+    .contact-row .val { font-size: 20px; }
+  }
+</style>
+</head>
+<body>
+<div class="curtain" id="curtain"></div>
+<div id="cursor-mount"></div>
+<div id="nav-mount"></div>
+
+<div class="page-head">
+  <div class="crumb reveal"><a href="index.html" data-link>Index</a> / Studio</div>
+  <h1 class="reveal" data-delay="1">Tolv mennesker, <em>én tegnestue.</em></h1>
+  <p class="lede reveal" data-delay="2">Vi holder til i et lyst lokale i Pilestredet, midt mellom Slottet og Akersgata. Døra står som regel åpen.</p>
+</div>
+
+<div class="studio-grid">
+  <div class="reveal">
+    <h2>Om <em>studioet.</em></h2>
+    <p>Studio Nordlys ble grunnlagt i 2014 av Ingrid Bråthen og Kasper Vinje, etter mange år hver for seg ved kontorer i Oslo og København.</p>
+    <p>Vi tegner hus, hytter, interiører og kulturbygg — alltid med utgangspunkt i landskapet, materialene og menneskene som skal bruke dem.</p>
+    <p class="small">Studioet teller i dag tolv arkitekter, interiør­arkitekter og landskaps­arkitekter. Vi tar imot to nye bolig­prosjekter og ett offentlig prosjekt i året, og holder bevisst kapasiteten lav for å rekke å gå dypt nok ned i hvert prosjekt.</p>
+    <p class="small">Vi underviser ved AHO og holder årlige seminarer om langsom arkitektur og lokal materialbruk på Litteraturhuset.</p>
+  </div>
+  <div class="studio-img reveal" data-delay="1">
+    <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=900&q=85" alt="Studioet i Pilestredet" onerror="this.style.display='none'"/>
+    <div class="cap">Tegnestuen — Pilestredet 17, Oslo</div>
+  </div>
+</div>
+
+<section class="team">
+  <div class="team-head">
+    <h2 class="reveal">Menneskene <em>bak.</em></h2>
+    <span class="lbl reveal">12 ansatte</span>
+  </div>
+  <div class="team-grid">
+    <div class="person reveal">
+      <div class="portrait"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=85" onerror="this.style.display='none'"/></div>
+      <h3>Ingrid Bråthen</h3>
+      <span class="role">Partner · Sivilarkitekt MNAL</span>
+    </div>
+    <div class="person reveal" data-delay="1">
+      <div class="portrait"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&q=85" onerror="this.style.display='none'"/></div>
+      <h3>Kasper Vinje</h3>
+      <span class="role">Partner · Sivilarkitekt MNAL</span>
+    </div>
+    <div class="person reveal" data-delay="2">
+      <div class="portrait"><img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=400&q=85" onerror="this.style.display='none'"/></div>
+      <h3>Maja Helleberg</h3>
+      <span class="role">Interiørarkitekt</span>
+    </div>
+    <div class="person reveal" data-delay="3">
+      <div class="portrait"><img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=85" onerror="this.style.display='none'"/></div>
+      <h3>Tobias Ekeli</h3>
+      <span class="role">Landskapsarkitekt</span>
+    </div>
+  </div>
+</section>
+
+<section class="contact-block">
+  <div class="inner">
+    <h2 class="reveal">Kom <em>innom.</em></h2>
+    <div class="contact-rows reveal" data-delay="1">
+      <div class="contact-row"><span class="lbl">Atelier</span><span class="val">Pilestredet 17,<br/><em>0164 Oslo</em></span></div>
+      <div class="contact-row"><span class="lbl">Telefon</span><span class="val">22 47 80 14</span></div>
+      <div class="contact-row"><span class="lbl">E-post</span><span class="val">studio@nordlys.no</span></div>
+      <div class="contact-row"><span class="lbl">Presse</span><span class="val">presse@nordlys.no</span></div>
+      <div class="contact-row"><span class="lbl">Karriere</span><span class="val">jobb@nordlys.no</span></div>
+      <div class="contact-row"><span class="lbl">Sosialt</span><span class="val">@studio.nordlys</span></div>
+    </div>
+  </div>
+</section>
+
+<div id="foot-mount"></div>
+<script src="shared.js"></script>
+</body>
+</html>

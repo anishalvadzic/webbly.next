@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="nb">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Rørstad VVS — Pålitelig rørlegger i Oslo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0a1929;
+    --ink-2: #182a3d;
+    --muted: #5a6b7d;
+    --line: #e2e7ed;
+    --bg: #f6f4ef;
+    --paper: #ffffff;
+    --blue: #1267d6;
+    --blue-deep: #0b3d5e;
+    --blue-soft: #e8f1fb;
+    --warn: #d94f30;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); font-family: 'Inter', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  body { overflow-x: hidden; }
+  a { color: inherit; text-decoration: none; }
+  img { max-width: 100%; display: block; }
+  ::selection { background: var(--blue); color: #fff; }
+
+  /* page transition curtain */
+  .curtain { position: fixed; inset: 0; background: var(--ink); z-index: 9999; transform-origin: top; transform: scaleY(0); pointer-events: none; transition: transform .55s cubic-bezier(.77,0,.18,1); }
+  .curtain.in { transform: scaleY(1); transform-origin: bottom; }
+  .curtain.out { transform: scaleY(0); transform-origin: top; }
+
+  /* top utility bar */
+  .util { background: var(--ink); color: rgba(255,255,255,.85); font-size: 13px; }
+  .util-inner { max-width: 1280px; margin: 0 auto; padding: 8px 32px; display: flex; gap: 22px; align-items: center; }
+  .util a { display: inline-flex; gap: 6px; align-items: center; opacity: .8; }
+  .util a:hover { opacity: 1; }
+  .util .spacer { flex: 1; }
+  .util .pulse { width: 7px; height: 7px; border-radius: 50%; background: #2bd16a; box-shadow: 0 0 0 0 rgba(43,209,106,.6); animation: pulse 1.8s infinite; }
+  @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(43,209,106,.6);} 70%{ box-shadow: 0 0 0 8px rgba(43,209,106,0);} 100%{ box-shadow: 0 0 0 0 rgba(43,209,106,0);} }
+
+  /* nav */
+  nav.main { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,.86); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border-bottom: 1px solid var(--line); }
+  .nav-inner { max-width: 1280px; margin: 0 auto; padding: 18px 32px; display: flex; align-items: center; gap: 40px; }
+  .logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 18px; letter-spacing: -0.01em; }
+  .logo-mark { width: 32px; height: 32px; border-radius: 8px; background: linear-gradient(140deg, var(--blue) 0%, var(--blue-deep) 100%); display: grid; place-items: center; box-shadow: 0 4px 14px rgba(18,103,214,.28); }
+  .logo-mark svg { width: 16px; height: 16px; }
+  .nav-links { display: flex; gap: 30px; font-size: 15px; font-weight: 500; }
+  .nav-links a { position: relative; padding: 6px 0; color: var(--ink-2); transition: color .2s; }
+  .nav-links a::after { content:''; position:absolute; left:0; bottom:-2px; height:2px; width:0; background:var(--blue); transition: width .25s; }
+  .nav-links a:hover { color: var(--blue); }
+  .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+  .nav-links a.active { color: var(--blue); }
+  .nav-cta { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+  .phone-num { font-weight: 600; font-size: 15px; color: var(--ink); display: flex; align-items: center; gap: 8px; }
+  .phone-num .dot { width: 6px; height: 6px; border-radius: 50%; background: #2bd16a; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; border-radius: 999px; font-weight: 600; font-size: 14.5px; transition: transform .2s, box-shadow .2s, background .2s; cursor: pointer; border: none; }
+  .btn-primary { background: var(--blue); color: #fff; box-shadow: 0 6px 18px rgba(18,103,214,.28); }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(18,103,214,.36); background: #0e57b6; }
+  .btn-ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+  .btn-ghost:hover { border-color: var(--ink); }
+  .btn-warn { background: var(--warn); color: #fff; box-shadow: 0 6px 18px rgba(217,79,48,.32); }
+  .btn-warn:hover { transform: translateY(-1px); background: #c44627; }
+
+  /* hero */
+  .hero { position: relative; max-width: 1280px; margin: 0 auto; padding: 56px 32px 90px; }
+  .hero-grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: 56px; align-items: center; }
+  .eyebrow { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 999px; background: var(--blue-soft); color: var(--blue-deep); font-size: 13px; font-weight: 600; letter-spacing: .01em; margin-bottom: 22px; }
+  .eyebrow .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--blue); }
+  h1.hero-title { font-family: 'Fraunces', serif; font-weight: 500; font-size: clamp(44px, 5.6vw, 78px); line-height: 1.02; letter-spacing: -0.025em; margin: 0 0 24px; }
+  h1.hero-title em { font-style: italic; color: var(--blue); font-weight: 500; }
+  .hero p.lede { font-size: 19px; line-height: 1.55; color: var(--muted); max-width: 540px; margin: 0 0 36px; }
+  .hero-ctas { display: flex; gap: 14px; margin-bottom: 44px; flex-wrap: wrap; }
+  .hero-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; padding-top: 28px; border-top: 1px solid var(--line); max-width: 480px; }
+  .stat .num { font-family: 'Fraunces', serif; font-size: 32px; font-weight: 500; color: var(--ink); letter-spacing: -0.02em; }
+  .stat .lbl { font-size: 13px; color: var(--muted); margin-top: 2px; }
+
+  /* hero image with CSS 3D parallax */
+  .hero-visual { position: relative; perspective: 1400px; }
+  .hero-card { position: relative; aspect-ratio: 4/5; border-radius: 28px; overflow: hidden; transform-style: preserve-3d; transition: transform .6s cubic-bezier(.2,.7,.3,1); box-shadow: 0 40px 70px -30px rgba(11,61,94,.4), 0 18px 40px -18px rgba(0,0,0,.18); background: #d8d3cc; }
+  .hero-card img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.08); transition: transform .8s ease; }
+  .hero-card:hover img { transform: scale(1.12); }
+  .hero-card .gradient { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, rgba(10,25,41,.5) 100%); }
+
+  .floating-card { position: absolute; background: #fff; border-radius: 18px; padding: 16px 18px; box-shadow: 0 20px 48px rgba(11,61,94,.18); display: flex; align-items: center; gap: 12px; transform: translateZ(60px); }
+  .fc-rating { left: -24px; top: 64px; }
+  .fc-job { right: -28px; bottom: 90px; }
+  .fc-icon { width: 38px; height: 38px; border-radius: 10px; background: var(--blue-soft); display: grid; place-items: center; color: var(--blue-deep); }
+  .fc-title { font-size: 13.5px; font-weight: 600; }
+  .fc-sub { font-size: 12px; color: var(--muted); margin-top: 1px; }
+  .stars { color: #f4a92b; display: flex; gap: 1px; font-size: 14px; letter-spacing: -1px; }
+
+  /* trust bar */
+  .trust { background: var(--bg); border-block: 1px solid var(--line); }
+  .trust-inner { max-width: 1280px; margin: 0 auto; padding: 36px 32px; display: flex; align-items: center; gap: 48px; flex-wrap: wrap; }
+  .trust .label { font-size: 12px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .badge { display: flex; align-items: center; gap: 10px; color: var(--ink-2); font-weight: 600; font-size: 14.5px; }
+  .badge svg { width: 22px; height: 22px; color: var(--blue); }
+
+  /* section heads */
+  section { max-width: 1280px; margin: 0 auto; padding: 110px 32px; }
+  .sec-head { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 40px; margin-bottom: 56px; }
+  .sec-eyebrow { font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--blue); margin-bottom: 14px; }
+  .sec-title { font-family: 'Fraunces', serif; font-weight: 500; font-size: clamp(34px, 4vw, 54px); line-height: 1.05; letter-spacing: -0.02em; margin: 0; max-width: 720px; }
+  .sec-title em { font-style: italic; color: var(--blue); }
+  .sec-head p { font-size: 16.5px; color: var(--muted); max-width: 380px; line-height: 1.55; margin: 0; }
+
+  /* services */
+  .services { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .service { position: relative; padding: 32px 28px 28px; border-radius: 22px; border: 1px solid var(--line); background: #fff; overflow: hidden; transition: transform .35s cubic-bezier(.2,.7,.3,1), box-shadow .35s, border-color .35s; cursor: pointer; }
+  .service::before { content:''; position: absolute; inset: 0; background: linear-gradient(140deg, var(--blue-soft) 0%, transparent 60%); opacity: 0; transition: opacity .35s; }
+  .service:hover { transform: translateY(-4px); border-color: transparent; box-shadow: 0 24px 50px -24px rgba(11,61,94,.22); }
+  .service:hover::before { opacity: 1; }
+  .service > * { position: relative; }
+  .svc-icon { width: 56px; height: 56px; border-radius: 14px; background: var(--blue-soft); display: grid; place-items: center; color: var(--blue-deep); margin-bottom: 22px; transition: background .3s, transform .3s; }
+  .service:hover .svc-icon { background: var(--blue); color: #fff; transform: rotate(-6deg) scale(1.06); }
+  .svc-icon svg { width: 26px; height: 26px; }
+  .svc-title { font-family: 'Fraunces', serif; font-size: 24px; font-weight: 500; letter-spacing: -0.01em; margin: 0 0 10px; }
+  .svc-desc { font-size: 14.5px; color: var(--muted); line-height: 1.55; margin: 0 0 22px; }
+  .svc-price { font-size: 13px; font-weight: 600; color: var(--ink); padding-top: 18px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; }
+  .svc-price .arr { width: 26px; height: 26px; border-radius: 50%; background: var(--ink); color: #fff; display: grid; place-items: center; transition: transform .25s; }
+  .service:hover .svc-price .arr { transform: translateX(4px); background: var(--blue); }
+
+  /* process */
+  .process { background: var(--ink); color: #fff; padding-block: 110px; }
+  .process .inner { max-width: 1280px; margin: 0 auto; padding-inline: 32px; }
+  .process .sec-eyebrow { color: #6ca8e8; }
+  .process .sec-title { color: #fff; }
+  .process .sec-title em { color: #6ca8e8; }
+  .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 60px; counter-reset: step; }
+  .step { position: relative; padding: 32px 24px 28px; border: 1px solid rgba(255,255,255,.12); border-radius: 18px; background: rgba(255,255,255,.025); counter-increment: step; transition: background .3s, border-color .3s, transform .3s; }
+  .step:hover { background: rgba(255,255,255,.06); border-color: rgba(108,168,232,.5); transform: translateY(-3px); }
+  .step::before { content: '0' counter(step); font-family: 'Fraunces', serif; font-size: 56px; font-weight: 500; color: var(--blue); opacity: .9; line-height: 1; display: block; margin-bottom: 20px; letter-spacing: -.04em; }
+  .step h3 { font-size: 18px; margin: 0 0 8px; font-weight: 600; }
+  .step p { font-size: 14px; color: rgba(255,255,255,.65); line-height: 1.55; margin: 0; }
+
+  /* testimonial */
+  .testi { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+  .quote { font-family: 'Fraunces', serif; font-weight: 400; font-size: clamp(28px, 3vw, 38px); line-height: 1.25; letter-spacing: -0.015em; color: var(--ink); }
+  .quote::before { content:'"'; font-size: 100px; line-height: 0; color: var(--blue); display: block; margin-bottom: 20px; }
+  .quote-meta { margin-top: 36px; display: flex; align-items: center; gap: 14px; }
+  .avatar { width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(140deg, #cdd9e6, #8ba7c2); display: grid; place-items: center; color: #fff; font-weight: 600; }
+  .quote-name { font-weight: 600; font-size: 15px; }
+  .quote-role { font-size: 13px; color: var(--muted); margin-top: 2px; }
+  .quote-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .qpic { aspect-ratio: 3/4; border-radius: 18px; overflow: hidden; background: #d8d3cc; }
+  .qpic:nth-child(1) { transform: translateY(20px); }
+  .qpic:nth-child(2) { transform: translateY(-20px); }
+  .qpic img { width:100%; height:100%; object-fit:cover; transition: transform .8s ease; }
+  .qpic:hover img { transform: scale(1.06); }
+
+  /* CTA */
+  .final-cta { position: relative; max-width: 1280px; margin: 0 auto 120px; padding: 80px 64px; border-radius: 32px; background: linear-gradient(135deg, var(--blue-deep) 0%, #0a1929 100%); color: #fff; overflow: hidden; }
+  .final-cta::before { content:''; position: absolute; right: -100px; top: -100px; width: 480px; height: 480px; border-radius: 50%; background: radial-gradient(circle, rgba(108,168,232,.25), transparent 65%); }
+  .final-cta::after { content:''; position: absolute; left: -80px; bottom: -120px; width: 360px; height: 360px; border-radius: 50%; background: radial-gradient(circle, rgba(18,103,214,.3), transparent 65%); }
+  .cta-grid { position: relative; display: grid; grid-template-columns: 1.4fr auto; gap: 40px; align-items: center; }
+  .cta-grid h2 { font-family: 'Fraunces', serif; font-weight: 500; font-size: clamp(34px, 4vw, 50px); line-height: 1.05; margin: 0 0 12px; letter-spacing: -.02em; }
+  .cta-grid h2 em { font-style: italic; color: #6ca8e8; }
+  .cta-grid p { font-size: 17px; color: rgba(255,255,255,.7); margin: 0; max-width: 480px; line-height: 1.55; }
+  .cta-actions { display: flex; flex-direction: column; gap: 12px; }
+  .cta-actions .btn { padding: 16px 28px; font-size: 15.5px; }
+
+  /* footer */
+  footer { background: var(--bg); border-top: 1px solid var(--line); }
+  .foot-inner { max-width: 1280px; margin: 0 auto; padding: 64px 32px 24px; display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 40px; }
+  .foot-col h4 { font-size: 13px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--ink); margin: 0 0 18px; }
+  .foot-col a { display: block; padding: 4px 0; font-size: 14.5px; color: var(--muted); transition: color .2s; }
+  .foot-col a:hover { color: var(--blue); }
+  .foot-about { font-size: 14.5px; color: var(--muted); line-height: 1.55; margin-top: 14px; max-width: 320px; }
+  .foot-bottom { max-width: 1280px; margin: 0 auto; padding: 24px 32px; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); display: flex; justify-content: space-between; align-items: center; }
+
+  /* scroll reveal */
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity .8s cubic-bezier(.2,.7,.3,1), transform .8s cubic-bezier(.2,.7,.3,1); }
+  .reveal.in { opacity: 1; transform: none; }
+  .reveal[data-delay="1"] { transition-delay: .08s; }
+  .reveal[data-delay="2"] { transition-delay: .16s; }
+  .reveal[data-delay="3"] { transition-delay: .24s; }
+  .reveal[data-delay="4"] { transition-delay: .32s; }
+
+  /* mobile */
+  @media (max-width: 860px) {
+    .util-inner { padding: 8px 18px; gap: 12px; }
+    .util-inner > *:nth-child(2), .util-inner > *:nth-child(3) { display: none; }
+    .nav-inner { padding: 14px 18px; gap: 18px; }
+    .nav-links { display: none; }
+    .phone-num { display: none; }
+    .hero { padding: 32px 18px 56px; }
+    .hero-grid { grid-template-columns: 1fr; gap: 36px; }
+    .hero-stats { grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+    .stat .num { font-size: 26px; }
+    .floating-card { display: none; }
+    section { padding: 64px 18px; }
+    .sec-head { grid-template-columns: 1fr; }
+    .services { grid-template-columns: 1fr; }
+    .steps { grid-template-columns: 1fr 1fr; }
+    .testi { grid-template-columns: 1fr; }
+    .final-cta { padding: 48px 24px; margin: 0 18px 60px; }
+    .cta-grid { grid-template-columns: 1fr; }
+    .foot-inner { grid-template-columns: 1fr 1fr; padding: 48px 18px 18px; }
+    .trust-inner { padding: 28px 18px; gap: 24px; }
+  }
+</style>
+</head>
+<body>
+<div class="curtain" id="curtain"></div>
+
+<div class="util">
+  <div class="util-inner">
+    <span><span class="pulse"></span>&nbsp;&nbsp;Døgnvakt — vi rykker ut nå</span>
+    <a href="#">Oslo, Bærum, Asker, Lillestrøm</a>
+    <span class="spacer"></span>
+    <a href="#">📍 Sandakerveien 24c</a>
+    <a href="#">Logg inn</a>
+  </div>
+</div>
+
+<nav class="main">
+  <div class="nav-inner">
+    <a href="index.html" class="logo">
+      <span class="logo-mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5C12 2.5 6 9 6 14a6 6 0 0 0 12 0c0-5-6-11.5-6-11.5z"/></svg>
+      </span>
+      Rørstad VVS
+    </a>
+    <div class="nav-links">
+      <a href="index.html" class="active">Hjem</a>
+      <a href="tjenester.html" data-link>Tjenester</a>
+      <a href="#" data-link>Prosjekter</a>
+      <a href="#" data-link>Om oss</a>
+      <a href="kontakt.html" data-link>Kontakt</a>
+    </div>
+    <div class="nav-cta">
+      <span class="phone-num"><span class="dot"></span> 22 50 40 30</span>
+      <a href="kontakt.html" class="btn btn-warn" data-link>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        Akutt hjelp
+      </a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-grid">
+    <div>
+      <span class="eyebrow reveal"><span class="dot"></span>Sertifisert mesterbedrift siden 1998</span>
+      <h1 class="hero-title reveal" data-delay="1">Rørleggeren <em>Oslo</em> stoler på — når det <em>haster.</em></h1>
+      <p class="lede reveal" data-delay="2">Vi tar oss av baderomsoppussinger, varmeanlegg og akutte lekkasjer. Fast pris før vi starter, alltid. Rent etter oss, alltid.</p>
+      <div class="hero-ctas reveal" data-delay="3">
+        <a href="kontakt.html" class="btn btn-primary" data-link>
+          Få tilbud på 1 minutt
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+        <a href="tjenester.html" class="btn btn-ghost" data-link>Se alle tjenester</a>
+      </div>
+      <div class="hero-stats reveal" data-delay="4">
+        <div class="stat"><div class="num">2400+</div><div class="lbl">Fornøyde kunder</div></div>
+        <div class="stat"><div class="num">4,9 ★</div><div class="lbl">Snittvurdering</div></div>
+        <div class="stat"><div class="num">25 år</div><div class="lbl">I bransjen</div></div>
+      </div>
+    </div>
+    <div class="hero-visual reveal" data-delay="2">
+      <div class="hero-card" id="heroCard">
+        <img src="https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=1200&q=80" alt="Moderne baderom" onerror="this.style.display='none';this.parentNode.style.background='linear-gradient(140deg,#cfd9e3,#7ba0c5)'" />
+        <div class="gradient"></div>
+      </div>
+      <div class="floating-card fc-rating">
+        <div class="fc-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+        </div>
+        <div>
+          <div class="fc-title">4,9 av 5 stjerner</div>
+          <div class="fc-sub">på Mittanbud · 837 omtaler</div>
+        </div>
+      </div>
+      <div class="floating-card fc-job">
+        <div class="fc-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+        </div>
+        <div>
+          <div class="fc-title">Akkurat fullført</div>
+          <div class="fc-sub">Frogner — bytte av varmtvannsbereder</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="trust" style="padding-block: 0; max-width:none;">
+  <div class="trust-inner">
+    <span class="label">Sertifisert og forsikret hos</span>
+    <span class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Mesterbrev</span>
+    <span class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg> Sentralgodkjent</span>
+    <span class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Døgnvakt 24/7</span>
+    <span class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M8 3v3M16 3v3M3 11h18"/></svg> 5 års garanti</span>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <div>
+      <div class="sec-eyebrow reveal">Hva vi gjør</div>
+      <h2 class="sec-title reveal" data-delay="1">Fra liten <em>lekkasje</em> til komplett <em>baderomsoppussing.</em></h2>
+    </div>
+    <p class="reveal" data-delay="2">Vi er en fullservice rørleggerbedrift med fokus på kvalitet og presisjon. Alltid fast pris før vi setter i gang.</p>
+  </div>
+  <div class="services">
+    <a href="tjenester.html" class="service reveal" data-link>
+      <div class="svc-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 21h10M9 21V11M15 21V11M5 11h14l-2-6H7l-2 6zM12 5V2M9 2h6"/></svg>
+      </div>
+      <h3 class="svc-title">Bad og sanitær</h3>
+      <p class="svc-desc">Total renovering, dusjnisjer, badekar og våtromsmembran. Vi koordinerer flisleggere og elektriker.</p>
+      <div class="svc-price">Fra 85 000,– <span class="arr">→</span></div>
+    </a>
+    <a href="tjenester.html" class="service reveal" data-delay="1" data-link>
+      <div class="svc-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 17H14a4 4 0 1 0-4-4M7 6a3 3 0 0 1 6 0c0 2-2 3-2 5"/></svg>
+      </div>
+      <h3 class="svc-title">Varmeanlegg</h3>
+      <p class="svc-desc">Vannbåren varme, varmepumper og varmtvannsberedere. Vi prosjekterer for energieffektivitet.</p>
+      <div class="svc-price">Fra 35 000,– <span class="arr">→</span></div>
+    </a>
+    <a href="tjenester.html" class="service reveal" data-delay="2" data-link>
+      <div class="svc-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+      </div>
+      <h3 class="svc-title">Akutt utrykning</h3>
+      <p class="svc-desc">Lekkasjer, tilstoppinger og frostskader. Vi er hos deg innen 60 minutter — døgnet rundt.</p>
+      <div class="svc-price">Døgnvakt <span class="arr">→</span></div>
+    </a>
+  </div>
+</section>
+
+<section class="process" style="max-width:none;">
+  <div class="inner">
+    <div class="sec-head">
+      <div>
+        <div class="sec-eyebrow reveal">Slik jobber vi</div>
+        <h2 class="sec-title reveal" data-delay="1">Fast pris. <em>Ingen overraskelser.</em></h2>
+      </div>
+      <p class="reveal" data-delay="2" style="color:rgba(255,255,255,.65);">Fra første telefon til ferdig jobb — du vet alltid hva som skjer og hva det koster.</p>
+    </div>
+    <div class="steps">
+      <div class="step reveal"><h3>Befaring</h3><p>Vi kommer hjem til deg, måler opp og lytter til ønskene dine. Helt gratis og uforpliktende.</p></div>
+      <div class="step reveal" data-delay="1"><h3>Tilbud</h3><p>Du får et detaljert tilbud med fast pris i løpet av 48 timer. Spesifikasjon på hver post.</p></div>
+      <div class="step reveal" data-delay="2"><h3>Utførelse</h3><p>Sertifisert rørlegger på stedet. Vi rydder etter oss, hver dag. Du blir oppdatert daglig.</p></div>
+      <div class="step reveal" data-delay="3"><h3>Garanti</h3><p>5 års arbeidsgaranti og full våtromsdokumentasjon. Vi står ved jobben — alltid.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="testi">
+    <div class="reveal">
+      <p class="quote">Rørstad gjorde oppussingen av badet vårt på Bislett til en av de minst stressende prosessene jeg har vært gjennom. Fast pris, rent etter seg, ferdig én dag før tida.</p>
+      <div class="quote-meta">
+        <div class="avatar">SK</div>
+        <div>
+          <div class="quote-name">Silje Kvam</div>
+          <div class="quote-role">Huseier · Bislett, Oslo</div>
+        </div>
+      </div>
+    </div>
+    <div class="quote-grid reveal" data-delay="1">
+      <div class="qpic"><img src="https://images.unsplash.com/photo-1620626011761-996317b8d101?w=600&q=80" alt="" onerror="this.style.display='none'"></div>
+      <div class="qpic"><img src="https://images.unsplash.com/photo-1604014237800-1c9102c219da?w=600&q=80" alt="" onerror="this.style.display='none'"></div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top: 0;">
+  <div class="final-cta reveal">
+    <div class="cta-grid">
+      <div>
+        <h2>Trenger du <em>rørlegger</em> nå?</h2>
+        <p>Ring oss eller send en melding — vi svarer alltid innen 10 minutter, døgnet rundt.</p>
+      </div>
+      <div class="cta-actions">
+        <a href="kontakt.html" class="btn btn-warn" data-link>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          22 50 40 30
+        </a>
+        <a href="kontakt.html" class="btn btn-ghost" data-link style="background:rgba(255,255,255,.08); color:#fff; border-color:rgba(255,255,255,.18);">Få et tilbud</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-inner">
+    <div class="foot-col">
+      <div class="logo">
+        <span class="logo-mark">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5C12 2.5 6 9 6 14a6 6 0 0 0 12 0c0-5-6-11.5-6-11.5z"/></svg>
+        </span>
+        Rørstad VVS
+      </div>
+      <p class="foot-about">Familiebedrift fra Sandaker. Vi har holdt Oslo tørt siden 1998 — og fortsetter med det.</p>
+    </div>
+    <div class="foot-col">
+      <h4>Tjenester</h4>
+      <a href="tjenester.html" data-link>Bad og sanitær</a>
+      <a href="tjenester.html" data-link>Varmeanlegg</a>
+      <a href="tjenester.html" data-link>Akutt utrykning</a>
+      <a href="tjenester.html" data-link>Vedlikehold</a>
+    </div>
+    <div class="foot-col">
+      <h4>Selskap</h4>
+      <a href="#">Om oss</a>
+      <a href="#">Prosjekter</a>
+      <a href="#">Karriere</a>
+      <a href="#">Presse</a>
+    </div>
+    <div class="foot-col">
+      <h4>Kontakt</h4>
+      <a href="#">22 50 40 30</a>
+      <a href="#">post@rorstad.no</a>
+      <a href="#">Sandakerveien 24c, 0473 Oslo</a>
+      <a href="#">Org. 916 504 233</a>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span>© 2026 Rørstad VVS AS</span>
+    <span>Personvern · Vilkår · Cookies</span>
+  </div>
+</footer>
+
+<script>
+  // scroll reveal
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // hero card 3D tilt
+  const card = document.getElementById('heroCard');
+  const visual = card?.parentElement;
+  if (visual && !matchMedia('(pointer:coarse)').matches) {
+    visual.addEventListener('mousemove', (e) => {
+      const r = visual.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - .5;
+      const y = (e.clientY - r.top) / r.height - .5;
+      card.style.transform = `rotateY(${x * 8}deg) rotateX(${-y * 8}deg)`;
+    });
+    visual.addEventListener('mouseleave', () => { card.style.transform = ''; });
+  }
+
+  // page transition curtain
+  const curtain = document.getElementById('curtain');
+  document.querySelectorAll('a[data-link]').forEach(a => {
+    a.addEventListener('click', (e) => {
+      const href = a.getAttribute('href');
+      if (!href || href.startsWith('#') || href.startsWith('http')) return;
+      e.preventDefault();
+      curtain.classList.add('in');
+      setTimeout(() => { window.location.href = href; }, 580);
+    });
+  });
+  window.addEventListener('pageshow', () => { curtain.classList.remove('in'); curtain.classList.add('out'); });
+</script>
+</body>
+</html>

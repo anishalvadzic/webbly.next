@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="nb">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Bjørk & Brød — Bakeri og kafé, Grünerløkka</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f4ede0;
+    --paper-2: #e9dfcb;
+    --cream: #fdf8ee;
+    --ink: #2d2218;
+    --ink-2: #4a3a26;
+    --muted: #8c7860;
+    --line: rgba(45,34,24,.14);
+    --terra: #c4623e;
+    --terra-deep: #8c3e22;
+    --sage: #8a9472;
+    --sage-deep: #5c6a4a;
+    --rose: #e0b8a0;
+    --honey: #d9a543;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); font-family: 'Inter', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  body { overflow-x: hidden; }
+  a { color: inherit; text-decoration: none; }
+  img { max-width: 100%; display: block; }
+  ::selection { background: var(--terra); color: var(--cream); }
+
+  /* paper texture */
+  body::before { content:''; position: fixed; inset: 0; pointer-events: none; z-index: 0; background-image: radial-gradient(rgba(140,120,96,.04) 1px, transparent 1px); background-size: 4px 4px; opacity: .8; }
+
+  /* curtain */
+  .curtain { position: fixed; inset: 0; background: var(--terra); z-index: 9999; transform: translateY(-100%); pointer-events: none; transition: transform .65s cubic-bezier(.77,0,.18,1); }
+  .curtain.in { transform: translateY(0); }
+  .curtain.out { transform: translateY(100%); }
+
+  /* nav */
+  nav.main { position: sticky; top: 0; z-index: 100; padding: 18px 32px; display: flex; align-items: center; gap: 40px; background: rgba(244,237,224,.85); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border-bottom: 1px solid var(--line); position: relative; z-index: 5; }
+  .brand { display: flex; align-items: center; gap: 12px; font-family: 'DM Serif Display', serif; font-size: 22px; letter-spacing: -.01em; }
+  .brand .mark { width: 38px; height: 38px; border-radius: 50%; background: var(--terra); display: grid; place-items: center; color: var(--cream); font-family: 'DM Serif Display'; font-style: italic; font-size: 19px; letter-spacing: -.02em; transform: rotate(-6deg); }
+  .brand em { font-style: italic; color: var(--terra); }
+  .nav-links { display: flex; gap: 28px; font-size: 15px; font-weight: 500; }
+  .nav-links a { padding: 6px 0; position: relative; color: var(--ink-2); transition: color .2s; }
+  .nav-links a.active, .nav-links a:hover { color: var(--terra); }
+  .nav-links a::after { content:''; position: absolute; left: 0; right: 0; bottom: -2px; height: 2px; background: var(--terra); transform: scaleX(0); transform-origin: right; transition: transform .3s; }
+  .nav-links a.active::after, .nav-links a:hover::after { transform: scaleX(1); transform-origin: left; }
+  .nav-right { margin-left: auto; display: flex; align-items: center; gap: 14px; }
+  .hours-pill { font-size: 13px; color: var(--muted); display: flex; align-items: center; gap: 8px; }
+  .hours-pill .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--sage); box-shadow: 0 0 0 0 rgba(138,148,114,.5); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%{box-shadow:0 0 0 0 rgba(138,148,114,.5);} 70%{box-shadow:0 0 0 8px rgba(138,148,114,0);} 100%{box-shadow:0 0 0 0 rgba(138,148,114,0);} }
+  .btn-book { padding: 12px 22px; border-radius: 100px; background: var(--ink); color: var(--cream); font-weight: 600; font-size: 14px; transition: background .2s, transform .2s; border: none; cursor: pointer; font-family: inherit; }
+  .btn-book:hover { background: var(--terra); transform: translateY(-1px); }
+
+  /* hero */
+  .hero { position: relative; z-index: 1; padding: 60px 32px 60px; max-width: 1500px; margin: 0 auto; }
+  .hero-grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: 64px; align-items: center; }
+  .eyebrow { display: inline-flex; align-items: center; gap: 10px; padding: 8px 16px; border-radius: 100px; background: var(--cream); border: 1px solid var(--line); font-size: 13px; color: var(--ink-2); font-weight: 500; margin-bottom: 28px; }
+  .eyebrow .swatch { width: 8px; height: 8px; border-radius: 50%; background: var(--terra); }
+  h1.hero-title { font-family: 'DM Serif Display', serif; font-weight: 400; font-size: clamp(56px, 8.5vw, 140px); line-height: .95; letter-spacing: -.025em; margin: 0; }
+  h1.hero-title em { font-style: italic; color: var(--terra); }
+  h1.hero-title .line { display: block; overflow: hidden; }
+  h1.hero-title .line span { display: block; transform: translateY(110%); animation: rise 1.2s cubic-bezier(.2,.7,.3,1) forwards; }
+  h1.hero-title .line:nth-child(2) span { animation-delay: .15s; }
+  h1.hero-title .line:nth-child(3) span { animation-delay: .3s; }
+  @keyframes rise { to { transform: translateY(0); } }
+  .hero p.lede { font-size: 18.5px; line-height: 1.65; color: var(--ink-2); max-width: 520px; margin: 38px 0 0; }
+  .hero p.lede em { font-family: 'Fraunces', serif; font-style: italic; color: var(--terra); }
+  .hero-ctas { display: flex; gap: 14px; margin-top: 36px; align-items: center; flex-wrap: wrap; }
+  .btn-primary { display: inline-flex; align-items: center; gap: 10px; padding: 16px 28px; border-radius: 100px; background: var(--terra); color: var(--cream); font-weight: 600; font-size: 15px; transition: background .2s, transform .2s; border: none; cursor: pointer; font-family: inherit; }
+  .btn-primary:hover { background: var(--terra-deep); transform: translateY(-1px); }
+  .btn-link { font-family: 'Fraunces', serif; font-style: italic; font-size: 18px; color: var(--ink); border-bottom: 1.5px solid var(--ink); padding-bottom: 2px; }
+  .btn-link:hover { color: var(--terra); border-color: var(--terra); }
+
+  .hero-visual { position: relative; }
+  .hero-card { position: relative; aspect-ratio: 4/5; border-radius: 220px 220px 24px 24px; overflow: hidden; background: linear-gradient(160deg, var(--rose), var(--terra)); box-shadow: 0 30px 60px -25px rgba(45,34,24,.3); }
+  .hero-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s; }
+  .hero-card:hover img { transform: scale(1.04); }
+  .hero-deco { position: absolute; }
+  .deco-1 { width: 90px; height: 90px; left: -34px; top: 28%; transform: rotate(-12deg); animation: float 5s infinite ease-in-out; }
+  .deco-2 { width: 76px; height: 76px; right: -28px; top: 12%; transform: rotate(18deg); animation: float 6s infinite ease-in-out reverse; }
+  .deco-3 { width: 110px; height: 110px; right: -30px; bottom: 24%; animation: float 7s infinite ease-in-out; }
+  @keyframes float { 50% { transform: translateY(-12px) rotate(var(--rot, 0deg)); } }
+  .stamp { position: absolute; left: -50px; bottom: 50px; width: 130px; height: 130px; border-radius: 50%; background: var(--sage); color: var(--cream); display: grid; place-items: center; text-align: center; font-family: 'DM Serif Display', serif; font-style: italic; font-size: 18px; line-height: 1.15; padding: 10px; transform: rotate(-8deg); box-shadow: 0 10px 24px rgba(0,0,0,.12); }
+  .stamp::before { content:''; position: absolute; inset: 8px; border-radius: 50%; border: 1px dashed rgba(253,248,238,.5); }
+
+  .hero-meta-bar { margin-top: 60px; display: flex; gap: 40px; align-items: center; padding-top: 40px; border-top: 1px solid var(--line); }
+  .meta-item { display: flex; align-items: center; gap: 14px; }
+  .meta-item .ic { width: 44px; height: 44px; border-radius: 50%; background: var(--cream); display: grid; place-items: center; color: var(--terra); border: 1px solid var(--line); }
+  .meta-item .ic svg { width: 18px; height: 18px; }
+  .meta-item .ttl { font-weight: 600; font-size: 14.5px; }
+  .meta-item .sub { font-size: 12.5px; color: var(--muted); margin-top: 2px; }
+
+  /* daily */
+  section { position: relative; z-index: 1; max-width: 1500px; margin: 0 auto; padding: 100px 32px; }
+  .sec-head { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 40px; margin-bottom: 50px; }
+  .sec-label { font-family: 'Fraunces', serif; font-style: italic; font-size: 18px; color: var(--terra); margin-bottom: 12px; }
+  .sec-title { font-family: 'DM Serif Display', serif; font-weight: 400; font-size: clamp(40px, 5.5vw, 84px); line-height: 1; letter-spacing: -.02em; margin: 0; }
+  .sec-title em { font-style: italic; color: var(--terra); }
+  .sec-head .right { font-size: 15px; color: var(--ink-2); max-width: 340px; line-height: 1.6; text-align: right; }
+
+  .daily { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+  .menu-card { background: var(--cream); border-radius: 24px; padding: 22px; border: 1px solid var(--line); transition: transform .35s, box-shadow .35s; cursor: pointer; position: relative; }
+  .menu-card:hover { transform: translateY(-4px); box-shadow: 0 18px 36px -20px rgba(45,34,24,.2); }
+  .menu-card .img { aspect-ratio: 1; border-radius: 16px; overflow: hidden; margin-bottom: 18px; background: linear-gradient(160deg, var(--rose), var(--terra)); }
+  .menu-card:nth-child(2) .img { background: linear-gradient(160deg, var(--sage), var(--sage-deep)); }
+  .menu-card:nth-child(3) .img { background: linear-gradient(160deg, var(--honey), var(--terra-deep)); }
+  .menu-card .img img { width: 100%; height: 100%; object-fit: cover; transition: transform 1s; }
+  .menu-card:hover .img img { transform: scale(1.06); }
+  .menu-card .tag { display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px; border-radius: 100px; background: var(--paper); font-size: 11.5px; color: var(--terra); font-weight: 600; letter-spacing: .04em; margin-bottom: 12px; }
+  .menu-card h3 { font-family: 'DM Serif Display', serif; font-weight: 400; font-size: 26px; letter-spacing: -.01em; line-height: 1.1; margin: 0 0 8px; }
+  .menu-card h3 em { font-style: italic; color: var(--terra); }
+  .menu-card p { font-size: 13.5px; color: var(--muted); line-height: 1.55; margin: 0 0 18px; }
+  .menu-card .row { display: flex; justify-content: space-between; align-items: center; padding-top: 14px; border-top: 1px solid var(--line); }
+  .menu-card .price { font-family: 'DM Serif Display', serif; font-size: 24px; font-style: italic; color: var(--terra); }
+  .menu-card .add { width: 32px; height: 32px; border-radius: 50%; background: var(--ink); color: var(--cream); display: grid; place-items: center; transition: background .2s, transform .25s; }
+  .menu-card:hover .add { background: var(--terra); transform: rotate(90deg); }
+
+  /* story */
+  .story { background: var(--paper-2); border-radius: 0; padding: 110px 32px; max-width: none; }
+  .story-inner { max-width: 1500px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .story-img { aspect-ratio: 4/5; border-radius: 24px 24px 220px 220px; overflow: hidden; background: var(--sage); }
+  .story-img img { width: 100%; height: 100%; object-fit: cover; }
+  .story-text h2 { font-family: 'DM Serif Display', serif; font-weight: 400; font-size: clamp(40px, 5vw, 76px); letter-spacing: -.02em; line-height: 1; margin: 0 0 30px; }
+  .story-text h2 em { font-style: italic; color: var(--terra); }
+  .story-text p { font-size: 18px; line-height: 1.65; color: var(--ink-2); margin: 0 0 18px; }
+  .story-text p em { font-family: 'Fraunces', serif; font-style: italic; color: var(--terra); font-size: 19.5px; }
+  .story-text .small { font-size: 14.5px; color: var(--muted); line-height: 1.65; }
+  .signature { display: flex; align-items: center; gap: 16px; margin-top: 36px; padding-top: 28px; border-top: 1px solid var(--line); }
+  .signature .face { width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(140deg, var(--rose), var(--terra)); overflow: hidden; }
+  .signature .face img { width: 100%; height: 100%; object-fit: cover; }
+  .signature .name { font-family: 'DM Serif Display', serif; font-style: italic; font-size: 22px; color: var(--ink); }
+  .signature .role { font-size: 12.5px; color: var(--muted); margin-top: 4px; }
+
+  /* hours / address */
+  .hours-section { padding: 110px 32px; max-width: 1500px; margin: 0 auto; }
+  .hours-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 80px; align-items: center; }
+  .hours-card { background: var(--cream); border-radius: 28px; padding: 44px; border: 1px solid var(--line); }
+  .hours-card h2 { font-family: 'DM Serif Display', serif; font-weight: 400; font-size: 44px; letter-spacing: -.02em; margin: 0 0 28px; line-height: 1; }
+  .hours-card h2 em { font-style: italic; color: var(--terra); }
+  .hours-list { display: flex; flex-direction: column; }
+  .hours-row { display: flex; justify-content: space-between; padding: 16px 0; border-bottom: 1px dashed var(--line); font-size: 15px; align-items: baseline; }
+  .hours-row:last-child { border-bottom: none; }
+  .hours-row .day { font-weight: 500; color: var(--ink); }
+  .hours-row .time { font-family: 'Fraunces', serif; font-style: italic; color: var(--ink-2); }
+  .hours-row.today { color: var(--terra); }
+  .hours-row.today .day, .hours-row.today .time { color: var(--terra); font-weight: 600; }
+  .hours-row.today::before { content:'I dag · '; font-family: 'Fraunces', serif; font-style: italic; color: var(--terra); }
+
+  .address-block { padding: 0 0 0 0; }
+  .address-block .label { font-family: 'Fraunces', serif; font-style: italic; font-size: 17px; color: var(--terra); margin-bottom: 18px; }
+  .address-block h3 { font-family: 'DM Serif Display', serif; font-weight: 400; font-size: clamp(40px, 4.5vw, 64px); letter-spacing: -.02em; line-height: 1.02; margin: 0 0 24px; }
+  .address-block h3 em { font-style: italic; color: var(--terra); }
+  .address-block .lines { font-family: 'Fraunces', serif; font-size: 22px; line-height: 1.45; color: var(--ink-2); }
+  .address-block .lines em { font-style: italic; color: var(--terra); }
+  .address-actions { display: flex; gap: 12px; margin-top: 30px; flex-wrap: wrap; }
+
+  /* press */
+  .press { background: var(--ink); color: var(--cream); padding: 110px 32px; max-width: none; }
+  .press-inner { max-width: 1500px; margin: 0 auto; text-align: center; }
+  .press blockquote { font-family: 'DM Serif Display', serif; font-weight: 400; font-size: clamp(36px, 5vw, 64px); line-height: 1.15; letter-spacing: -.02em; margin: 0 auto; max-width: 1100px; }
+  .press blockquote em { font-style: italic; color: var(--rose); }
+  .press .cite { margin-top: 40px; font-family: 'Fraunces', serif; font-style: italic; font-size: 17px; color: var(--rose); }
+  .press .pubs { display: flex; justify-content: center; gap: 60px; margin-top: 60px; flex-wrap: wrap; opacity: .65; }
+  .press .pubs span { font-family: 'DM Serif Display', serif; font-size: 22px; font-style: italic; }
+
+  /* final cta */
+  .final { padding: 130px 32px; max-width: 1500px; margin: 0 auto; text-align: center; }
+  .final h2 { font-family: 'DM Serif Display', serif; font-weight: 400; font-size: clamp(52px, 9vw, 160px); line-height: .92; letter-spacing: -.03em; margin: 0 0 36px; }
+  .final h2 em { font-style: italic; color: var(--terra); }
+  .final p { font-size: 18px; color: var(--ink-2); max-width: 580px; margin: 0 auto 40px; line-height: 1.6; }
+
+  /* footer */
+  footer { background: var(--paper-2); border-top: 1px solid var(--line); padding: 70px 32px 30px; position: relative; z-index: 1; }
+  .foot-inner { max-width: 1500px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; padding-bottom: 50px; border-bottom: 1px solid var(--line); }
+  .foot-brand { font-family: 'DM Serif Display', serif; font-size: clamp(40px, 6vw, 96px); letter-spacing: -.02em; line-height: .95; }
+  .foot-brand em { font-style: italic; color: var(--terra); }
+  .foot-col h4 { font-size: 12px; text-transform: uppercase; letter-spacing: .14em; color: var(--ink); margin: 0 0 16px; font-weight: 700; }
+  .foot-col a { display: block; padding: 4px 0; font-size: 14.5px; color: var(--ink-2); transition: color .2s; }
+  .foot-col a:hover { color: var(--terra); }
+  .foot-bottom { max-width: 1500px; margin: 0 auto; padding-top: 24px; font-size: 13px; color: var(--muted); display: flex; justify-content: space-between; }
+
+  /* reveal */
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity 1s cubic-bezier(.2,.7,.3,1), transform 1s cubic-bezier(.2,.7,.3,1); }
+  .reveal.in { opacity: 1; transform: none; }
+  .reveal[data-delay="1"] { transition-delay: .1s; }
+  .reveal[data-delay="2"] { transition-delay: .2s; }
+
+  @media (max-width: 860px) {
+    nav.main { padding: 14px 18px; gap: 12px; }
+    .nav-links, .hours-pill { display: none; }
+    .hero { padding: 30px 18px 50px; }
+    .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+    .hero-visual { max-width: 380px; margin: 0 auto; }
+    .stamp { left: -20px; bottom: 30px; width: 100px; height: 100px; font-size: 14px; }
+    .hero-meta-bar { flex-direction: column; align-items: start; gap: 18px; }
+    section, .hours-section, .final { padding: 60px 18px; }
+    .sec-head { grid-template-columns: 1fr; }
+    .sec-head .right { text-align: left; }
+    .daily { grid-template-columns: 1fr 1fr; gap: 12px; }
+    .menu-card { padding: 14px; }
+    .menu-card h3 { font-size: 20px; }
+    .story { padding: 70px 18px; }
+    .story-inner { grid-template-columns: 1fr; gap: 30px; }
+    .story-img { order: -1; max-width: 380px; margin: 0 auto; }
+    .hours-grid { grid-template-columns: 1fr; gap: 30px; }
+    .hours-card { padding: 30px 22px; }
+    .press { padding: 70px 18px; }
+    .press .pubs { gap: 30px; }
+    footer { padding: 60px 18px 24px; }
+    .foot-inner { grid-template-columns: 1fr 1fr; gap: 28px; }
+    .foot-brand { grid-column: 1 / -1; }
+    .foot-bottom { flex-direction: column; gap: 6px; }
+  }
+</style>
+</head>
+<body>
+<div class="curtain" id="curtain"></div>
+
+<nav class="main">
+  <a href="index.html" class="brand" data-link>
+    <span class="mark">B</span>
+    Bjørk &amp; <em>Brød</em>
+  </a>
+  <div class="nav-links">
+    <a href="index.html" class="active" data-link>Hjem</a>
+    <a href="meny.html" data-link>Meny</a>
+    <a href="#" data-link>Kafé</a>
+    <a href="#" data-link>Brød på bestilling</a>
+    <a href="bestilling.html" data-link>Besøk oss</a>
+  </div>
+  <div class="nav-right">
+    <span class="hours-pill"><span class="dot"></span>Åpent nå · til 17:00</span>
+    <a href="bestilling.html" class="btn-book" data-link>Reservér bord</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-grid">
+    <div>
+      <span class="eyebrow reveal"><span class="swatch"></span>Bakeri og kafé på Grünerløkka · siden 2014</span>
+      <h1 class="hero-title">
+        <span class="line"><span>Brød fra</span></span>
+        <span class="line"><span>i&nbsp;<em>går.</em></span></span>
+        <span class="line"><span>Kaffe fra <em>i&nbsp;dag.</em></span></span>
+      </h1>
+      <p class="lede">Vi steiner og elter <em>surdeigsbrød</em> klokken fire om natta, slik at det står ferskt på disken når Grünerløkka våkner. Kom innom — eller bestill en bordplate for søndag.</p>
+      <div class="hero-ctas">
+        <a href="bestilling.html" class="btn-primary" data-link>Reservér bord →</a>
+        <a href="meny.html" class="btn-link" data-link>Se meny</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-card">
+        <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?w=900&q=85" alt="" onerror="this.parentNode.style.background='linear-gradient(160deg,#e0b8a0,#c4623e)'"/>
+      </div>
+      <div class="stamp">Bakt<br/><em>kl. 04:30</em><br/>i dag</div>
+    </div>
+  </div>
+  <div class="hero-meta-bar">
+    <div class="meta-item">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+      <div><div class="ttl">07–17 hverdager</div><div class="sub">09–16 helger</div></div>
+    </div>
+    <div class="meta-item">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+      <div><div class="ttl">Thorvald Meyers gate 89</div><div class="sub">5 min fra Olaf Ryes plass</div></div>
+    </div>
+    <div class="meta-item">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+      <div><div class="ttl">22 35 88 12</div><div class="sub">Vi svarer 09–17</div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <div>
+      <div class="sec-label reveal">— Dagens utvalg —</div>
+      <h2 class="sec-title reveal" data-delay="1">Bakt i&nbsp;dag,<br/>spist i&nbsp;<em>dag.</em></h2>
+    </div>
+    <div class="right reveal" data-delay="2">Brødene er sydd hjem fra besteforeldrene våre — vi maler kornet selv, og vi syr aldri to dager på rad. Det selges fort, så kom tidlig.</div>
+  </div>
+  <div class="daily">
+    <a href="meny.html" class="menu-card reveal" data-link>
+      <div class="img"><img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?w=500&q=85" onerror="this.style.display='none'"/></div>
+      <span class="tag">● Brød</span>
+      <h3>Surdeigs<em>brød</em></h3>
+      <p>Norsk steinmalt rug, 36 timer kald heving. Skall som klikker, krumme som husker.</p>
+      <div class="row"><span class="price">85,–</span><span class="add">+</span></div>
+    </a>
+    <a href="meny.html" class="menu-card reveal" data-delay="1" data-link>
+      <div class="img"><img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=500&q=85" onerror="this.style.display='none'"/></div>
+      <span class="tag">● Bakverk</span>
+      <h3>Kanelsnurr</h3>
+      <p>Dansk smør, kanel fra Vietnam, perlesukker på toppen. Bakt til kl. 11 hver dag.</p>
+      <div class="row"><span class="price">52,–</span><span class="add">+</span></div>
+    </a>
+    <a href="meny.html" class="menu-card reveal" data-delay="2" data-link>
+      <div class="img"><img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=500&q=85" onerror="this.style.display='none'"/></div>
+      <span class="tag">● Kaffe</span>
+      <h3>Flat <em>white</em></h3>
+      <p>Bønner fra Tim Wendelboe — Etiopia, Yirgacheffe. Helmelk eller havre.</p>
+      <div class="row"><span class="price">58,–</span><span class="add">+</span></div>
+    </a>
+    <a href="meny.html" class="menu-card reveal" data-link>
+      <div class="img"><img src="https://images.unsplash.com/photo-1525351484163-7529414344d8?w=500&q=85" onerror="this.style.display='none'"/></div>
+      <span class="tag">● Mat</span>
+      <h3>Smørrebrød med <em>egg</em></h3>
+      <p>To skiver surdeig, smør, varmtrøkt laks, mykkokt egg, dill og sitron.</p>
+      <div class="row"><span class="price">145,–</span><span class="add">+</span></div>
+    </a>
+  </div>
+</section>
+
+<section class="story">
+  <div class="story-inner">
+    <div class="story-img reveal"><img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=900&q=85" onerror="this.parentNode.style.background='linear-gradient(160deg,#8a9472,#5c6a4a)'"/></div>
+    <div class="story-text reveal" data-delay="1">
+      <h2>Lille bakeri,<br/><em>store ovner.</em></h2>
+      <p>Bjørk &amp; Brød startet som et bord på Birkelunden i 2014, der Maja og Anders solgte surdeigsbrød på lørdager. <em>Folka kom tilbake</em> — tre, fire, ti uker på rad. Etter to år flyttet vi inn i lokalet på Thorvald Meyers gate.</p>
+      <p>Vi maler kornet vårt selv på en gammel steinmølle fra Trøndelag. Vi henter melken fra Mølleby gård i Sør-Odal, eggene fra Skoglund i Hurdal. Listen er kort, fordi vi vil <em>kjenne hver hånd</em> som har vært bortpå det.</p>
+      <p class="small">Vi serverer frokost, lunsj og kaffe fra mandag til søndag. På torsdager har vi vinbar fra kl. 17 — naturvin, små smaker, og to brødsorter til å dele.</p>
+      <div class="signature">
+        <div class="face"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=85"/></div>
+        <div>
+          <div class="name">Maja &amp; Anders</div>
+          <div class="role">Bakere · medeiere · grunnleggere</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hours-section">
+  <div class="hours-grid">
+    <div class="hours-card reveal">
+      <h2>Åpnings<em>tider.</em></h2>
+      <div class="hours-list">
+        <div class="hours-row"><span class="day">Mandag</span><span class="time">07 — 17</span></div>
+        <div class="hours-row"><span class="day">Tirsdag</span><span class="time">07 — 17</span></div>
+        <div class="hours-row"><span class="day">Onsdag</span><span class="time">07 — 17</span></div>
+        <div class="hours-row today"><span class="day">Torsdag</span><span class="time">07 — 22 · vinbar fra 17</span></div>
+        <div class="hours-row"><span class="day">Fredag</span><span class="time">07 — 17</span></div>
+        <div class="hours-row"><span class="day">Lørdag</span><span class="time">09 — 16</span></div>
+        <div class="hours-row"><span class="day">Søndag</span><span class="time">09 — 16</span></div>
+      </div>
+    </div>
+    <div class="address-block reveal" data-delay="1">
+      <div class="label">— Finn oss —</div>
+      <h3>På hjørnet<br/>av <em>Grünerløkka.</em></h3>
+      <div class="lines">
+        Thorvald Meyers gate 89<br/>
+        <em>0552 Oslo</em><br/>
+        Fem minutter fra Olaf Ryes plass.<br/>
+        Tre minutter fra Birkelunden.<br/>
+      </div>
+      <div class="address-actions">
+        <a href="bestilling.html" class="btn-primary" data-link>Reservér bord →</a>
+        <a href="#" class="btn-link">Vis på kart</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="press">
+  <div class="press-inner">
+    <blockquote class="reveal">"Et brød fra Bjørk &amp; Brød er det <em>nærmeste man kommer perfeksjon</em> i Oslo akkurat nå."</blockquote>
+    <div class="cite reveal" data-delay="1">— Andreas Viestad, Aftenposten Mat</div>
+    <div class="pubs reveal" data-delay="2">
+      <span>Aftenposten</span>
+      <span>D2</span>
+      <span>Foodora <em>Best Of</em></span>
+      <span>The Guardian</span>
+      <span>Kondis</span>
+    </div>
+  </div>
+</section>
+
+<section class="final">
+  <h2 class="reveal">Vi <em>sees</em> snart.</h2>
+  <p class="reveal" data-delay="1">Det enkleste er bare å komme. Hvis det er torsdag eller helg, anbefaler vi å reservere — ellers er det som regel et bord ledig.</p>
+  <a href="bestilling.html" class="btn-primary reveal" data-delay="2" data-link>Reservér bord →</a>
+</section>
+
+<footer>
+  <div class="foot-inner">
+    <div class="foot-brand">Bjørk<br/>&amp; <em>Brød</em></div>
+    <div class="foot-col"><h4>Besøk</h4>
+      <a href="meny.html" data-link>Meny</a><a href="bestilling.html" data-link>Reservasjon</a><a href="#">Kafé</a><a href="#">Vinbar torsdag</a>
+    </div>
+    <div class="foot-col"><h4>Bakeri</h4>
+      <a href="#">Brød på bestilling</a><a href="#">Catering</a><a href="#">Bursdagskaker</a><a href="#">Gavekort</a>
+    </div>
+    <div class="foot-col"><h4>Kontakt</h4>
+      <a href="#">22 35 88 12</a><a href="#">hei@bjorkogbrod.no</a><a href="#">Instagram</a><a href="#">Nyhetsbrev</a>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span>© 2026 Bjørk &amp; Brød · Org. 919 442 187</span>
+    <span>Bakt med kjærlighet på Grünerløkka</span>
+  </div>
+</footer>
+
+<script>
+  // reveal
+  const io = new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.1});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+  // page transition
+  const curtain = document.getElementById('curtain');
+  document.querySelectorAll('a[data-link]').forEach(a=>{
+    a.addEventListener('click',(e)=>{
+      const href=a.getAttribute('href');
+      if(!href||href.startsWith('#')||href.startsWith('http'))return;
+      e.preventDefault();
+      curtain.classList.add('in'); curtain.classList.remove('out');
+      setTimeout(()=>{window.location.href=href;},620);
+    });
+  });
+  window.addEventListener('pageshow',()=>{curtain.classList.remove('in');curtain.classList.add('out');setTimeout(()=>curtain.classList.remove('out'),700);});
+</script>
+</body>
+</html>
