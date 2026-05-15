@@ -114,62 +114,154 @@ export default function Portfolio() {
       }
     }
 
-    function mountIframes(article) {
-      if (article.dataset.wbMounted === "1") return;
-      article.dataset.wbMounted = "1";
-      const slug = article.dataset.wbSlug;
-      const p = PROJECTS.find((x) => x.slug === slug);
-      if (!p) return;
-
-      const laptopSlot = article.querySelector("[data-wb-laptop-slot]");
-      const phoneSlot = article.querySelector("[data-wb-phone-slot]");
-      if (!laptopSlot || !phoneSlot) return;
-
-      const laptopFrame = document.createElement("iframe");
-      laptopFrame.src = p.url;
-      laptopFrame.title = p.brand + " — desktop preview";
-      laptopFrame.loading = "lazy";
-      laptopFrame.setAttribute("tabindex", "-1");
-      laptopSlot.appendChild(laptopFrame);
-
-      const phoneFrame = document.createElement("iframe");
-      phoneFrame.src = p.url;
-      phoneFrame.title = p.brand + " — mobile preview";
-      phoneFrame.loading = "lazy";
-      phoneFrame.setAttribute("tabindex", "-1");
-      phoneSlot.appendChild(phoneFrame);
-
-      laptopFrame.addEventListener("load", () => {
-        hideScrollbar(laptopFrame);
-        fitIframe(laptopFrame, LAPTOP_NATIVE);
-      });
-      phoneFrame.addEventListener("load", () => {
-        hideScrollbar(phoneFrame);
-        fitIframe(phoneFrame, PHONE_NATIVE);
-        article.classList.add("is-loaded");
-      });
-
-      requestAnimationFrame(() =>
-        requestAnimationFrame(() => {
-          fitIframe(laptopFrame, LAPTOP_NATIVE);
-          fitIframe(phoneFrame, PHONE_NATIVE);
-          article.classList.add("is-loaded");
-        })
-      );
+    function unmountIframes(article) {
+      if (article.dataset.wbMounted !== "1") return;
+      try {
+        const slots = article.querySelectorAll(
+          "[data-wb-laptop-slot], [data-wb-phone-slot]"
+        );
+        slots.forEach((slot) => {
+          const f = slot.querySelector("iframe");
+          if (f) {
+            try {
+              f.src = "about:blank";
+            } catch (_) {}
+            f.remove();
+          }
+        });
+        article.classList.remove("is-loaded");
+        article.dataset.wbMounted = "0";
+      } catch (_) {
+        /* never let unmount errors propagate */
+      }
     }
 
-    const io = new IntersectionObserver(
+    // Queue so only one iframe set boots at a time — prevents the burst on
+    // fast scroll that crashes iOS Chrome (5 iframes + Three.js WebGL +
+    // rAF cursor loops all booting simultaneously).
+    const mountQueue = [];
+    let mountInFlight = false;
+
+    function processQueue() {
+      if (mountInFlight) return;
+      const next = mountQueue.shift();
+      if (!next) return;
+      if (!next.isConnected || next.dataset.wbMounted === "1") {
+        processQueue();
+        return;
+      }
+      mountInFlight = true;
+
+      try {
+        next.dataset.wbMounted = "1";
+        const slug = next.dataset.wbSlug;
+        const p = PROJECTS.find((x) => x.slug === slug);
+        if (!p) {
+          mountInFlight = false;
+          processQueue();
+          return;
+        }
+
+        const laptopSlot = next.querySelector("[data-wb-laptop-slot]");
+        const phoneSlot = next.querySelector("[data-wb-phone-slot]");
+        if (!laptopSlot || !phoneSlot) {
+          mountInFlight = false;
+          processQueue();
+          return;
+        }
+
+        const laptopFrame = document.createElement("iframe");
+        laptopFrame.src = p.url;
+        laptopFrame.title = p.brand + " — desktop preview";
+        laptopFrame.loading = "lazy";
+        laptopFrame.setAttribute("tabindex", "-1");
+        laptopSlot.appendChild(laptopFrame);
+
+        const phoneFrame = document.createElement("iframe");
+        phoneFrame.src = p.url;
+        phoneFrame.title = p.brand + " — mobile preview";
+        phoneFrame.loading = "lazy";
+        phoneFrame.setAttribute("tabindex", "-1");
+        phoneSlot.appendChild(phoneFrame);
+
+        let released = false;
+        const release = () => {
+          if (released) return;
+          released = true;
+          mountInFlight = false;
+          processQueue();
+        };
+
+        laptopFrame.addEventListener("load", () => {
+          try {
+            hideScrollbar(laptopFrame);
+            fitIframe(laptopFrame, LAPTOP_NATIVE);
+          } catch (_) {}
+        });
+        phoneFrame.addEventListener("load", () => {
+          try {
+            hideScrollbar(phoneFrame);
+            fitIframe(phoneFrame, PHONE_NATIVE);
+            next.classList.add("is-loaded");
+          } catch (_) {}
+          // Release the queue once the second iframe is on screen.
+          release();
+        });
+
+        requestAnimationFrame(() =>
+          requestAnimationFrame(() => {
+            try {
+              fitIframe(laptopFrame, LAPTOP_NATIVE);
+              fitIframe(phoneFrame, PHONE_NATIVE);
+              next.classList.add("is-loaded");
+            } catch (_) {}
+          })
+        );
+
+        // Failsafe: even if loads never fire (network hang) release queue
+        // after 4s so the rest can keep mounting.
+        setTimeout(release, 4000);
+      } catch (_) {
+        mountInFlight = false;
+        processQueue();
+      }
+    }
+
+    function queueMount(article) {
+      if (article.dataset.wbMounted === "1") return;
+      if (mountQueue.includes(article)) return;
+      mountQueue.push(article);
+      processQueue();
+    }
+
+    // Mount when card is reasonably close to viewport — not aggressively
+    // pre-loading.
+    const mountIO = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add("is-in");
-            mountIframes(entry.target);
+            queueMount(entry.target);
           }
         });
       },
-      { threshold: 0.12, rootMargin: "0px 0px -80px 0px" }
+      { threshold: 0.15, rootMargin: "0px 0px -120px 0px" }
     );
-    cards.forEach((c) => io.observe(c));
+    cards.forEach((c) => mountIO.observe(c));
+
+    // Unmount iframes that are 2 viewports away — frees memory on long pages
+    // and prevents the WebGL/rAF loads from staying live forever.
+    const unmountIO = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting && entry.target.dataset.wbMounted === "1") {
+            unmountIframes(entry.target);
+          }
+        });
+      },
+      { rootMargin: "200% 0px 200% 0px" }
+    );
+    cards.forEach((c) => unmountIO.observe(c));
 
     const prefetchHandlers = cards.map((article) => {
       let prefetched = false;
@@ -242,7 +334,8 @@ export default function Portfolio() {
     document.addEventListener("keydown", onKey);
 
     return () => {
-      io.disconnect();
+      mountIO.disconnect();
+      unmountIO.disconnect();
       window.removeEventListener("resize", onResize);
       document.removeEventListener("click", onClick);
       document.removeEventListener("keydown", onKey);
