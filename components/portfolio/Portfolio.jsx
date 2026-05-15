@@ -11,11 +11,11 @@ const PROJECTS = [
     aesthetic: "Skandinavisk · Pålitelig",
     title: "Pålitelig rørlegger i Oslo",
     blurb:
-      "Trust-first lead-gen for et lokalt håndverkerbedrift. Klare priser, raskt tilbudsskjema og en transparent prosessguide.",
+      "Slik kan vi bygge for ditt håndverkerbedrift: klare priser, raskt tilbudsskjema og en transparent prosessguide som bygger tillit fra første klikk.",
     url: "/work/rorstad/",
     accent: "#1267d6",
-    year: "2025",
-    role: "Strategi, design, kode",
+    type: "Lead-gen · Håndverk",
+    includes: "Tilbudsskjema, priser, Google Maps",
   },
   {
     slug: "nordlys",
@@ -24,11 +24,11 @@ const PROJECTS = [
     aesthetic: "Editorial · Magasin",
     title: "Hus skal holdes vakkert",
     blurb:
-      "Redaksjonell portefølje for et arkitektkontor. Kremfarget papir, mono-sats, fullskjerm prosjekter og egen markør.",
+      "En redaksjonell portefølje for arkitekter og designere — kremfarget papir, mono-typografi og fullskjerm prosjektvisninger som lar arbeidet snakke.",
     url: "/work/nordlys/",
     accent: "#b85432",
-    year: "2025",
-    role: "Identitet, nettside, presse",
+    type: "Editorial portefølje",
+    includes: "Prosjekt-galleri, fullskjerm, presse",
   },
   {
     slug: "klang",
@@ -37,11 +37,11 @@ const PROJECTS = [
     aesthetic: "WebGL · Mørkt studio",
     title: "Vi bygger nettsteder som gløder",
     blurb:
-      "Awwwards-nivå studio­side med en levende WebGL-hero som følger musa, magnetiske knapper og curtain-overganger.",
+      "Awwwards-nivå studioside med levende WebGL-hero som følger musa, magnetiske knapper og curtain-overganger — for deg som vil skille deg ut.",
     url: "/work/klang/",
     accent: "#c5fa3a",
-    year: "2024",
-    role: "WebGL, frontend, motion",
+    type: "Studio · WebGL",
+    includes: "WebGL-hero, magnetiske knapper, motion",
   },
   {
     slug: "voern",
@@ -50,11 +50,11 @@ const PROJECTS = [
     aesthetic: "Glassmorfisme · Mørk luksus",
     title: "Stoffer som husker deg",
     blurb:
-      "Direct-to-consumer luksusmote. Drivende blob-gradienter bak frostede produktkort, egen markør og gull-accenter.",
+      "For luksusvaremerker og direct-to-consumer mote: drivende blob-gradienter bak frostede produktkort, egen markør og gull-accenter.",
     url: "/work/voern/",
     accent: "#c9a961",
-    year: "2024",
-    role: "Merkevare, e-handel, motion",
+    type: "E-handel · Luksus",
+    includes: "Produktkort, glassmorfisme, gull",
   },
   {
     slug: "bjork",
@@ -63,11 +63,11 @@ const PROJECTS = [
     aesthetic: "Scandi soft · Varm",
     title: "Brød fra i går, kaffe fra i dag",
     blurb:
-      "Nabolagsbakeri med ekte reservasjonsflyt, organiske former og varm terrakotta + salvie-palett.",
+      "For restauranter og kaféer: organiske former, varm terrakotta-palett og ekte reservasjonsflyt som faktisk konverterer.",
     url: "/work/bjork/",
     accent: "#c4623e",
-    year: "2024",
-    role: "Identitet, nettside, foto",
+    type: "Restaurant · Bordbestilling",
+    includes: "Reservasjon, meny, åpningstider",
   },
 ];
 
@@ -258,16 +258,16 @@ export default function Portfolio() {
       <header className="wb-portfolio__head">
         <span className="wb-eyebrow">
           <span className="wb-eyebrow__dot" />
-          Levende arbeid · 2024–2026
+          Eksempler · Inspirasjon
         </span>
         <h2 className="wb-portfolio__title">
-          Nettsteder vi har <em>bygget</em>.<br />
-          Trykk på dem.
+          Se hva vi kan <em>bygge</em><br />
+          for deg.
         </h2>
         <p className="wb-portfolio__lede">
-          Fem ekte, kjørbare nettsider — laget for å vise hvordan vi tenker form,
-          kode og merke for ulike bransjer. Hver enkelt er ferdig kodet og kan
-          kjøres fritt i ny fane.
+          Fem ekte, kjørbare eksempler — for å vise hva vi kan bygge for ulike
+          bransjer. Trykk på dem for å se hvordan vi tenker form, kode og merke.
+          Alt kan tilpasses din bedrift.
         </p>
       </header>
 
@@ -291,12 +291,12 @@ export default function Portfolio() {
                 <p className="wb-case__blurb">{p.blurb}</p>
                 <div className="wb-case__meta">
                   <div className="wb-case__meta-item">
-                    <span className="l">År</span>
-                    <span className="v">{p.year}</span>
+                    <span className="l">Type</span>
+                    <span className="v">{p.type}</span>
                   </div>
                   <div className="wb-case__meta-item">
-                    <span className="l">Rolle</span>
-                    <span className="v">{p.role}</span>
+                    <span className="l">Inkluderer</span>
+                    <span className="v">{p.includes}</span>
                   </div>
                   <div className="wb-case__meta-item">
                     <span className="l">Stil</span>
