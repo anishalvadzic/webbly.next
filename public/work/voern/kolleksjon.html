@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="nb">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kolleksjon — Atelier Vœrn</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Italiana&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+  .filters { position: relative; z-index: 1; max-width: 1600px; margin: 0 auto 50px; padding: 0 40px; display: flex; gap: 32px; align-items: center; padding-bottom: 20px; border-bottom: 1px solid var(--line); }
+  .filters .label { font-size: 11px; text-transform: uppercase; letter-spacing: .22em; color: var(--muted); }
+  .filters .group { display: flex; gap: 16px; }
+  .filters .chip { padding: 6px 0; font-size: 12px; text-transform: uppercase; letter-spacing: .2em; color: var(--paper); opacity: .6; cursor: none; background: none; border: none; font-family: inherit; position: relative; transition: opacity .2s; }
+  .filters .chip:hover { opacity: 1; }
+  .filters .chip.active { opacity: 1; color: var(--gold); }
+  .filters .chip.active::after { content:''; position: absolute; bottom: -3px; left: 0; right: 0; height: 1px; background: var(--gold); }
+  .filters .count { margin-left: auto; font-size: 11px; text-transform: uppercase; letter-spacing: .22em; color: var(--muted); }
+  .filters .sort { font-size: 12px; text-transform: uppercase; letter-spacing: .2em; color: var(--gold); cursor: none; }
+
+  .prod-grid { position: relative; z-index: 1; max-width: 1600px; margin: 0 auto; padding: 0 40px 120px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+  .prod-card { padding: 14px; display: flex; flex-direction: column; gap: 12px; transition: transform .4s; }
+  .prod-card:hover { transform: translateY(-4px); }
+  .prod-card .img-wrap { aspect-ratio: 3/4; border-radius: 12px; overflow: hidden; background: linear-gradient(160deg,#2a1f38,#1a1224); position: relative; }
+  .prod-card .img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.5s, opacity .4s; }
+  .prod-card:hover .img-wrap img { transform: scale(1.05); }
+  .prod-card .ribbon { position: absolute; top: 12px; left: 12px; padding: 5px 11px; border-radius: 100px; background: rgba(22,16,30,.7); backdrop-filter: blur(10px); font-size: 9.5px; text-transform: uppercase; letter-spacing: .2em; color: var(--gold); border: 1px solid rgba(201,169,97,.3); }
+  .prod-card .wish { position: absolute; top: 12px; right: 12px; width: 30px; height: 30px; border-radius: 50%; background: rgba(22,16,30,.7); backdrop-filter: blur(10px); border: 1px solid rgba(246,242,234,.18); display: grid; place-items: center; cursor: none; color: var(--paper); transition: all .2s; }
+  .prod-card .wish:hover, .prod-card .wish.active { color: var(--gold); border-color: var(--gold); }
+  .prod-card .wish.active { background: var(--gold); color: var(--ink); }
+  .prod-card .quick { position: absolute; left: 14px; right: 14px; bottom: 14px; padding: 12px; border-radius: 10px; background: rgba(22,16,30,.7); backdrop-filter: blur(14px); text-align: center; font-size: 11px; text-transform: uppercase; letter-spacing: .2em; color: var(--paper); border: 1px solid rgba(246,242,234,.14); transform: translateY(120%); opacity: 0; transition: transform .35s, opacity .35s; cursor: none; }
+  .prod-card:hover .quick { transform: translateY(0); opacity: 1; }
+  .prod-card .lbl { font-size: 10.5px; text-transform: uppercase; letter-spacing: .22em; color: var(--muted); }
+  .prod-card h3 { font-family: 'Italiana', serif; font-size: 20px; font-weight: 400; margin: 0; letter-spacing: 0; line-height: 1.1; }
+  .prod-card h3 em { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 300; color: var(--gold-2); }
+  .prod-card .price-row { display: flex; justify-content: space-between; align-items: center; padding-top: 8px; border-top: 1px solid rgba(246,242,234,.1); }
+  .prod-card .price { font-family: 'Italiana', serif; font-size: 17px; letter-spacing: .03em; }
+  .prod-card .swatches { display: flex; gap: 4px; }
+  .prod-card .sw { width: 10px; height: 10px; border-radius: 50%; border: 1px solid rgba(246,242,234,.2); }
+
+  .quote-strip { position: relative; z-index: 1; padding: 140px 40px; max-width: 1100px; margin: 0 auto; text-align: center; }
+  .quote-strip blockquote { font-family: 'Italiana', serif; font-weight: 400; font-size: clamp(28px, 4vw, 56px); line-height: 1.18; letter-spacing: -.01em; margin: 0; }
+  .quote-strip blockquote em { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 300; color: var(--gold); }
+  .quote-strip .cite { margin-top: 32px; font-size: 11px; text-transform: uppercase; letter-spacing: .22em; color: var(--muted); }
+
+  @media (max-width: 860px) {
+    .filters { padding: 0 18px; gap: 16px; overflow-x: auto; white-space: nowrap; }
+    .filters .group { flex-shrink: 0; }
+    .filters .count, .filters .sort { display: none; }
+    .prod-grid { grid-template-columns: 1fr 1fr; gap: 12px; padding: 0 18px 60px; }
+    .quote-strip { padding: 60px 18px; }
+  }
+</style>
+</head>
+<body>
+<div class="curtain" id="curtain"></div>
+<div id="cursor-mount"></div>
+<div id="nav-mount"></div>
+
+<div class="page-head">
+  <div class="crumb reveal"><a href="index.html" data-link>VŒRN</a> / Kolleksjon</div>
+  <h1 class="reveal" data-delay="1">Vinter <em>'26.</em></h1>
+  <p class="lede reveal" data-delay="2">Kapittel I — tolv plagg sydd for de kalde månedene. Hver utgave nummerert, hver tråd valgt med omhu.</p>
+</div>
+
+<div class="filters reveal">
+  <span class="label">Kategori</span>
+  <div class="group">
+    <button class="chip active">Alt</button>
+    <button class="chip">Yttertøy</button>
+    <button class="chip">Strikk</button>
+    <button class="chip">Skjorter</button>
+    <button class="chip">Bukser</button>
+    <button class="chip">Kjoler</button>
+  </div>
+  <span class="count">12 plagg</span>
+  <span class="sort">Sorter: Nyeste ✦</span>
+</div>
+
+<div class="prod-grid">
+  <a href="#" class="prod-card glass">
+    <div class="img-wrap">
+      <span class="ribbon">N° 047</span>
+      <button class="wish"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+      <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=500&q=85" onerror="this.parentNode.style.background='linear-gradient(160deg,#2a1f38,#1a1224)'"/>
+      <button class="quick">Hurtig­visning →</button>
+    </div>
+    <span class="lbl">Yttertøy</span>
+    <h3><em>Mantel</em> Helene</h3>
+    <div class="price-row">
+      <span class="price">9 800,–</span>
+      <div class="swatches"><span class="sw" style="background:#1a1a1a"></span><span class="sw" style="background:#c2b39b"></span><span class="sw" style="background:#5a3c2a"></span></div>
+    </div>
+  </a>
+  <a href="#" class="prod-card glass">
+    <div class="img-wrap">
+      <span class="ribbon">N° 044</span>
+      <button class="wish active"><svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+      <img src="https://images.unsplash.com/photo-1488161628813-04466f872be2?w=500&q=85" onerror="this.parentNode.style.background='linear-gradient(160deg,#2a1f38,#1a1224)'"/>
+      <button class="quick">Hurtig­visning →</button>
+    </div>
+    <span class="lbl">Strikk</span>
+    <h3>Ull<em>genser</em> Toril</h3>
+    <div class="price-row">
+      <span class="price">4 200,–</span>
+      <div class="swatches"><span class="sw" style="background:#e9e1d2"></span><span class="sw" style="background:#3a3528"></span></div>
+    </div>
+  </a>
+  <a href="#" class="prod-card glass">
+    <div class="img-wrap">
+      <span class="ribbon">Atelier</span>
+      <button class="wish"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+      <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=500&q=85" onerror="this.parentNode.style.background='linear-gradient(160deg,#2a1f38,#1a1224)'"/>
+      <button class="quick">Hurtig­visning →</button>
+    </div>
+    <span class="lbl">Kjole</span>
+    <h3>Kjolen <em>Sigrid</em></h3>
+    <div class="price-row">
+      <span class="price">7 400,–</span>
+      <div class="swatches"><span class="sw" style="background:#0c0c10"></span><span class="sw" style="background:#5a3c5a"></span></div>
+    </div>
+  </a>
+  <a href="#" class="prod-card glass">
+    <div class="img-wrap">
+      <span class="ribbon">N° 042</span>
+      <button class="wish"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+      <img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=500&q=85" onerror="this.parentNode.style.background='linear-gradient(160deg,#2a1f38,#1a1224)'"/>
+      <button class="quick">Hurtig­visning →</button>
+    </div>
+    <span class="lbl">Skjorte</span>
+    <h3>Bluse <em>Aud</em></h3>
+    <div class="price-row">
+      <span class="price">2 900,–</span>
+      <div class="swatches"><span class="sw" style="background:#f6f2ea"></span><span class="sw" style="background:#1a1a1a"></span><span class="sw" style="background:#c2b39b"></span></div>
+    </div>
+  </a>
+  <a href="#" class="prod-card glass">
+    <div class="img-wrap">
+      <span class="ribbon">Limited</span>
+      <button class="wish"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+      <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=500&q=85" onerror="this.parentNode.style.background='linear-gradient(160deg,#2a1f38,#1a1224)'"/>
+      <button class="quick">Hurtig­visning →</button>
+    </div>
+    <span class="lbl">Bukser</span>
+    <h3>Bukse <em>Margit</em></h3>
+    <div class="price-row">
+      <span class="price">3 800,–</span>
+      <div class="swatches"><span class="sw" style="background:#3a3528"></span><span class="sw" style="background:#1a1a1a"></span></div>
+    </div>
+  </a>
+  <a href="#" class="prod-card glass">
+    <div class="img-wrap">
+      <span class="ribbon">N° 040</span>
+      <button class="wish"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+      <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=500&q=85" onerror="this.parentNode.style.background='linear-gradient(160deg,#2a1f38,#1a1224)'"/>
+      <button class="quick">Hurtig­visning →</button>
+    </div>
+    <span class="lbl">Skjørt</span>
+    <h3>Skjørtet <em>Liv</em></h3>
+    <div class="price-row">
+      <span class="price">4 600,–</span>
+      <div class="swatches"><span class="sw" style="background:#5a3c5a"></span><span class="sw" style="background:#1a1a1a"></span></div>
+    </div>
+  </a>
+  <a href="#" class="prod-card glass">
+    <div class="img-wrap">
+      <span class="ribbon">N° 038</span>
+      <button class="wish"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+      <img src="https://images.unsplash.com/photo-1551803091-e20673f15770?w=500&q=85" onerror="this.parentNode.style.background='linear-gradient(160deg,#2a1f38,#1a1224)'"/>
+      <button class="quick">Hurtig­visning →</button>
+    </div>
+    <span class="lbl">Yttertøy</span>
+    <h3>Jakka <em>Sara</em></h3>
+    <div class="price-row">
+      <span class="price">8 200,–</span>
+      <div class="swatches"><span class="sw" style="background:#1a1a1a"></span><span class="sw" style="background:#5a3c2a"></span></div>
+    </div>
+  </a>
+  <a href="#" class="prod-card glass">
+    <div class="img-wrap">
+      <span class="ribbon">N° 035</span>
+      <button class="wish"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+      <img src="https://images.unsplash.com/photo-1564257631407-4deb1f99d992?w=500&q=85" onerror="this.parentNode.style.background='linear-gradient(160deg,#2a1f38,#1a1224)'"/>
+      <button class="quick">Hurtig­visning →</button>
+    </div>
+    <span class="lbl">Strikk</span>
+    <h3>Cardigan <em>Ida</em></h3>
+    <div class="price-row">
+      <span class="price">5 100,–</span>
+      <div class="swatches"><span class="sw" style="background:#c2b39b"></span><span class="sw" style="background:#3a3528"></span></div>
+    </div>
+  </a>
+</div>
+
+<div class="quote-strip">
+  <blockquote class="reveal">"Et plagg fra Vœrn er ikke noe du <em>kjøper.</em> Det er noe du blir <em>kjent</em> med, dag for dag, vinter etter vinter."</blockquote>
+  <div class="cite reveal" data-delay="1">— Helene Bratlie, kreativ leder</div>
+</div>
+
+<div id="foot-mount"></div>
+<script src="shared.js"></script>
+<script>
+  // wishlist toggles
+  document.querySelectorAll('.wish').forEach(b => b.addEventListener('click', (e) => {
+    e.preventDefault(); e.stopPropagation();
+    b.classList.toggle('active');
+    const svg = b.querySelector('svg');
+    if (b.classList.contains('active')) svg.setAttribute('fill', 'currentColor');
+    else svg.setAttribute('fill', 'none');
+  }));
+</script>
+</body>
+</html>

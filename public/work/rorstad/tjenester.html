@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="nb">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tjenester — Rørstad VVS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+  .page-head { max-width: 1280px; margin: 0 auto; padding: 56px 32px 36px; }
+  .crumb { font-size: 13px; color: var(--muted); margin-bottom: 18px; }
+  .crumb a { color: var(--muted); }
+  .crumb a:hover { color: var(--blue); }
+  .page-head h1 { font-family: 'Fraunces', serif; font-weight: 500; font-size: clamp(40px, 5vw, 68px); line-height: 1.04; letter-spacing: -.025em; margin: 0 0 22px; max-width: 900px; }
+  .page-head h1 em { font-style: italic; color: var(--blue); }
+  .page-head p { font-size: 18px; color: var(--muted); max-width: 640px; line-height: 1.55; margin: 0; }
+
+  .filter-row { max-width: 1280px; margin: 12px auto 48px; padding: 0 32px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .chip { padding: 9px 18px; border-radius: 999px; background: #fff; border: 1px solid var(--line); font-size: 14px; font-weight: 500; cursor: pointer; transition: all .2s; }
+  .chip.active, .chip:hover { background: var(--ink); color: #fff; border-color: var(--ink); }
+
+  .svc-list { max-width: 1280px; margin: 0 auto; padding: 0 32px 100px; display: grid; gap: 20px; }
+  .svc-row { display: grid; grid-template-columns: 110px 1fr 200px 150px 40px; gap: 32px; align-items: center; padding: 28px 32px; background: #fff; border: 1px solid var(--line); border-radius: 20px; transition: all .3s cubic-bezier(.2,.7,.3,1); cursor: pointer; position: relative; overflow: hidden; }
+  .svc-row::before { content:''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--blue); transform: scaleY(0); transform-origin: bottom; transition: transform .3s; }
+  .svc-row:hover { transform: translateY(-3px); box-shadow: 0 18px 40px -22px rgba(11,61,94,.22); border-color: transparent; }
+  .svc-row:hover::before { transform: scaleY(1); transform-origin: top; }
+  .svc-img { aspect-ratio: 1; border-radius: 14px; background: linear-gradient(140deg, var(--blue-soft), #cfd9e3); display: grid; place-items: center; color: var(--blue-deep); overflow: hidden; }
+  .svc-img svg { width: 38px; height: 38px; }
+  .svc-row h3 { font-family: 'Fraunces', serif; font-size: 26px; font-weight: 500; margin: 0 0 6px; letter-spacing: -.01em; }
+  .svc-row p { font-size: 14.5px; color: var(--muted); line-height: 1.5; margin: 0; }
+  .svc-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tag { font-size: 12px; padding: 4px 10px; border-radius: 999px; background: var(--bg); color: var(--ink-2); }
+  .svc-price-col { text-align: right; font-family: 'Fraunces', serif; }
+  .svc-price-col .from { font-size: 11.5px; color: var(--muted); letter-spacing: .12em; text-transform: uppercase; font-family: 'Inter'; font-weight: 600; }
+  .svc-price-col .amt { font-size: 28px; font-weight: 500; letter-spacing: -.01em; }
+  .svc-arr { width: 40px; height: 40px; border-radius: 50%; background: var(--bg); display: grid; place-items: center; transition: all .25s; }
+  .svc-row:hover .svc-arr { background: var(--blue); color: #fff; transform: rotate(-45deg); }
+
+  /* compare table */
+  .compare { background: var(--bg); padding: 90px 0; }
+  .compare-inner { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
+  .compare h2 { font-family: 'Fraunces', serif; font-weight: 500; font-size: clamp(30px, 3.6vw, 44px); margin: 0 0 12px; letter-spacing: -.02em; }
+  .compare h2 em { font-style: italic; color: var(--blue); }
+  .compare > .compare-inner > p { font-size: 16px; color: var(--muted); max-width: 540px; line-height: 1.55; margin: 0 0 48px; }
+  table.compare-table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 18px; overflow: hidden; box-shadow: 0 8px 30px -18px rgba(11,61,94,.18); }
+  table.compare-table th, table.compare-table td { padding: 18px 22px; text-align: left; font-size: 14.5px; border-bottom: 1px solid var(--line); }
+  table.compare-table th { background: var(--ink); color: #fff; font-weight: 600; font-size: 14px; }
+  table.compare-table th:nth-child(2) { background: var(--blue); }
+  table.compare-table td:first-child { font-weight: 600; }
+  table.compare-table .yes { color: #2bd16a; font-weight: 600; }
+  table.compare-table .no { color: #c44627; }
+
+  @media (max-width: 860px) {
+    .page-head { padding: 32px 18px 18px; }
+    .filter-row { padding: 0 18px; margin: 0 0 28px; overflow-x: auto; flex-wrap: nowrap; }
+    .svc-list { padding: 0 18px 60px; }
+    .svc-row { grid-template-columns: 70px 1fr; padding: 18px; gap: 16px; }
+    .svc-tags, .svc-price-col, .svc-arr { display: none; }
+    .compare-inner { padding: 0 18px; }
+    table.compare-table { font-size: 12px; }
+    table.compare-table th, table.compare-table td { padding: 12px 10px; }
+  }
+</style>
+</head>
+<body>
+<div class="curtain" id="curtain"></div>
+<div id="nav-mount"></div>
+
+<div class="page-head">
+  <div class="crumb reveal"><a href="index.html" data-link>Hjem</a> / Tjenester</div>
+  <h1 class="reveal" data-delay="1">Alt vi gjør — <em>fra første dråpe til ferdig bad.</em></h1>
+  <p class="reveal" data-delay="2">Velg fra 14 spesialiserte tjenester. Alle leveres med fast pris, mesterbrev og 5 års garanti på utført arbeid.</p>
+</div>
+
+<div class="filter-row reveal">
+  <button class="chip active">Alle tjenester</button>
+  <button class="chip">Bad &amp; sanitær</button>
+  <button class="chip">Varme</button>
+  <button class="chip">Akutt</button>
+  <button class="chip">Vedlikehold</button>
+  <button class="chip">Service og kontroll</button>
+</div>
+
+<div class="svc-list">
+  <a href="#" class="svc-row reveal">
+    <div class="svc-img"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 21h10M9 21V11M15 21V11M5 11h14l-2-6H7l-2 6z"/></svg></div>
+    <div><h3>Total baderomsoppussing</h3><p>Riving, membran, fliser, sanitær og inventar. Du flytter inn på et nytt bad — vi koordinerer alt.</p></div>
+    <div class="svc-tags"><span class="tag">3–5 uker</span><span class="tag">Fast pris</span><span class="tag">Membran inkl.</span></div>
+    <div class="svc-price-col"><div class="from">Fra</div><div class="amt">185 000,–</div></div>
+    <div class="svc-arr">→</div>
+  </a>
+  <a href="#" class="svc-row reveal" data-delay="1">
+    <div class="svc-img"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg></div>
+    <div><h3>Bytte av varmtvannsbereder</h3><p>Vi tar med ny bereder, kobler om, fjerner den gamle. Ferdig på én dag — du har varmtvann samme kveld.</p></div>
+    <div class="svc-tags"><span class="tag">1 dag</span><span class="tag">200–300L</span><span class="tag">2 års produktgaranti</span></div>
+    <div class="svc-price-col"><div class="from">Fra</div><div class="amt">18 900,–</div></div>
+    <div class="svc-arr">→</div>
+  </a>
+  <a href="#" class="svc-row reveal" data-delay="2">
+    <div class="svc-img"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 5 5 1-4 4 1 6-5-3-5 3 1-6-4-4 5-1z"/></svg></div>
+    <div><h3>Vannbåren gulvvarme</h3><p>Installasjon og oppkobling av komplett gulvvarmesystem — fra fordeler til termostat. Energieffektivt og lydløst.</p></div>
+    <div class="svc-tags"><span class="tag">Sone-styring</span><span class="tag">Smarthus-klar</span></div>
+    <div class="svc-price-col"><div class="from">Fra</div><div class="amt">42 500,–</div></div>
+    <div class="svc-arr">→</div>
+  </a>
+  <a href="#" class="svc-row reveal" data-delay="3">
+    <div class="svc-img" style="background:linear-gradient(140deg,#fde2db,#f1a995); color:#a83a1d;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v6l4 2"/></svg></div>
+    <div><h3>Akutt lekkasjehjelp <span style="color:#c44627; font-size:14px; font-family:Inter; font-weight:600;">· Døgnvakt</span></h3><p>Vi rykker ut innen 60 minutter med fullt utstyrte servicebiler. Stenger, lokaliserer og reparerer.</p></div>
+    <div class="svc-tags"><span class="tag" style="background:#fde2db; color:#a83a1d;">24/7</span><span class="tag">60 min responstid</span></div>
+    <div class="svc-price-col"><div class="from">Utrykning fra</div><div class="amt">2 450,–</div></div>
+    <div class="svc-arr">→</div>
+  </a>
+  <a href="#" class="svc-row reveal">
+    <div class="svc-img"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18M6 6l-3 6 3 6M18 6l3 6-3 6"/></svg></div>
+    <div><h3>Spyling av avløp</h3><p>Høytrykkspyling med video­inspeksjon. Vi finner og fjerner tilstopninger i kjøkken, bad og hovedkum.</p></div>
+    <div class="svc-tags"><span class="tag">Inkl. video</span><span class="tag">Samme dag</span></div>
+    <div class="svc-price-col"><div class="from">Fra</div><div class="amt">3 200,–</div></div>
+    <div class="svc-arr">→</div>
+  </a>
+  <a href="#" class="svc-row reveal" data-delay="1">
+    <div class="svc-img"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
+    <div><h3>Service og kontroll</h3><p>Årlig sjekk av rør, kraner, sluk og berederanode. Forebygger lekkasjer før de skjer.</p></div>
+    <div class="svc-tags"><span class="tag">Avtale</span><span class="tag">Rapport inkl.</span></div>
+    <div class="svc-price-col"><div class="from">Pr. besøk</div><div class="amt">1 890,–</div></div>
+    <div class="svc-arr">→</div>
+  </a>
+</div>
+
+<section class="compare">
+  <div class="compare-inner">
+    <h2 class="reveal">Hvorfor velge <em>Rørstad?</em></h2>
+    <p class="reveal" data-delay="1">Vi har sammenlignet oss med bransjegjennomsnittet. Helt ærlig.</p>
+    <table class="compare-table reveal" data-delay="2">
+      <thead><tr><th></th><th>Rørstad VVS</th><th>Bransjesnitt</th></tr></thead>
+      <tbody>
+        <tr><td>Fast pris før jobben starter</td><td class="yes">Alltid</td><td class="no">Sjelden</td></tr>
+        <tr><td>Responstid akutt</td><td class="yes">60 min</td><td>3–6 timer</td></tr>
+        <tr><td>Garanti på utført arbeid</td><td class="yes">5 år</td><td>2 år</td></tr>
+        <tr><td>Mesterbrev og sentralgodkjenning</td><td class="yes">Ja</td><td>Varierer</td></tr>
+        <tr><td>Daglig oppdatering under prosjekt</td><td class="yes">Ja</td><td class="no">Nei</td></tr>
+        <tr><td>Inkluderer flislegger og elektriker</td><td class="yes">Koordineres</td><td class="no">Ditt ansvar</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section style="max-width:1280px; margin:0 auto; padding: 100px 32px;">
+  <div class="final-cta reveal">
+    <div class="cta-grid">
+      <div>
+        <h2>Klar for å starte <em>prosjektet ditt?</em></h2>
+        <p>Vi gir gratis og uforpliktende befaring i Oslo og omegn. Få et fast tilbud i løpet av 48 timer.</p>
+      </div>
+      <div class="cta-actions">
+        <a href="kontakt.html" class="btn btn-primary" data-link>Få tilbud →</a>
+        <a href="kontakt.html" class="btn btn-ghost" data-link style="background:rgba(255,255,255,.08); color:#fff; border-color:rgba(255,255,255,.18);">Book befaring</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="foot-mount"></div>
+
+<script src="shared.js"></script>
+</body>
+</html>

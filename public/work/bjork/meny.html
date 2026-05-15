@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="nb">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Meny — Bjørk & Brød</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Fraunces:ital,opsz,wght@0,9..144,400;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+  .menu-tabs { position: sticky; top: 76px; z-index: 50; background: rgba(244,237,224,.92); backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); padding: 14px 32px; display: flex; gap: 8px; flex-wrap: wrap; max-width: 1500px; margin: 0 auto; }
+  .menu-tabs button { padding: 10px 20px; border-radius: 100px; border: 1px solid var(--line); background: transparent; cursor: pointer; font-family: 'Fraunces', serif; font-size: 16px; font-style: italic; color: var(--ink-2); transition: all .2s; }
+  .menu-tabs button:hover { background: var(--cream); }
+  .menu-tabs button.active { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+
+  .menu-section { max-width: 1500px; margin: 0 auto; padding: 60px 32px; position: relative; z-index: 1; }
+  .ms-head { display: flex; justify-content: space-between; align-items: end; margin-bottom: 36px; padding-bottom: 18px; border-bottom: 2px solid var(--ink); }
+  .ms-head h2 { font-family: 'DM Serif Display', serif; font-weight: 400; font-size: clamp(40px, 5vw, 72px); letter-spacing: -.02em; margin: 0; line-height: 1; }
+  .ms-head h2 em { font-style: italic; color: var(--terra); }
+  .ms-head .when { font-family: 'Fraunces', serif; font-style: italic; font-size: 18px; color: var(--muted); }
+
+  .menu-list { display: grid; grid-template-columns: 1fr 1fr; gap: 0 56px; }
+  .menu-item { padding: 22px 0; border-bottom: 1px dashed var(--line); display: grid; grid-template-columns: 1fr auto; gap: 22px; align-items: baseline; }
+  .menu-item h3 { font-family: 'DM Serif Display', serif; font-weight: 400; font-size: 24px; letter-spacing: -.005em; margin: 0; line-height: 1.2; }
+  .menu-item h3 em { font-style: italic; color: var(--terra); }
+  .menu-item h3 .badge { display: inline-block; padding: 2px 8px; border-radius: 100px; background: var(--sage); color: var(--cream); font-family: 'Inter'; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .12em; vertical-align: middle; margin-left: 8px; }
+  .menu-item h3 .badge.new { background: var(--terra); }
+  .menu-item h3 .badge.veggie { background: var(--sage); }
+  .menu-item p { font-size: 14.5px; color: var(--muted); line-height: 1.55; margin: 8px 0 0; max-width: 480px; }
+  .menu-item .price { font-family: 'DM Serif Display', serif; font-style: italic; font-size: 26px; color: var(--terra); white-space: nowrap; }
+
+  .feature-row { background: var(--cream); border-radius: 28px; padding: 40px; margin: 60px 0; display: grid; grid-template-columns: 220px 1fr; gap: 36px; align-items: center; }
+  .feature-row .img { aspect-ratio: 1; border-radius: 20px; overflow: hidden; background: var(--sage); }
+  .feature-row .img img { width: 100%; height: 100%; object-fit: cover; }
+  .feature-row .label { font-family: 'Fraunces', serif; font-style: italic; color: var(--terra); font-size: 16px; margin-bottom: 12px; }
+  .feature-row h3 { font-family: 'DM Serif Display', serif; font-weight: 400; font-size: clamp(28px, 3vw, 42px); letter-spacing: -.015em; line-height: 1.05; margin: 0 0 14px; }
+  .feature-row h3 em { font-style: italic; color: var(--terra); }
+  .feature-row p { font-size: 16px; color: var(--ink-2); line-height: 1.6; margin: 0 0 12px; }
+  .feature-row .price-tag { font-family: 'DM Serif Display', serif; font-style: italic; font-size: 32px; color: var(--terra); }
+
+  .legend { max-width: 1500px; margin: 60px auto; padding: 32px; background: var(--cream); border-radius: 20px; display: flex; gap: 32px; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--ink-2); }
+  .legend-item .badge { display: inline-block; padding: 2px 8px; border-radius: 100px; color: var(--cream); font-family: 'Inter'; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .12em; }
+  .legend-item .veggie { background: var(--sage); }
+  .legend-item .new { background: var(--terra); }
+  .legend-item .gluten { background: var(--honey); color: var(--ink); }
+
+  @media (max-width: 860px) {
+    .menu-tabs { top: 60px; padding: 12px 18px; gap: 6px; overflow-x: auto; flex-wrap: nowrap; }
+    .menu-section { padding: 40px 18px; }
+    .menu-list { grid-template-columns: 1fr; gap: 0; }
+    .feature-row { grid-template-columns: 1fr; padding: 24px; gap: 18px; margin: 40px 0; }
+    .legend { padding: 20px; gap: 16px; margin: 30px 18px; }
+  }
+</style>
+</head>
+<body>
+<div class="curtain" id="curtain"></div>
+<div id="nav-mount"></div>
+
+<div class="page-head">
+  <div class="crumb reveal"><a href="index.html" data-link>Hjem</a> / Meny</div>
+  <h1 class="reveal" data-delay="1">Det vi <em>baker,</em><br/>det vi <em>brygger.</em></h1>
+  <p class="lede reveal" data-delay="2">Menyen vår er kort med vilje. Vi vil <em>kjenne hver tråd</em> som har vært bortpå råvarene. Det betyr at noen ting er sesong, andre er der hver dag.</p>
+</div>
+
+<div class="menu-tabs">
+  <button class="active">Alt</button>
+  <button>Brød &amp; bakverk</button>
+  <button>Frokost</button>
+  <button>Lunsj</button>
+  <button>Kaffe &amp; te</button>
+  <button>Vin &amp; øl</button>
+</div>
+
+<section class="menu-section">
+  <div class="ms-head"><h2>Brød &amp; <em>bakverk</em></h2><span class="when">Bakt fra 04:30 hver dag</span></div>
+  <div class="menu-list">
+    <div class="menu-item">
+      <div><h3>Surdeigsbrød <em>klassisk</em> <span class="badge new">Dagens</span></h3><p>Steinmalt norsk hvete, 36 timer kald heving. Knasende skall, fuktig krumme.</p></div>
+      <span class="price">85,–</span>
+    </div>
+    <div class="menu-item">
+      <div><h3>Rugbrød <em>med valnøtt</em></h3><p>Steinmalt rug fra Trøndelag, honningvann, valnøtter fra Frankrike.</p></div>
+      <span class="price">95,–</span>
+    </div>
+    <div class="menu-item">
+      <div><h3>Kanelsnurr</h3><p>Dansk smør, kanel fra Vietnam, perlesukker. Bakt frem til 11 hver dag.</p></div>
+      <span class="price">52,–</span>
+    </div>
+    <div class="menu-item">
+      <div><h3>Skille­bolle <em>med kardemomme</em></h3><p>Norsk kardemomme, vaniljekrem, brent smør. Vår mest solgte.</p></div>
+      <span class="price">58,–</span>
+    </div>
+    <div class="menu-item">
+      <div><h3>Croissant <em>klassisk</em></h3><p>Tre dager gjær, fransk smør, 27 lag deig.</p></div>
+      <span class="price">48,–</span>
+    </div>
+    <div class="menu-item">
+      <div><h3>Skolebrød</h3><p>Bestemorens oppskrift. Vaniljekremen lager vi selv.</p></div>
+      <span class="price">52,–</span>
+    </div>
+  </div>
+</section>
+
+<div class="feature-row">
+  <div class="img"><img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?w=600&q=85" onerror="this.parentNode.style.background='linear-gradient(160deg,#c4623e,#8c3e22)'"/></div>
+  <div>
+    <div class="label">— Reservér på forhånd —</div>
+    <h3>Helgens <em>brødkasse.</em></h3>
+    <p>Tre brød, to bakverk og en krukke hjemmelaget syltetøy — bestilt på torsdag, hentet på lørdag morgen. Nok til en familie hele helga.</p>
+    <p><span class="price-tag">395,–</span></p>
+  </div>
+</div>
+
+<section class="menu-section">
+  <div class="ms-head"><h2>Frokost</h2><span class="when">07 — 11 hverdager, 09 — 13 helger</span></div>
+  <div class="menu-list">
+    <div class="menu-item">
+      <div><h3>Egg på toast <span class="badge veggie">VEGGIE</span></h3><p>To skiver surdeig, smør, eggerøre, rødløk, dill, sitronpepper.</p></div>
+      <span class="price">155,–</span>
+    </div>
+    <div class="menu-item">
+      <div><h3>Smørrebrød med <em>varmrøkt laks</em></h3><p>To skiver surdeig, smør, laks fra Lysefjorden, posjert egg, dill.</p></div>
+      <span class="price">175,–</span>
+    </div>
+    <div class="menu-item">
+      <div><h3>Grøt <em>fra Trøndelag</em> <span class="badge veggie">VEGGIE</span></h3><p>Bygggrøt med blåbær, kanelsukker, mandelsmør og melk.</p></div>
+      <span class="price">125,–</span>
+    </div>
+    <div class="menu-item">
+      <div><h3>Yoghurt med <em>granola</em></h3><p>Hjemmelaget granola, gresk yoghurt, sesongfrukt, honning fra Toten.</p></div>
+      <span class="price">115,–</span>
+    </div>
+  </div>
+</section>
+
+<section class="menu-section">
+  <div class="ms-head"><h2>Lunsj</h2><span class="when">11 — 16 daglig</span></div>
+  <div class="menu-list">
+    <div class="menu-item">
+      <div><h3>Dagens <em>suppe</em> <span class="badge new">Sesong</span></h3><p>Variabel etter dag og marked. Server med brød og smør. Spør oss.</p></div>
+      <span class="price">155,–</span>
+    </div>
+    <div class="menu-item">
+      <div><h3>Salat med <em>vintergulrot</em> <span class="badge veggie">VEGGIE</span></h3><p>Ovnsbakt gulrot, ricotta, valnøtt, blodappelsin, honning, sukat.</p></div>
+      <span class="price">185,–</span>
+    </div>
+    <div class="menu-item">
+      <div><h3>Brødskive <em>med kjøttdeig</em></h3><p>Saktekokt kjøttdeig fra Hommlumgården, pickles, kålrabi, syrlig krem.</p></div>
+      <span class="price">195,–</span>
+    </div>
+    <div class="menu-item">
+      <div><h3>Mac and cheese <em>med lagret cheddar</em></h3><p>Lagret 18 mnd cheddar fra Tingvollost, syltet løk, brødsmuler.</p></div>
+      <span class="price">175,–</span>
+    </div>
+  </div>
+</section>
+
+<section class="menu-section">
+  <div class="ms-head"><h2>Kaffe &amp; <em>te</em></h2><span class="when">Bønner fra Tim Wendelboe</span></div>
+  <div class="menu-list">
+    <div class="menu-item"><div><h3>Espresso</h3><p>Singel, dobbel · helmelk, havre eller mandel.</p></div><span class="price">35 / 58</span></div>
+    <div class="menu-item"><div><h3>Cortado</h3><p>1 dobbel, varm melk. Singel-shotbasert.</p></div><span class="price">52,–</span></div>
+    <div class="menu-item"><div><h3>Flat white</h3><p>Vår mest solgte. Etiopia Yirgacheffe.</p></div><span class="price">58,–</span></div>
+    <div class="menu-item"><div><h3>Matcha latte <em>iskremfri</em></h3><p>Seremoniell matcha fra Uji, helmelk eller havre.</p></div><span class="price">72,–</span></div>
+    <div class="menu-item"><div><h3>Filterkaffe</h3><p>Skiftende singel-origin. V60 eller karaffel.</p></div><span class="price">45,–</span></div>
+    <div class="menu-item"><div><h3>Te <em>fra Hagen</em></h3><p>Earl Grey, peppermynte, grønn jasmin, brennessel.</p></div><span class="price">42,–</span></div>
+  </div>
+</section>
+
+<div class="legend">
+  <div class="legend-item"><span class="badge veggie">VEGGIE</span> Vegetarisk</div>
+  <div class="legend-item"><span class="badge new">SESONG</span> Begrenset tilgang</div>
+  <div class="legend-item"><span class="badge gluten">GLUTENFRI</span> På bestilling — spør oss</div>
+  <div class="legend-item">Allergi? Si fra ved bestilling — vi har alle ingredienslister.</div>
+</div>
+
+<div id="foot-mount"></div>
+<script src="shared.js"></script>
+<script>
+  document.querySelectorAll('.menu-tabs button').forEach(b => b.addEventListener('click', () => {
+    document.querySelectorAll('.menu-tabs button').forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+  }));
+</script>
+</body>
+</html>

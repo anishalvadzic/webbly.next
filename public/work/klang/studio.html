@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="nb">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Studio — Klang & Form</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+  .studio-intro { max-width: 1500px; margin: 0 auto; padding: 0 32px 120px; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+  .studio-intro p { font-family: 'Instrument Serif', serif; font-weight: 400; font-size: clamp(28px, 3.4vw, 48px); line-height: 1.15; letter-spacing: -.02em; margin: 0 0 28px; color: var(--ink); }
+  .studio-intro p em { font-style: italic; color: var(--accent); }
+  .studio-intro .small { font-family: 'Geist', sans-serif; font-size: 16px; line-height: 1.6; color: var(--ink-2); max-width: 540px; }
+  .studio-img { aspect-ratio: 5/6; background: var(--bg-2); border-radius: 18px; overflow: hidden; position: relative; }
+  .studio-img img { width: 100%; height: 100%; object-fit: cover; }
+  .studio-img .cap { position: absolute; bottom: 18px; left: 18px; font-family: 'Geist Mono', monospace; font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: rgba(255,255,255,.7); }
+
+  .team { background: var(--bg-2); padding: 120px 32px; border-block: 1px solid var(--line); }
+  .team-inner { max-width: 1500px; margin: 0 auto; }
+  .team h2 { font-family: 'Instrument Serif', serif; font-weight: 400; font-size: clamp(44px, 6vw, 88px); letter-spacing: -.03em; line-height: .95; margin: 0 0 60px; }
+  .team h2 em { font-style: italic; color: var(--accent); }
+  .team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+  .member { display: flex; flex-direction: column; gap: 14px; }
+  .member .face { aspect-ratio: 4/5; border-radius: 14px; overflow: hidden; background: var(--bg); }
+  .member .face img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(20%); transition: filter .4s, transform 1s; }
+  .member:hover .face img { filter: none; transform: scale(1.04); }
+  .member h3 { font-family: 'Instrument Serif', serif; font-weight: 400; font-size: 22px; letter-spacing: -.01em; margin: 0; line-height: 1.1; }
+  .member .role { font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+
+  .numbers { padding: 140px 32px; max-width: 1500px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; }
+  .numbers .stat { padding: 32px 0; border-top: 1px solid var(--line-strong); }
+  .numbers .stat .num { font-family: 'Instrument Serif', serif; font-size: clamp(56px, 7vw, 112px); font-weight: 400; letter-spacing: -.03em; line-height: 1; color: var(--accent); margin-bottom: 10px; }
+  .numbers .stat .lbl { font-family: 'Geist Mono', monospace; font-size: 12px; text-transform: uppercase; letter-spacing: .14em; color: var(--ink-2); }
+  .numbers .stat .sub { font-size: 14px; color: var(--muted); margin-top: 6px; line-height: 1.5; }
+
+  .contact { padding: 140px 32px; max-width: 1500px; margin: 0 auto; }
+  .contact h2 { font-family: 'Instrument Serif', serif; font-weight: 400; font-size: clamp(56px, 8vw, 140px); letter-spacing: -.04em; line-height: .92; margin: 0 0 80px; }
+  .contact h2 em { font-style: italic; color: var(--accent); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; }
+  .contact-form { display: flex; flex-direction: column; gap: 24px; }
+  .field { display: flex; flex-direction: column; gap: 8px; }
+  .field label { font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+  .field input, .field textarea, .field select { background: transparent; border: none; border-bottom: 1px solid var(--line-strong); padding: 12px 0; font-size: 18px; color: var(--ink); font-family: inherit; transition: border-color .2s; }
+  .field input:focus, .field textarea:focus, .field select:focus { outline: none; border-color: var(--accent); }
+  .field input::placeholder, .field textarea::placeholder { color: var(--muted); }
+  .field textarea { resize: vertical; min-height: 80px; }
+  .budget-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .budget-row .budget-opt { padding: 10px 16px; border-radius: 100px; border: 1px solid var(--line-strong); background: transparent; color: var(--ink-2); cursor: none; font-family: inherit; font-size: 13px; transition: all .2s; }
+  .budget-row .budget-opt:hover { color: var(--ink); }
+  .budget-row .budget-opt.selected { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+  .contact-form button[type="submit"] { align-self: flex-start; margin-top: 16px; }
+
+  .contact-info h3 { font-family: 'Instrument Serif', serif; font-weight: 400; font-size: 28px; letter-spacing: -.015em; margin: 0 0 18px; }
+  .contact-info h3 em { font-style: italic; color: var(--accent); }
+  .info-line { display: flex; justify-content: space-between; padding: 18px 0; border-top: 1px solid var(--line-strong); align-items: baseline; }
+  .info-line:last-child { border-bottom: 1px solid var(--line-strong); }
+  .info-line .lbl { font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .info-line .val { font-family: 'Instrument Serif', serif; font-size: 22px; }
+  .contact-info p { font-size: 15px; line-height: 1.6; color: var(--ink-2); margin: 32px 0 0; }
+
+  .form-success { display: none; padding: 24px; border-radius: 14px; background: rgba(197,250,58,.1); border: 1px solid rgba(197,250,58,.3); color: var(--accent); margin-top: 20px; }
+  .form-success.show { display: block; }
+
+  @media (max-width: 860px) {
+    .studio-intro { grid-template-columns: 1fr; padding: 0 18px 60px; gap: 40px; }
+    .team { padding: 70px 18px; }
+    .team-grid { grid-template-columns: 1fr 1fr; gap: 14px; }
+    .numbers { grid-template-columns: 1fr 1fr; padding: 70px 18px; gap: 24px; }
+    .contact { padding: 70px 18px; }
+    .contact-grid { grid-template-columns: 1fr; gap: 50px; }
+  }
+</style>
+</head>
+<body>
+<div class="curtain" id="curtain"></div>
+<div id="cursor-mount"></div>
+<div id="nav-mount"></div>
+
+<div class="page-head">
+  <div class="crumb reveal"><a href="index.html" data-link>Hjem</a> / Studio</div>
+  <h1 class="reveal" data-delay="1">Et lite studio<br/>med <em>store</em> tanker.</h1>
+</div>
+
+<div class="studio-intro">
+  <div class="reveal">
+    <p>Vi er ti mennesker — designere, utviklere, strateger og bevegelses­makere — som bygger digitale ting <em>sammen, hele tiden.</em></p>
+    <p>Klang &amp; Form ble grunnlagt i 2018 av Mathias Klang og Liv Form, etter mange år sammen i ulike Oslo-baserte byråer.</p>
+    <p class="small">Vi tror på et lite kontor med store ambisjoner. På å gjøre færre prosjekter, men gjøre dem bedre. På å holde strategi, design og kode i samme rom — slik at tankene aldri stopper opp i en e-post mellom avdelinger.</p>
+    <p class="small">Studioet ligger i Hausmanns gate 16 i Oslo, med en gjeng i Berlin som hjelper oss med motion og 3D. Kaffen er Tim Wendelboe, musikken er som regel ambient — og dørstokken er lav.</p>
+  </div>
+  <div class="studio-img reveal" data-delay="1">
+    <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=900&q=85" onerror="this.parentNode.style.background='linear-gradient(135deg,#c5fa3a,#0a0a0a)'"/>
+    <div class="cap">Studioet · Hausmanns gate 16, Oslo</div>
+  </div>
+</div>
+
+<section class="team">
+  <div class="team-inner">
+    <h2 class="reveal">Ti <em>mennesker.</em></h2>
+    <div class="team-grid">
+      <div class="member reveal">
+        <div class="face"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&q=85" onerror="this.parentNode.style.background='linear-gradient(135deg,#c5fa3a,#0a0a0a)'"/></div>
+        <h3>Mathias Klang</h3>
+        <span class="role">Partner · Kreativ leder</span>
+      </div>
+      <div class="member reveal">
+        <div class="face"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=85" onerror="this.parentNode.style.background='linear-gradient(135deg,#ff6b35,#0a0a0a)'"/></div>
+        <h3>Liv Form</h3>
+        <span class="role">Partner · Teknologi</span>
+      </div>
+      <div class="member reveal">
+        <div class="face"><img src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=400&q=85" onerror="this.parentNode.style.background='linear-gradient(135deg,#c5fa3a,#0a0a0a)'"/></div>
+        <h3>Sondre Brørby</h3>
+        <span class="role">Strategi &amp; merkevare</span>
+      </div>
+      <div class="member reveal">
+        <div class="face"><img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=85" onerror="this.parentNode.style.background='linear-gradient(135deg,#7b61ff,#0a0a0a)'"/></div>
+        <h3>Astrid Lunde</h3>
+        <span class="role">Designer</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="numbers">
+  <div class="stat reveal"><div class="num">47</div><div class="lbl">Prosjekter</div><div class="sub">Levert siden 2018</div></div>
+  <div class="stat reveal"><div class="num">10</div><div class="lbl">Mennesker</div><div class="sub">Oslo + Berlin</div></div>
+  <div class="stat reveal"><div class="num">14</div><div class="lbl">Awwwards</div><div class="sub">Sites of the Day</div></div>
+  <div class="stat reveal"><div class="num">94%</div><div class="lbl">Gjensalg</div><div class="sub">Kunder som kommer tilbake</div></div>
+</section>
+
+<section class="contact">
+  <h2 class="reveal">Skal vi <em>snakke?</em></h2>
+  <div class="contact-grid">
+    <form class="contact-form reveal" id="contactForm">
+      <div class="field"><label>01 · Hva heter du?</label><input type="text" placeholder="Fornavn Etternavn"/></div>
+      <div class="field"><label>02 · E-post</label><input type="email" placeholder="du@firma.no"/></div>
+      <div class="field"><label>03 · Merkevare</label><input type="text" placeholder="Selskapet ditt"/></div>
+      <div class="field">
+        <label>04 · Hva trenger du hjelp med?</label>
+        <select><option>Merkevare og identitet</option><option>Nettside</option><option>Produkt / app</option><option>E-handel</option><option>Strategi</option><option>Annet</option></select>
+      </div>
+      <div class="field">
+        <label>05 · Omtrentlig budsjett</label>
+        <div class="budget-row">
+          <button type="button" class="budget-opt" data-bud>&lt; 250k</button>
+          <button type="button" class="budget-opt selected" data-bud>250–500k</button>
+          <button type="button" class="budget-opt" data-bud>500k–1m</button>
+          <button type="button" class="budget-opt" data-bud>1m+</button>
+          <button type="button" class="budget-opt" data-bud>Vet ikke</button>
+        </div>
+      </div>
+      <div class="field"><label>06 · Fortell oss om prosjektet</label><textarea placeholder="Hva er målet? Hva har dere prøvd? Hva er drømme­scenarioet?"></textarea></div>
+      <button type="submit" class="btn-big" data-magnet>Send →</button>
+      <div class="form-success" id="formSuccess">
+        <strong>Takk!</strong> Vi leser meldingen din og kommer tilbake innen 2 dager. Som regel raskere.
+      </div>
+    </form>
+    <div class="contact-info reveal" data-delay="1">
+      <h3>Eller direkte<br/><em>hvis du heller vil.</em></h3>
+      <div class="info-line"><span class="lbl">E-post</span><span class="val">hei@klangform.no</span></div>
+      <div class="info-line"><span class="lbl">Studio</span><span class="val">Hausmanns gt. 16, Oslo</span></div>
+      <div class="info-line"><span class="lbl">Telefon</span><span class="val">+47 477 92 105</span></div>
+      <div class="info-line"><span class="lbl">Presse</span><span class="val">presse@klangform.no</span></div>
+      <div class="info-line"><span class="lbl">Karriere</span><span class="val">jobb@klangform.no</span></div>
+      <p>Vi tar nye prosjekter fra Q2 2026. Skriv likevel — vi liker å holde samtalen åpen, også for prosjekter litt lenger frem.</p>
+    </div>
+  </div>
+</section>
+
+<div id="foot-mount"></div>
+<script src="shared.js"></script>
+<script>
+  document.querySelectorAll('[data-bud]').forEach(b => {
+    b.addEventListener('click', () => {
+      document.querySelectorAll('[data-bud]').forEach(x => x.classList.remove('selected'));
+      b.classList.add('selected');
+    });
+  });
+  document.getElementById('contactForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    document.getElementById('formSuccess').classList.add('show');
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,517 @@
+<!doctype html>
+<html lang="nb">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Atelier Vœrn — Vinter '26</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Italiana&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #16101e;
+    --ink-2: #1d1628;
+    --ink-3: #2a2138;
+    --paper: #f6f2ea;
+    --paper-2: #e9e1d2;
+    --muted: rgba(246,242,234,.6);
+    --line: rgba(246,242,234,.14);
+    --gold: #c9a961;
+    --gold-2: #e9c87f;
+    --plum: #5a3c5a;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--ink); color: var(--paper); font-family: 'Inter', system-ui, sans-serif; font-weight: 400; -webkit-font-smoothing: antialiased; }
+  body { overflow-x: hidden; cursor: none; }
+  a { color: inherit; text-decoration: none; }
+  img { max-width: 100%; display: block; }
+  ::selection { background: var(--gold); color: var(--ink); }
+
+  /* ambient bg */
+  .ambient { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+  .ambient .blob { position: absolute; border-radius: 50%; filter: blur(120px); opacity: .5; }
+  .ambient .b1 { width: 700px; height: 700px; background: #4d2f5f; top: -200px; left: -200px; animation: drift1 22s infinite alternate ease-in-out; }
+  .ambient .b2 { width: 600px; height: 600px; background: #8a6a3a; bottom: -200px; right: -100px; animation: drift2 28s infinite alternate ease-in-out; }
+  .ambient .b3 { width: 500px; height: 500px; background: #2d3c66; top: 40%; left: 50%; animation: drift3 26s infinite alternate ease-in-out; }
+  @keyframes drift1 { to { transform: translate(200px, 180px) scale(1.2); } }
+  @keyframes drift2 { to { transform: translate(-180px, -140px) scale(.9); } }
+  @keyframes drift3 { to { transform: translate(-200px, 100px) scale(1.3); } }
+
+  /* cursor */
+  .cursor { position: fixed; pointer-events: none; z-index: 9998; width: 8px; height: 8px; background: var(--gold); border-radius: 50%; transform: translate(-50%,-50%); transition: transform .25s, opacity .2s; }
+  .cursor.expand { transform: translate(-50%,-50%) scale(5); background: transparent; box-shadow: 0 0 0 1px var(--gold-2); }
+  @media (pointer:coarse) { body { cursor: auto; } .cursor { display: none; } }
+
+  /* curtain */
+  .curtain { position: fixed; inset: 0; background: var(--ink); z-index: 9999; transform: translateY(100%); pointer-events: none; transition: transform .7s cubic-bezier(.77,0,.18,1); }
+  .curtain.in { transform: translateY(0); }
+  .curtain.out { transform: translateY(-100%); }
+
+  /* glass primitive */
+  .glass { background: rgba(246,242,234,.06); backdrop-filter: blur(28px) saturate(140%); -webkit-backdrop-filter: blur(28px) saturate(140%); border: 1px solid rgba(246,242,234,.12); border-radius: 24px; box-shadow: 0 18px 60px rgba(0,0,0,.3), inset 0 1px 0 rgba(246,242,234,.18); }
+
+  /* nav */
+  nav.main { position: fixed; top: 18px; left: 50%; transform: translateX(-50%); z-index: 100; padding: 14px 24px; display: flex; gap: 22px; align-items: center; min-width: 720px; transition: padding .3s; background: rgba(22,16,30,.5); backdrop-filter: blur(20px) saturate(150%); -webkit-backdrop-filter: blur(20px) saturate(150%); border: 1px solid rgba(246,242,234,.1); border-radius: 100px; box-shadow: 0 18px 50px rgba(0,0,0,.4); }
+  .brand { font-family: 'Italiana', serif; font-size: 22px; letter-spacing: .12em; padding-right: 16px; border-right: 1px solid rgba(246,242,234,.14); }
+  .nav-links { display: flex; gap: 24px; font-size: 11.5px; text-transform: uppercase; letter-spacing: .22em; font-weight: 500; }
+  .nav-links a { padding: 4px 0; position: relative; opacity: .8; transition: opacity .2s; }
+  .nav-links a.active, .nav-links a:hover { opacity: 1; color: var(--gold-2); }
+  .nav-right { margin-left: auto; display: flex; gap: 14px; align-items: center; padding-left: 16px; border-left: 1px solid rgba(246,242,234,.14); }
+  .icon-btn { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; border: 1px solid rgba(246,242,234,.14); background: transparent; cursor: none; color: var(--paper); transition: all .2s; }
+  .icon-btn:hover { border-color: var(--gold); color: var(--gold); }
+  .icon-btn svg { width: 13px; height: 13px; }
+  .cart-pill { display: flex; align-items: center; gap: 8px; padding: 6px 14px 6px 8px; border-radius: 100px; border: 1px solid rgba(246,242,234,.14); cursor: none; font-size: 11.5px; text-transform: uppercase; letter-spacing: .18em; transition: all .2s; }
+  .cart-pill:hover { border-color: var(--gold); color: var(--gold); }
+  .cart-pill .bag { width: 22px; height: 22px; border-radius: 50%; background: var(--gold); color: var(--ink); display: grid; place-items: center; font-family: 'Inter'; font-weight: 600; font-size: 10px; }
+
+  /* hero */
+  .hero { position: relative; padding: 160px 40px 80px; z-index: 1; }
+  .hero-inner { max-width: 1500px; margin: 0 auto; display: grid; grid-template-columns: 1fr 480px; gap: 60px; align-items: end; min-height: 80vh; }
+  .hero-meta { font-size: 11px; text-transform: uppercase; letter-spacing: .2em; color: var(--muted); margin-bottom: 28px; display: flex; gap: 24px; }
+  .hero-meta .accent { color: var(--gold); }
+  h1.hero-title { font-family: 'Italiana', serif; font-weight: 400; font-size: clamp(64px, 11vw, 196px); line-height: .92; letter-spacing: -.025em; margin: 0; }
+  h1.hero-title em { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 300; color: var(--gold); }
+  h1.hero-title .line { display: block; overflow: hidden; }
+  h1.hero-title .line span { display: block; transform: translateY(110%); animation: rise 1.3s cubic-bezier(.2,.7,.3,1) forwards; }
+  h1.hero-title .line:nth-child(2) span { animation-delay: .15s; }
+  h1.hero-title .line:nth-child(3) span { animation-delay: .3s; }
+  @keyframes rise { to { transform: translateY(0); } }
+  .hero-lede { max-width: 520px; font-size: 16px; line-height: 1.6; color: var(--paper); opacity: .8; margin: 40px 0 0; }
+  .hero-lede em { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 19px; color: var(--gold); }
+
+  .hero-card { padding: 24px; display: flex; flex-direction: column; gap: 18px; transform: translateY(0); }
+  .hero-card .img-wrap { aspect-ratio: 3/4; border-radius: 14px; overflow: hidden; background: linear-gradient(160deg, #3a2a48, #16101e); }
+  .hero-card .img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.4s; }
+  .hero-card:hover .img-wrap img { transform: scale(1.05); }
+  .hero-card .label { font-size: 10.5px; text-transform: uppercase; letter-spacing: .22em; color: var(--gold); }
+  .hero-card h3 { font-family: 'Italiana', serif; font-size: 30px; font-weight: 400; margin: 0; letter-spacing: -.005em; }
+  .hero-card h3 em { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 300; }
+  .hero-card .meta { display: flex; justify-content: space-between; align-items: center; padding-top: 14px; border-top: 1px solid rgba(246,242,234,.12); }
+  .hero-card .price { font-family: 'Italiana', serif; font-size: 24px; letter-spacing: .02em; }
+  .hero-card .price .currency { font-size: 12px; opacity: .6; margin-right: 4px; vertical-align: top; }
+  .hero-card .add { padding: 10px 18px; border-radius: 100px; background: var(--gold); color: var(--ink); font-size: 11px; text-transform: uppercase; letter-spacing: .2em; font-weight: 600; border: none; cursor: none; transition: transform .15s; font-family: inherit; }
+  .hero-card .add:hover { transform: scale(1.04); background: var(--gold-2); }
+
+  .scroll-cue { position: absolute; bottom: 30px; left: 40px; display: flex; align-items: center; gap: 14px; font-size: 10px; text-transform: uppercase; letter-spacing: .2em; color: var(--muted); z-index: 2; }
+  .scroll-cue .ln { width: 64px; height: 1px; background: rgba(246,242,234,.3); position: relative; overflow: hidden; }
+  .scroll-cue .ln::after { content:''; position: absolute; left:0; top:0; bottom:0; width: 40%; background: var(--gold); animation: slideLn 2.6s infinite cubic-bezier(.77,0,.18,1); }
+  @keyframes slideLn { 0%{transform:translateX(-100%);} 70%,100%{transform:translateX(250%);} }
+
+  /* edit / collection */
+  section { position: relative; z-index: 1; }
+  .edit { padding: 160px 40px; max-width: 1600px; margin: 0 auto; }
+  .edit-head { display: flex; justify-content: space-between; align-items: end; margin-bottom: 80px; }
+  .edit-head .label { font-size: 11px; text-transform: uppercase; letter-spacing: .24em; color: var(--gold); margin-bottom: 18px; display: block; }
+  .edit-head h2 { font-family: 'Italiana', serif; font-weight: 400; font-size: clamp(48px, 6vw, 100px); line-height: .95; letter-spacing: -.02em; margin: 0; max-width: 900px; }
+  .edit-head h2 em { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 300; color: var(--gold); }
+  .edit-head .right { font-size: 13px; max-width: 280px; color: var(--paper); opacity: .7; line-height: 1.55; text-align: right; }
+
+  .edit-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .edit-card { padding: 16px; display: flex; flex-direction: column; gap: 14px; transition: transform .4s cubic-bezier(.2,.7,.3,1); position: relative; }
+  .edit-card:hover { transform: translateY(-6px); }
+  .edit-card .img-wrap { aspect-ratio: 3/4; border-radius: 12px; overflow: hidden; background: linear-gradient(160deg,#2a1f38,#1a1224); position: relative; }
+  .edit-card .img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.5s, filter .5s; }
+  .edit-card:hover .img-wrap img { transform: scale(1.05); }
+  .edit-card .ribbon { position: absolute; top: 14px; left: 14px; padding: 6px 12px; border-radius: 100px; background: rgba(22,16,30,.7); backdrop-filter: blur(10px); font-size: 10px; text-transform: uppercase; letter-spacing: .2em; color: var(--gold); border: 1px solid rgba(201,169,97,.3); }
+  .edit-card .wishlist { position: absolute; top: 14px; right: 14px; width: 34px; height: 34px; border-radius: 50%; background: rgba(22,16,30,.7); backdrop-filter: blur(10px); border: 1px solid rgba(246,242,234,.18); display: grid; place-items: center; cursor: none; color: var(--paper); transition: all .2s; }
+  .edit-card .wishlist:hover { color: var(--gold); border-color: var(--gold); }
+  .edit-card .label { font-size: 10.5px; text-transform: uppercase; letter-spacing: .22em; color: var(--muted); }
+  .edit-card h3 { font-family: 'Italiana', serif; font-size: 22px; font-weight: 400; margin: 0; letter-spacing: .005em; }
+  .edit-card h3 em { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 300; color: var(--gold); }
+  .edit-card .meta { display: flex; justify-content: space-between; align-items: center; padding-top: 10px; border-top: 1px solid rgba(246,242,234,.1); }
+  .edit-card .price { font-family: 'Italiana', serif; font-size: 18px; letter-spacing: .03em; }
+  .edit-card .swatches { display: flex; gap: 4px; }
+  .edit-card .sw { width: 11px; height: 11px; border-radius: 50%; border: 1px solid rgba(246,242,234,.2); }
+
+  /* lookbook / sticky */
+  .lookbook { padding: 140px 40px; }
+  .lb-inner { max-width: 1500px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 100px; align-items: center; }
+  .lb-text .label { font-size: 11px; text-transform: uppercase; letter-spacing: .24em; color: var(--gold); margin-bottom: 24px; display: block; }
+  .lb-text h2 { font-family: 'Italiana', serif; font-weight: 400; font-size: clamp(48px, 6vw, 96px); line-height: .96; letter-spacing: -.02em; margin: 0 0 32px; }
+  .lb-text h2 em { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 300; color: var(--gold); }
+  .lb-text p { font-size: 17px; line-height: 1.65; color: var(--paper); opacity: .85; margin: 0 0 22px; max-width: 460px; }
+  .lb-text p em { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 19px; color: var(--gold-2); }
+  .lb-btn { display: inline-flex; align-items: center; gap: 12px; padding: 18px 32px; border-radius: 100px; border: 1px solid var(--gold); color: var(--gold); font-size: 12px; text-transform: uppercase; letter-spacing: .22em; cursor: none; transition: all .2s; margin-top: 18px; background: transparent; font-family: inherit; }
+  .lb-btn:hover { background: var(--gold); color: var(--ink); }
+
+  .lb-stack { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .lb-img { aspect-ratio: 3/4; border-radius: 16px; overflow: hidden; background: linear-gradient(160deg,#2a1f38,#1a1224); }
+  .lb-img:nth-child(1) { transform: translateY(40px); }
+  .lb-img:nth-child(2) { transform: translateY(-40px); }
+  .lb-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.4s; }
+  .lb-img:hover img { transform: scale(1.05); }
+
+  /* story rows */
+  .story { padding: 140px 40px; }
+  .story-inner { max-width: 1500px; margin: 0 auto; }
+  .story-row { display: grid; grid-template-columns: 100px 1fr 1fr; gap: 60px; padding: 60px 0; border-top: 1px solid var(--line); align-items: center; }
+  .story-row:last-child { border-bottom: 1px solid var(--line); }
+  .story-row .num { font-family: 'Italiana', serif; font-size: 56px; color: var(--gold); }
+  .story-row h3 { font-family: 'Italiana', serif; font-weight: 400; font-size: clamp(28px, 3.4vw, 48px); letter-spacing: -.015em; margin: 0; line-height: 1.05; }
+  .story-row h3 em { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 300; color: var(--gold); }
+  .story-row p { font-size: 15.5px; line-height: 1.65; color: var(--paper); opacity: .75; margin: 0; }
+
+  /* journal */
+  .journal { padding: 140px 40px; max-width: 1500px; margin: 0 auto; }
+  .journal-head { margin-bottom: 60px; }
+  .journal-head h2 { font-family: 'Italiana', serif; font-weight: 400; font-size: clamp(40px, 5vw, 76px); letter-spacing: -.02em; margin: 0; }
+  .journal-head h2 em { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 300; color: var(--gold); }
+  .journal-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+  .j-card { padding: 18px; display: flex; flex-direction: column; gap: 16px; }
+  .j-card .img-wrap { aspect-ratio: 4/3; border-radius: 12px; overflow: hidden; background: linear-gradient(160deg,#2a1f38,#1a1224); }
+  .j-card .img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.4s; }
+  .j-card:hover .img-wrap img { transform: scale(1.05); }
+  .j-card .tag { font-size: 10.5px; text-transform: uppercase; letter-spacing: .2em; color: var(--gold); }
+  .j-card h3 { font-family: 'Italiana', serif; font-size: 24px; font-weight: 400; letter-spacing: -.005em; margin: 0; line-height: 1.2; }
+  .j-card h3 em { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 300; }
+  .j-card .date { font-size: 11px; text-transform: uppercase; letter-spacing: .2em; color: var(--muted); }
+
+  /* newsletter */
+  .news { padding: 140px 40px 160px; }
+  .news-inner { max-width: 1100px; margin: 0 auto; padding: 80px 64px; text-align: center; }
+  .news-inner .label { font-size: 11px; text-transform: uppercase; letter-spacing: .24em; color: var(--gold); margin-bottom: 24px; display: block; }
+  .news-inner h2 { font-family: 'Italiana', serif; font-weight: 400; font-size: clamp(40px, 6vw, 88px); letter-spacing: -.02em; margin: 0 0 24px; line-height: .98; }
+  .news-inner h2 em { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 300; color: var(--gold); }
+  .news-inner p { font-size: 16px; line-height: 1.6; color: var(--paper); opacity: .75; margin: 0 0 36px; max-width: 540px; margin-inline: auto; }
+  .news-form { display: flex; max-width: 540px; margin: 0 auto; background: rgba(246,242,234,.06); border: 1px solid var(--line); border-radius: 100px; padding: 6px 6px 6px 24px; }
+  .news-form input { flex: 1; background: transparent; border: none; color: var(--paper); font-size: 15px; outline: none; font-family: inherit; }
+  .news-form input::placeholder { color: var(--muted); }
+  .news-form button { padding: 14px 28px; border-radius: 100px; background: var(--gold); color: var(--ink); border: none; font-size: 11px; text-transform: uppercase; letter-spacing: .22em; font-weight: 600; cursor: none; font-family: inherit; transition: background .2s; }
+  .news-form button:hover { background: var(--gold-2); }
+
+  /* footer */
+  footer { padding: 80px 40px 32px; border-top: 1px solid var(--line); position: relative; z-index: 1; background: rgba(22,16,30,.5); backdrop-filter: blur(20px); }
+  .foot-inner { max-width: 1500px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 60px; padding-bottom: 50px; border-bottom: 1px solid var(--line); }
+  .foot-brand { font-family: 'Italiana', serif; font-size: clamp(36px, 5vw, 76px); letter-spacing: .04em; }
+  .foot-brand .sub { font-family: 'Inter'; font-size: 11px; text-transform: uppercase; letter-spacing: .22em; color: var(--muted); margin-top: 14px; display: block; }
+  .foot-col h4 { font-size: 11px; text-transform: uppercase; letter-spacing: .22em; color: var(--gold); margin: 0 0 18px; font-weight: 500; }
+  .foot-col a { display: block; padding: 4px 0; font-size: 13.5px; color: var(--paper); opacity: .7; transition: opacity .2s, color .2s; }
+  .foot-col a:hover { opacity: 1; color: var(--gold-2); }
+  .foot-bottom { max-width: 1500px; margin: 0 auto; padding-top: 24px; font-size: 11px; text-transform: uppercase; letter-spacing: .2em; display: flex; justify-content: space-between; color: var(--muted); }
+
+  /* reveal */
+  .reveal { opacity: 0; transform: translateY(40px); transition: opacity 1.1s cubic-bezier(.2,.7,.3,1), transform 1.1s cubic-bezier(.2,.7,.3,1); }
+  .reveal.in { opacity: 1; transform: none; }
+  .reveal[data-delay="1"] { transition-delay: .1s; }
+  .reveal[data-delay="2"] { transition-delay: .2s; }
+
+  @media (max-width: 860px) {
+    body { cursor: auto; }
+    .cursor { display: none; }
+    nav.main { min-width: 0; left: 16px; right: 16px; transform: none; padding: 10px 14px; gap: 10px; }
+    .brand { font-size: 16px; padding-right: 10px; }
+    .nav-links { display: none; }
+    .nav-right { padding-left: 0; border-left: none; }
+    .nav-right .icon-btn:not(:last-child) { display: none; }
+    .hero { padding: 110px 18px 60px; }
+    .hero-inner { grid-template-columns: 1fr; gap: 40px; min-height: 0; }
+    .hero-card { max-width: 360px; }
+    .scroll-cue { display: none; }
+    .edit, .lookbook, .story, .journal, .news { padding: 70px 18px; }
+    .edit-head, .lb-inner { grid-template-columns: 1fr; gap: 30px; }
+    .edit-head .right { text-align: left; }
+    .edit-grid, .journal-grid { grid-template-columns: 1fr 1fr; gap: 14px; }
+    .lb-inner { grid-template-columns: 1fr; }
+    .lb-stack { gap: 12px; }
+    .lb-img:nth-child(1), .lb-img:nth-child(2) { transform: none; }
+    .story-row { grid-template-columns: 60px 1fr; gap: 20px; padding: 36px 0; }
+    .story-row p { grid-column: 1 / -1; }
+    .news-inner { padding: 50px 22px; }
+    .news-form { flex-direction: column; padding: 12px; border-radius: 20px; gap: 10px; }
+    .news-form input { padding: 8px 0; }
+    .news-form button { padding: 14px; }
+    footer { padding: 60px 18px 24px; }
+    .foot-inner { grid-template-columns: 1fr 1fr; gap: 30px; }
+    .foot-brand { grid-column: 1 / -1; }
+    .foot-bottom { flex-direction: column; gap: 8px; }
+  }
+</style>
+</head>
+<body>
+<div class="curtain" id="curtain"></div>
+<div class="ambient"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
+<div class="cursor" id="cursor"></div>
+
+<nav class="main">
+  <a href="index.html" class="brand" data-link>VŒRN</a>
+  <div class="nav-links">
+    <a href="kolleksjon.html" data-link>Kolleksjon</a>
+    <a href="#" data-link>Lookbook</a>
+    <a href="atelier.html" data-link>Atelier</a>
+    <a href="#" data-link>Journal</a>
+  </div>
+  <div class="nav-right">
+    <button class="icon-btn" aria-label="Søk">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+    </button>
+    <button class="icon-btn" aria-label="Konto">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    </button>
+    <button class="cart-pill" id="cartBtn">
+      <span class="bag" id="cartCount">2</span>
+      Pose
+    </button>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-meta">
+        <span><span class="accent">✦</span> Vinter '26</span>
+        <span>Kapittel I</span>
+        <span>Tilgjengelig nå</span>
+      </div>
+      <h1 class="hero-title">
+        <span class="line"><span>Stoffer som&nbsp;</span></span>
+        <span class="line"><span><em>husker</em> deg.</span></span>
+        <span class="line"><span>Snitt som&nbsp;<em>tåler</em>&nbsp;tid.</span></span>
+      </h1>
+      <p class="hero-lede">Atelier Vœrn er en norsk klesmaker som lager <em>få plagg, langsomt.</em> Hver kolleksjon nummerert, hver søm tegnet for hånd, hvert plagg laget for å bæres i mange år.</p>
+    </div>
+    <div class="hero-card glass">
+      <div class="img-wrap">
+        <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=900&q=85" alt="Mantel n° 04" onerror="this.parentNode.style.background='linear-gradient(160deg,#3a2a48,#16101e)'"/>
+      </div>
+      <span class="label">N° 047 · Edition of 60</span>
+      <h3><em>Mantel</em> Helene</h3>
+      <p style="font-size:13.5px; line-height:1.5; opacity:.7; margin:0;">Italiensk merino dobbeltvev, håndsydd i Bergen. Tilgjengelig i kull og natur.</p>
+      <div class="meta">
+        <span class="price"><span class="currency">NOK</span>9 800</span>
+        <button class="add">Legg i pose →</button>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-cue"><div class="ln"></div>Bla videre</div>
+</section>
+
+<section class="edit">
+  <div class="edit-head">
+    <div>
+      <span class="label reveal">Utvalg · Vinter '26</span>
+      <h2 class="reveal" data-delay="1">Plagg<br/>vi <em>elsker</em> nå.</h2>
+    </div>
+    <div class="right reveal" data-delay="2">12 nye plagg i kolleksjonen. Hver utgave nummerert, ingen serieproduksjon. Bestilling sendes innen 14 dager.</div>
+  </div>
+  <div class="edit-grid">
+    <a href="kolleksjon.html" class="edit-card glass reveal" data-link>
+      <div class="img-wrap">
+        <span class="ribbon">N° 047</span>
+        <button class="wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+        <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=600&q=85" onerror="this.parentNode.style.background='linear-gradient(160deg,#2a1f38,#1a1224)'"/>
+      </div>
+      <span class="label">Yttertøy</span>
+      <h3><em>Mantel</em> Helene</h3>
+      <div class="meta">
+        <span class="price">9 800,–</span>
+        <div class="swatches">
+          <span class="sw" style="background:#1a1a1a"></span>
+          <span class="sw" style="background:#c2b39b"></span>
+          <span class="sw" style="background:#5a3c2a"></span>
+        </div>
+      </div>
+    </a>
+    <a href="kolleksjon.html" class="edit-card glass reveal" data-delay="1" data-link>
+      <div class="img-wrap">
+        <span class="ribbon">N° 044</span>
+        <button class="wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+        <img src="https://images.unsplash.com/photo-1488161628813-04466f872be2?w=600&q=85" onerror="this.parentNode.style.background='linear-gradient(160deg,#2a1f38,#1a1224)'"/>
+      </div>
+      <span class="label">Strikk</span>
+      <h3>Ull<em>genser</em> Toril</h3>
+      <div class="meta">
+        <span class="price">4 200,–</span>
+        <div class="swatches"><span class="sw" style="background:#e9e1d2"></span><span class="sw" style="background:#3a3528"></span></div>
+      </div>
+    </a>
+    <a href="kolleksjon.html" class="edit-card glass reveal" data-delay="2" data-link>
+      <div class="img-wrap">
+        <span class="ribbon">Atelier</span>
+        <button class="wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+        <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=600&q=85" onerror="this.parentNode.style.background='linear-gradient(160deg,#2a1f38,#1a1224)'"/>
+      </div>
+      <span class="label">Kjole</span>
+      <h3>Kjolen <em>Sigrid</em></h3>
+      <div class="meta">
+        <span class="price">7 400,–</span>
+        <div class="swatches"><span class="sw" style="background:#0c0c10"></span><span class="sw" style="background:#5a3c5a"></span></div>
+      </div>
+    </a>
+    <a href="kolleksjon.html" class="edit-card glass reveal" data-link>
+      <div class="img-wrap">
+        <span class="ribbon">N° 042</span>
+        <button class="wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+        <img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=600&q=85" onerror="this.parentNode.style.background='linear-gradient(160deg,#2a1f38,#1a1224)'"/>
+      </div>
+      <span class="label">Skjorte</span>
+      <h3>Bluse <em>Aud</em></h3>
+      <div class="meta">
+        <span class="price">2 900,–</span>
+        <div class="swatches"><span class="sw" style="background:#f6f2ea"></span><span class="sw" style="background:#1a1a1a"></span><span class="sw" style="background:#c2b39b"></span></div>
+      </div>
+    </a>
+    <a href="kolleksjon.html" class="edit-card glass reveal" data-delay="1" data-link>
+      <div class="img-wrap">
+        <span class="ribbon">Limited</span>
+        <button class="wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+        <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=600&q=85" onerror="this.parentNode.style.background='linear-gradient(160deg,#2a1f38,#1a1224)'"/>
+      </div>
+      <span class="label">Bukser</span>
+      <h3>Bukse <em>Margit</em></h3>
+      <div class="meta">
+        <span class="price">3 800,–</span>
+        <div class="swatches"><span class="sw" style="background:#3a3528"></span><span class="sw" style="background:#1a1a1a"></span></div>
+      </div>
+    </a>
+    <a href="kolleksjon.html" class="edit-card glass reveal" data-delay="2" data-link>
+      <div class="img-wrap">
+        <span class="ribbon">N° 040</span>
+        <button class="wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+        <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=600&q=85" onerror="this.parentNode.style.background='linear-gradient(160deg,#2a1f38,#1a1224)'"/>
+      </div>
+      <span class="label">Skjørt</span>
+      <h3>Skjørtet <em>Liv</em></h3>
+      <div class="meta">
+        <span class="price">4 600,–</span>
+        <div class="swatches"><span class="sw" style="background:#5a3c5a"></span><span class="sw" style="background:#1a1a1a"></span></div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<section class="lookbook">
+  <div class="lb-inner">
+    <div class="lb-text">
+      <span class="label reveal">Lookbook · Mørketid</span>
+      <h2 class="reveal" data-delay="1">Et plagg<br/>til <em>femten år.</em></h2>
+      <p class="reveal" data-delay="2">Vi tegner kun det vi tror vi vil bære lenge selv. <em>Materialene</em> kommer fra mennesker vi kjenner — en spinner i Sandefjord, en vever i Biella, et garveri i Mendoza.</p>
+      <p class="reveal" data-delay="2">Hver kolleksjon nummerert, hver utgave i begrenset opplag. Ingen plagg blir laget for å selge ut — kun det vi er stolte av å lage.</p>
+      <a href="#" class="lb-btn reveal" data-delay="2" data-link>Se hele lookbooken →</a>
+    </div>
+    <div class="lb-stack">
+      <div class="lb-img reveal"><img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=700&q=85" onerror="this.parentNode.style.background='linear-gradient(160deg,#2a1f38,#1a1224)'"/></div>
+      <div class="lb-img reveal" data-delay="1"><img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=700&q=85" onerror="this.parentNode.style.background='linear-gradient(160deg,#2a1f38,#1a1224)'"/></div>
+    </div>
+  </div>
+</section>
+
+<section class="story">
+  <div class="story-inner">
+    <div class="story-row reveal">
+      <span class="num">I.</span>
+      <h3>Snittet <em>tegnes for hånd</em></h3>
+      <p>Hver kolleksjon begynner på blokk hos Helene i atelieret i Bergen. Vi tegner i målestokk 1:1, syr opp i bomullslerret, og hver søm justeres mot kroppen — ikke mot en lest.</p>
+    </div>
+    <div class="story-row reveal">
+      <span class="num">II.</span>
+      <h3>Stoffene <em>kommer fra venner</em></h3>
+      <p>Vi handler ikke ull og lin fra megler. Vi reiser til spinneren, vi smaker garnet, vi spør hvor sauen gikk. Det koster mer. Det varer lenger.</p>
+    </div>
+    <div class="story-row reveal">
+      <span class="num">III.</span>
+      <h3>Plagget <em>signeres og nummereres</em></h3>
+      <p>Hvert plagg får et håndskrevet nummer i et linfutteral, signert av den som sydde det. Hvis det går i stykker, sender du det tilbake. Vi syr det.</p>
+    </div>
+  </div>
+</section>
+
+<section class="journal">
+  <div class="journal-head">
+    <h2 class="reveal">Fra <em>journalen.</em></h2>
+  </div>
+  <div class="journal-grid">
+    <a href="#" class="j-card glass reveal">
+      <div class="img-wrap"><img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=700&q=85" onerror="this.parentNode.style.background='linear-gradient(160deg,#2a1f38,#1a1224)'"/></div>
+      <span class="tag">Materiale · Lin</span>
+      <h3>En reise til linveveriet i <em>Mendoza</em></h3>
+      <span class="date">18. November '25</span>
+    </a>
+    <a href="#" class="j-card glass reveal" data-delay="1">
+      <div class="img-wrap"><img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=700&q=85" onerror="this.parentNode.style.background='linear-gradient(160deg,#2a1f38,#1a1224)'"/></div>
+      <span class="tag">Samtale</span>
+      <h3>Med Helene om <em>langsomhet</em></h3>
+      <span class="date">04. Oktober '25</span>
+    </a>
+    <a href="#" class="j-card glass reveal" data-delay="2">
+      <div class="img-wrap"><img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=700&q=85" onerror="this.parentNode.style.background='linear-gradient(160deg,#2a1f38,#1a1224)'"/></div>
+      <span class="tag">Atelier</span>
+      <h3>Dagene før<br/><em>vinterkolleksjonen</em></h3>
+      <span class="date">22. August '25</span>
+    </a>
+  </div>
+</section>
+
+<section class="news">
+  <div class="news-inner glass">
+    <span class="label">Nyhetsbrev</span>
+    <h2 class="reveal">Få brev fra<br/><em>atelieret.</em></h2>
+    <p class="reveal" data-delay="1">Vi sender et brev fire ganger i året, alltid før en ny kolleksjon. Du leser om materialene, menneskene og plaggene før noen andre.</p>
+    <form class="news-form reveal" data-delay="2" onsubmit="event.preventDefault(); this.querySelector('button').textContent='✓ Takk'; this.querySelector('button').style.background='#e9c87f';">
+      <input type="email" placeholder="din.epost@adresse.no" required/>
+      <button>Abonnér →</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-inner">
+    <div class="foot-brand">VŒRN<span class="sub">Atelier · Norge · Est. 2019</span></div>
+    <div class="foot-col"><h4>Butikk</h4>
+      <a href="kolleksjon.html" data-link>Kolleksjon</a><a href="#">Vinter '26</a><a href="#">Atelier</a><a href="#">Gavekort</a>
+    </div>
+    <div class="foot-col"><h4>Hjelp</h4>
+      <a href="#">Frakt</a><a href="#">Retur</a><a href="#">Størrelser</a><a href="#">Reparasjon</a>
+    </div>
+    <div class="foot-col"><h4>Hus</h4>
+      <a href="atelier.html" data-link>Vår historie</a><a href="#">Materialer</a><a href="#">Journal</a><a href="atelier.html" data-link>Kontakt</a>
+    </div>
+    <div class="foot-col"><h4>Følg</h4>
+      <a href="#">Instagram</a><a href="#">Pinterest</a><a href="#">Nyhetsbrev</a><a href="#">Are.na</a>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span>© 2026 Atelier Vœrn AS</span>
+    <span>Sydd i Bergen · Sendt med kjærlighet</span>
+  </div>
+</footer>
+
+<script>
+  // cursor
+  const cursor = document.getElementById('cursor');
+  if (cursor && !matchMedia('(pointer:coarse)').matches) {
+    let mx=0,my=0,cx=0,cy=0;
+    window.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
+    function tick(){cx+=(mx-cx)*.3;cy+=(my-cy)*.3;cursor.style.left=cx+'px';cursor.style.top=cy+'px';requestAnimationFrame(tick);} tick();
+    document.querySelectorAll('a,button,.edit-card,.j-card,.lb-img,.story-row').forEach(el=>{
+      el.addEventListener('mouseenter',()=>cursor.classList.add('expand'));
+      el.addEventListener('mouseleave',()=>cursor.classList.remove('expand'));
+    });
+  }
+  // cart
+  document.querySelectorAll('.hero-card .add').forEach(b => b.addEventListener('click', (e) => {
+    e.preventDefault();
+    const el = document.getElementById('cartCount');
+    el.textContent = (parseInt(el.textContent)||0) + 1;
+    el.style.transform = 'scale(1.4)'; el.style.transition = 'transform .25s';
+    setTimeout(()=>{el.style.transform='';}, 250);
+    b.textContent = '✓ Lagt til';
+    setTimeout(()=>{b.textContent = 'Legg i pose →';}, 1600);
+  }));
+  // reveal
+  const io = new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.1});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+  // page transition
+  const curtain = document.getElementById('curtain');
+  document.querySelectorAll('a[data-link]').forEach(a=>{
+    a.addEventListener('click',(e)=>{
+      const href=a.getAttribute('href');
+      if(!href||href.startsWith('#')||href.startsWith('http'))return;
+      e.preventDefault();
+      curtain.classList.add('in'); curtain.classList.remove('out');
+      setTimeout(()=>{window.location.href=href;},680);
+    });
+  });
+  window.addEventListener('pageshow',()=>{curtain.classList.remove('in');curtain.classList.add('out');setTimeout(()=>curtain.classList.remove('out'),780);});
+</script>
+</body>
+</html>

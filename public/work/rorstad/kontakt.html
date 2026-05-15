@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="nb">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kontakt — Rørstad VVS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+  .contact-hero { max-width: 1280px; margin: 0 auto; padding: 56px 32px 36px; }
+  .crumb { font-size: 13px; color: var(--muted); margin-bottom: 18px; }
+  .crumb a { color: var(--muted); }
+  .contact-hero h1 { font-family: 'Fraunces', serif; font-weight: 500; font-size: clamp(40px, 5vw, 68px); line-height: 1.04; letter-spacing: -.025em; margin: 0 0 22px; max-width: 900px; }
+  .contact-hero h1 em { font-style: italic; color: var(--blue); }
+  .contact-hero p { font-size: 18px; color: var(--muted); max-width: 640px; line-height: 1.55; margin: 0; }
+
+  .contact-grid { max-width: 1280px; margin: 0 auto; padding: 12px 32px 110px; display: grid; grid-template-columns: 1.1fr 1fr; gap: 56px; }
+
+  .form-card { background: #fff; border: 1px solid var(--line); border-radius: 24px; padding: 40px 40px; box-shadow: 0 18px 40px -28px rgba(11,61,94,.2); }
+  .tabs { display: flex; gap: 6px; background: var(--bg); padding: 6px; border-radius: 14px; margin-bottom: 32px; }
+  .tab { flex: 1; padding: 12px 16px; border: none; background: transparent; cursor: pointer; font-weight: 600; font-size: 14.5px; color: var(--muted); border-radius: 10px; transition: all .25s; font-family: inherit; }
+  .tab.active { background: #fff; color: var(--ink); box-shadow: 0 2px 8px rgba(0,0,0,.06); }
+
+  .field { margin-bottom: 18px; }
+  .field label { display: block; font-size: 13px; font-weight: 600; color: var(--ink-2); margin-bottom: 8px; letter-spacing: .01em; }
+  .field input, .field select, .field textarea { width: 100%; padding: 14px 16px; border-radius: 12px; border: 1.5px solid var(--line); background: #fff; font-size: 15px; font-family: inherit; transition: border-color .2s, box-shadow .2s; }
+  .field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 4px var(--blue-soft); }
+  .field textarea { min-height: 110px; resize: vertical; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+  .svc-pick { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .svc-opt { padding: 14px 12px; border: 1.5px solid var(--line); border-radius: 12px; text-align: center; cursor: pointer; transition: all .2s; background: #fff; font-size: 13px; font-weight: 600; color: var(--ink-2); }
+  .svc-opt:hover { border-color: var(--blue); color: var(--blue); }
+  .svc-opt.selected { border-color: var(--blue); background: var(--blue-soft); color: var(--blue-deep); }
+  .svc-opt svg { width: 22px; height: 22px; display: block; margin: 0 auto 6px; }
+
+  .urgency { display: flex; gap: 8px; }
+  .urg { flex: 1; padding: 12px; border: 1.5px solid var(--line); border-radius: 10px; font-size: 13px; font-weight: 600; cursor: pointer; background: #fff; transition: all .2s; text-align: center; }
+  .urg:hover { border-color: var(--blue); }
+  .urg.selected { border-color: var(--blue); background: var(--blue); color: #fff; }
+  .urg.urgent.selected { background: var(--warn); border-color: var(--warn); }
+
+  .btn-block { width: 100%; padding: 18px; font-size: 16px; border-radius: 14px; justify-content: center; margin-top: 8px; }
+  .success { display: none; padding: 24px; background: #e8f7ec; border: 1px solid #b7e3c3; border-radius: 14px; color: #1e6a35; margin-top: 18px; }
+  .success.show { display: block; animation: slideIn .4s ease; }
+  @keyframes slideIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+  /* contact info side */
+  .info-card { background: var(--ink); color: #fff; border-radius: 24px; padding: 40px 36px; }
+  .info-card h2 { font-family: 'Fraunces', serif; font-weight: 500; font-size: 30px; margin: 0 0 24px; letter-spacing: -.01em; }
+  .info-card h2 em { font-style: italic; color: #6ca8e8; }
+  .info-row { display: flex; gap: 16px; padding: 18px 0; border-bottom: 1px solid rgba(255,255,255,.1); }
+  .info-row:last-child { border-bottom: none; }
+  .info-icon { width: 40px; height: 40px; border-radius: 10px; background: rgba(108,168,232,.15); color: #6ca8e8; display: grid; place-items: center; flex-shrink: 0; }
+  .info-icon svg { width: 18px; height: 18px; }
+  .info-row .lbl { font-size: 12px; text-transform: uppercase; letter-spacing: .14em; color: rgba(255,255,255,.5); margin-bottom: 4px; }
+  .info-row .val { font-size: 16px; font-weight: 500; }
+  .info-row .sub { font-size: 13px; color: rgba(255,255,255,.6); margin-top: 4px; }
+
+  .map { margin-top: 24px; border-radius: 18px; overflow: hidden; aspect-ratio: 16/10; background: linear-gradient(140deg, #cfdce8 0%, #a0b6cd 50%, #6f8aa7 100%); position: relative; }
+  .map::after { content:''; position: absolute; inset: 0; background-image:
+    linear-gradient(transparent 30px, rgba(255,255,255,.4) 30px, rgba(255,255,255,.4) 31px, transparent 31px),
+    linear-gradient(90deg, transparent 50px, rgba(255,255,255,.4) 50px, rgba(255,255,255,.4) 51px, transparent 51px),
+    linear-gradient(transparent 60px, rgba(255,255,255,.3) 60px, rgba(255,255,255,.3) 61px, transparent 61px);
+    background-size: 100% 100px, 110px 100%, 100% 200px;
+  }
+  .map-pin { position: absolute; left: 42%; top: 38%; transform: translate(-50%, -50%); z-index: 2; }
+  .map-pin .pin-dot { width: 16px; height: 16px; background: var(--blue); border-radius: 50%; border: 3px solid #fff; box-shadow: 0 4px 12px rgba(0,0,0,.25); position: relative; z-index: 2; }
+  .map-pin .pin-ring { position: absolute; left: -10px; top: -10px; width: 36px; height: 36px; border-radius: 50%; background: var(--blue); opacity: .25; animation: pulse-ring 2s infinite; }
+  @keyframes pulse-ring { 0%{ transform: scale(.5); opacity: .5;} 100%{ transform: scale(1.8); opacity: 0;} }
+  .map-label { position: absolute; left: 42%; top: 38%; transform: translate(-50%, -150%); background: #fff; padding: 8px 14px; border-radius: 10px; font-size: 13px; font-weight: 600; box-shadow: 0 6px 18px rgba(0,0,0,.18); z-index: 3; white-space: nowrap; }
+  .map-label::after { content:''; position: absolute; bottom: -5px; left: 50%; transform: translateX(-50%) rotate(45deg); width: 10px; height: 10px; background: #fff; }
+
+  @media (max-width: 860px) {
+    .contact-hero { padding: 32px 18px 18px; }
+    .contact-grid { padding: 0 18px 60px; grid-template-columns: 1fr; gap: 28px; }
+    .form-card { padding: 28px 22px; }
+    .svc-pick { grid-template-columns: 1fr 1fr; }
+    .field-row { grid-template-columns: 1fr; }
+    .info-card { padding: 28px 22px; }
+  }
+</style>
+</head>
+<body>
+<div class="curtain" id="curtain"></div>
+<div id="nav-mount"></div>
+
+<div class="contact-hero">
+  <div class="crumb reveal"><a href="index.html" data-link>Hjem</a> / Kontakt</div>
+  <h1 class="reveal" data-delay="1">La oss <em>snakke om jobben.</em></h1>
+  <p class="reveal" data-delay="2">Fyll ut skjemaet eller ring oss direkte. Du får svar — og en pris — i løpet av 48 timer. Akutt? Trykk på "Døgnvakt"-knappen.</p>
+</div>
+
+<div class="contact-grid">
+  <form class="form-card reveal" id="contactForm">
+    <div class="tabs">
+      <button type="button" class="tab active" data-tab="quote">Få tilbud</button>
+      <button type="button" class="tab" data-tab="booking">Book befaring</button>
+      <button type="button" class="tab" data-tab="emergency">Døgnvakt</button>
+    </div>
+
+    <div class="field">
+      <label>Hva trenger du hjelp med?</label>
+      <div class="svc-pick">
+        <div class="svc-opt selected" data-svc>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M7 21h10M9 21V11M15 21V11M5 11h14l-2-6H7l-2 6z"/></svg>
+          Bad &amp; sanitær
+        </div>
+        <div class="svc-opt" data-svc>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 17H14a4 4 0 1 0-4-4"/></svg>
+          Varmeanlegg
+        </div>
+        <div class="svc-opt" data-svc>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v6l4 2"/></svg>
+          Lekkasje
+        </div>
+        <div class="svc-opt" data-svc>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3 12h18M6 6l-3 6 3 6M18 6l3 6-3 6"/></svg>
+          Avløp
+        </div>
+        <div class="svc-opt" data-svc>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
+          Service
+        </div>
+        <div class="svc-opt" data-svc>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+          Annet
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Når trenger du hjelp?</label>
+      <div class="urgency">
+        <div class="urg urgent" data-urg>I dag (døgnvakt)</div>
+        <div class="urg selected" data-urg>Denne uka</div>
+        <div class="urg" data-urg>Neste måned</div>
+        <div class="urg" data-urg>Planlagt prosjekt</div>
+      </div>
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label>Navn</label>
+        <input type="text" placeholder="Ola Nordmann" />
+      </div>
+      <div class="field">
+        <label>Telefon</label>
+        <input type="tel" placeholder="+47 ___ __ ___" />
+      </div>
+    </div>
+
+    <div class="field">
+      <label>E-post</label>
+      <input type="email" placeholder="ola@nordmann.no" />
+    </div>
+
+    <div class="field">
+      <label>Adresse</label>
+      <input type="text" placeholder="Gateadresse, postnummer" />
+    </div>
+
+    <div class="field">
+      <label>Beskriv jobben</label>
+      <textarea placeholder="F.eks. 'Lekkasje under kjøkkenvasken i går kveld, vannet renner sakte men jevnt.'"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-block">
+      Send forespørsel
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+    </button>
+    <div class="success" id="success">
+      <strong>Takk!</strong> Vi har mottatt forespørselen din. Du hører fra oss innen 48 timer — eller før hvis du valgte døgnvakt.
+    </div>
+  </form>
+
+  <div class="reveal" data-delay="1">
+    <div class="info-card">
+      <h2>Vi er <em>her</em> — alltid.</h2>
+      <div class="info-row">
+        <div class="info-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        </div>
+        <div>
+          <div class="lbl">Telefon</div>
+          <div class="val">22 50 40 30</div>
+          <div class="sub">Døgnvakt — vi svarer alltid</div>
+        </div>
+      </div>
+      <div class="info-row">
+        <div class="info-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
+        <div>
+          <div class="lbl">E-post</div>
+          <div class="val">post@rorstad.no</div>
+          <div class="sub">Svar innen 4 timer på hverdager</div>
+        </div>
+      </div>
+      <div class="info-row">
+        <div class="info-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <div>
+          <div class="lbl">Verksted</div>
+          <div class="val">Sandakerveien 24c</div>
+          <div class="sub">0473 Oslo · Mandag–fredag 07–17</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="map">
+      <div class="map-label">Rørstad VVS</div>
+      <div class="map-pin"><div class="pin-ring"></div><div class="pin-dot"></div></div>
+    </div>
+  </div>
+</div>
+
+<div id="foot-mount"></div>
+
+<script src="shared.js"></script>
+<script>
+  // tab switcher
+  document.querySelectorAll('.tab').forEach(t => {
+    t.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+      t.classList.add('active');
+      if (t.dataset.tab === 'emergency') {
+        document.querySelectorAll('.urg').forEach(u => u.classList.remove('selected'));
+        document.querySelector('.urg.urgent').classList.add('selected');
+      }
+    });
+  });
+  // svc & urg pickers
+  document.querySelectorAll('[data-svc]').forEach(o => {
+    o.addEventListener('click', () => {
+      document.querySelectorAll('[data-svc]').forEach(x => x.classList.remove('selected'));
+      o.classList.add('selected');
+    });
+  });
+  document.querySelectorAll('[data-urg]').forEach(o => {
+    o.addEventListener('click', () => {
+      document.querySelectorAll('[data-urg]').forEach(x => x.classList.remove('selected'));
+      o.classList.add('selected');
+    });
+  });
+  // form submit
+  document.getElementById('contactForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    document.getElementById('success').classList.add('show');
+    setTimeout(()=>document.getElementById('success').scrollIntoView({behavior:'smooth', block:'nearest'}), 60);
+  });
+</script>
+</body>
+</html>
