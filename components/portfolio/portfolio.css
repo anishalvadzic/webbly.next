@@ -92,6 +92,7 @@
   opacity: 0;
   transform: translateY(40px);
   transition: opacity 1s var(--wb-ease), transform 1s var(--wb-ease);
+  max-width: 100%;
 }
 .wb-case.is-in { opacity: 1; transform: none; }
 .wb-case:nth-child(even) {
@@ -368,6 +369,21 @@
   .wb-case:hover .wb-phone { transform: none; }
   .wb-modal__shell { height: 96vh; width: 100vw; border-radius: 0; }
   .wb-modal { padding: 0; }
+}
+
+/* Phones — hide redundant phone preview, keep just the laptop */
+@media (max-width: 640px) {
+  .wb-phone { display: none; }
+  .wb-case__devices {
+    gap: 0;
+    justify-content: center;
+    flex-wrap: nowrap;
+  }
+  .wb-laptop {
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+  }
 }
 
 /* Respect motion preferences */
