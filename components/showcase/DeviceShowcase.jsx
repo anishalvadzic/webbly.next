@@ -11,35 +11,35 @@ const SLIDES = [
     label: "Nettside for elektrikere",
     description:
       "Tydelig priser, døgnvakt på første side og rask kontakt — bygget for å vinne oppdrag i Oslo.",
-    src: "/showcase/electrician.png",
+    src: "/showcase/electrician.webp",
   },
   {
     id: "plumber",
     label: "Nettside for rørleggere",
     description:
       "Akutt-hjelp-CTA, tjenesteoversikt og anmeldelser som bygger tillit før telefonen ringer.",
-    src: "/showcase/plumber.png",
+    src: "/showcase/plumber.webp",
   },
   {
     id: "salon",
     label: "Nettside for frisører",
     description:
       "Elegant presentasjon med online booking, prisliste og portfolio-galleri av frisyrer.",
-    src: "/showcase/salon.png",
+    src: "/showcase/salon.webp",
   },
   {
     id: "doctor",
     label: "Nettside for legekontor",
     description:
       "Profesjonell og betryggende — med online timebestilling og oversikt over leger og tjenester.",
-    src: "/showcase/doctor.png",
+    src: "/showcase/doctor.webp",
   },
   {
     id: "petshop",
     label: "Nettbutikk for dyreutstyr",
     description:
       "Komplett nettbutikk med produktkatalog, handlekurv og betaling — optimalisert for konvertering.",
-    src: "/showcase/petshop.png",
+    src: "/showcase/petshop.webp",
   },
 ];
 
