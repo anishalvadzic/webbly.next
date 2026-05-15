@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowDown, ArrowRight } from "lucide-react";
@@ -122,14 +122,30 @@ const FEATURES = [
 
 function Chapter({ item, index, alternate }) {
   const playerRef = useRef(null);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => { setMounted(true); }, []);
   const isMobile = useIsMobile();
-  const isDesktop = !isMobile;
+  const isDesktop = mounted && !isMobile;
 
   const { targetRef, scrollYProgress } = useScrollDrivenFrame(
     item.durationInFrames ?? 90,
     playerRef,
     isDesktop
   );
+
+  // On mobile: play/pause as the section scrolls into/out of view
+  useEffect(() => {
+    if (!mounted || isDesktop || !targetRef.current) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) playerRef.current?.play();
+        else playerRef.current?.pause();
+      },
+      { threshold: 0.2 }
+    );
+    observer.observe(targetRef.current);
+    return () => observer.disconnect();
+  }, [mounted, isDesktop]);
 
   const copyOpacity = useTransform(
     scrollYProgress,
@@ -146,12 +162,10 @@ function Chapter({ item, index, alternate }) {
   return (
     <section
       ref={targetRef}
-      className={`relative ${isDesktop ? "h-[220vh]" : ""}`}
+      className="relative md:h-[150vh]"
     >
       <div
-        className={`${
-          isDesktop ? "sticky top-16 h-[calc(100vh-4rem)]" : "min-h-[80vh] py-16"
-        } flex items-center px-6 md:px-12`}
+        className="min-h-[80vh] py-16 md:sticky md:top-16 md:h-[calc(100vh-4rem)] md:py-0 flex items-center px-6 md:px-12"
       >
         <div
           className={`max-w-7xl mx-auto w-full grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 items-center ${
