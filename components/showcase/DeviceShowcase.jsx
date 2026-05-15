@@ -1,15 +1,9 @@
 "use client";
 
+import Image from "next/image";
 import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
-import MacBookFrame from "./MacBookFrame";
-import IPhoneFrame from "./IPhoneFrame";
-import Electrician from "./industries/Electrician";
-import Plumber from "./industries/Plumber";
-import HairSalon from "./industries/HairSalon";
-import Doctor from "./industries/Doctor";
-import PetShop from "./industries/PetShop";
 
 const SLIDES = [
   {
@@ -17,35 +11,35 @@ const SLIDES = [
     label: "Nettside for elektrikere",
     description:
       "Tydelig priser, døgnvakt på første side og rask kontakt — bygget for å vinne oppdrag i Oslo.",
-    Component: Electrician,
+    src: "/showcase/electrician.png",
   },
   {
     id: "plumber",
     label: "Nettside for rørleggere",
     description:
       "Akutt-hjelp-CTA, tjenesteoversikt og anmeldelser som bygger tillit før telefonen ringer.",
-    Component: Plumber,
+    src: "/showcase/plumber.png",
   },
   {
     id: "salon",
     label: "Nettside for frisører",
     description:
       "Elegant presentasjon med online booking, prisliste og portfolio-galleri av frisyrer.",
-    Component: HairSalon,
+    src: "/showcase/salon.png",
   },
   {
     id: "doctor",
     label: "Nettside for legekontor",
     description:
       "Profesjonell og betryggende — med online timebestilling og oversikt over leger og tjenester.",
-    Component: Doctor,
+    src: "/showcase/doctor.png",
   },
   {
     id: "petshop",
     label: "Nettbutikk for dyreutstyr",
     description:
       "Komplett nettbutikk med produktkatalog, handlekurv og betaling — optimalisert for konvertering.",
-    Component: PetShop,
+    src: "/showcase/petshop.png",
   },
 ];
 
@@ -53,22 +47,16 @@ export default function DeviceShowcase() {
   const [[index, direction], setState] = useState([0, 0]);
   const slide = SLIDES[index];
 
-  const go = useCallback(
-    (delta) => {
-      setState(([prev]) => [
-        (prev + delta + SLIDES.length) % SLIDES.length,
-        delta,
-      ]);
-    },
-    []
-  );
+  const go = useCallback((delta) => {
+    setState(([prev]) => [
+      (prev + delta + SLIDES.length) % SLIDES.length,
+      delta,
+    ]);
+  }, []);
 
-  const jumpTo = useCallback(
-    (target) => {
-      setState(([prev]) => [target, target > prev ? 1 : -1]);
-    },
-    []
-  );
+  const jumpTo = useCallback((target) => {
+    setState(([prev]) => [target, target > prev ? 1 : -1]);
+  }, []);
 
   return (
     <section className="relative bg-beige-50 py-20 md:py-28 overflow-hidden">
@@ -107,14 +95,14 @@ export default function DeviceShowcase() {
             <ChevronRight className="w-5 h-5" />
           </button>
 
-          <div className="relative px-2 md:px-12">
+          <div className="relative aspect-[2/1] md:aspect-[16/9] max-w-5xl mx-auto md:px-12">
             <AnimatePresence mode="wait" custom={direction}>
               <motion.div
                 key={slide.id}
                 custom={direction}
-                initial={{ opacity: 0, x: direction >= 0 ? 60 : -60 }}
+                initial={{ opacity: 0, x: direction >= 0 ? 40 : -40 }}
                 animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: direction >= 0 ? -60 : 60 }}
+                exit={{ opacity: 0, x: direction >= 0 ? -40 : 40 }}
                 transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                 drag="x"
                 dragConstraints={{ left: 0, right: 0 }}
@@ -123,18 +111,17 @@ export default function DeviceShowcase() {
                   if (info.offset.x < -60 || info.velocity.x < -300) go(1);
                   else if (info.offset.x > 60 || info.velocity.x > 300) go(-1);
                 }}
-                className="relative flex items-end justify-center cursor-grab active:cursor-grabbing touch-pan-y"
+                className="absolute inset-0 cursor-grab active:cursor-grabbing touch-pan-y"
               >
-                <div className="w-[78%] md:w-[72%] max-w-3xl">
-                  <MacBookFrame>
-                    <slide.Component variant="desktop" />
-                  </MacBookFrame>
-                </div>
-                <div className="w-[22%] md:w-[18%] max-w-[180px] -ml-[8%] md:-ml-[6%] mb-4 md:mb-10 relative z-10">
-                  <IPhoneFrame>
-                    <slide.Component variant="mobile" />
-                  </IPhoneFrame>
-                </div>
+                <Image
+                  src={slide.src}
+                  alt={slide.label}
+                  fill
+                  priority={index === 0}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1280px) 80vw, 1024px"
+                  className="object-contain select-none pointer-events-none"
+                  draggable={false}
+                />
               </motion.div>
             </AnimatePresence>
           </div>
