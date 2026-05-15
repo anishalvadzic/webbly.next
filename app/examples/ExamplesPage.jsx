@@ -133,6 +133,20 @@ function Chapter({ item, index, alternate }) {
     isDesktop
   );
 
+  // On mobile: play/pause as the section scrolls into/out of view
+  useEffect(() => {
+    if (!mounted || isDesktop || !targetRef.current) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) playerRef.current?.play();
+        else playerRef.current?.pause();
+      },
+      { threshold: 0.2 }
+    );
+    observer.observe(targetRef.current);
+    return () => observer.disconnect();
+  }, [mounted, isDesktop]);
+
   const copyOpacity = useTransform(
     scrollYProgress,
     [0, 0.12, 0.82, 1],
