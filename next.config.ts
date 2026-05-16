@@ -25,6 +25,7 @@ const securityHeaders = [
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' data: https://fonts.gstatic.com",
       "img-src 'self' data: blob: https://images.unsplash.com https://*.googleusercontent.com",
+      "media-src 'self'",
       "frame-src 'self'",
       "connect-src 'self' https://va.vercel-scripts.com https://vitals.vercel-insights.com",
       "object-src 'none'",
