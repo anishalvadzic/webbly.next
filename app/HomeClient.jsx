@@ -5,7 +5,6 @@ import Navbar from "@/components/landing/Navbar";
 import Hero from "@/components/landing/Hero";
 import Services from "@/components/landing/Services";
 import Process from "@/components/landing/Process";
-import Portfolio from "@/components/portfolio/Portfolio";
 import Pricing from "@/components/landing/Pricing";
 import Contact from "@/components/landing/Contact";
 import PackageQuiz from "@/components/landing/PackageQuiz";
@@ -25,7 +24,6 @@ export default function HomeClient() {
       <Hero lang={lang} />
       <Services lang={lang} />
       <Process lang={lang} />
-      <Portfolio />
       <Pricing lang={lang} onSelectPlan={(name) => setBookingPlan(name)} />
       <PackageQuiz lang={lang} onSelectPlan={(name) => setBookingPlan(name)} />
       <Contact lang={lang} />
