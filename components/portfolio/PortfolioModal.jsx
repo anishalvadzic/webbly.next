@@ -82,6 +82,8 @@ export default function PortfolioModal({ data, onClose }) {
               title={`${data.brand} — live prototype`}
               className="flex-1 w-full bg-white"
               loading="eager"
+              sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
+              referrerPolicy="no-referrer"
             />
           </motion.div>
         </motion.div>

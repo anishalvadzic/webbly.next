@@ -2,6 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import transporter from "@/lib/mailer";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const HEADER_INJECT_RE = /[\r\n]/;
+
+function stripControlChars(s: string): string {
+  return s.replace(/[\r\n\x00-\x1F\x7F]/g, " ").trim();
+}
 
 export async function POST(request: NextRequest) {
   const body = await request.json().catch(() => null);
@@ -28,6 +33,18 @@ export async function POST(request: NextRequest) {
   ) {
     return NextResponse.json({ error: "Ugyldig input" }, { status: 400 });
   }
+
+  // Reject newlines / control chars in any field that ends up in a mail header
+  // (name -> Subject, email -> Reply-To). The body is HTML-escaped so it's fine.
+  if (
+    HEADER_INJECT_RE.test(name) ||
+    HEADER_INJECT_RE.test(email) ||
+    (phone && HEADER_INJECT_RE.test(phone))
+  ) {
+    return NextResponse.json({ error: "Ugyldig input" }, { status: 400 });
+  }
+
+  const safeName = stripControlChars(name);
 
   const html = `<!DOCTYPE html>
 <html lang="no">
@@ -64,13 +81,16 @@ export async function POST(request: NextRequest) {
       from: `"Webbly" <${process.env.GMAIL_USER}>`,
       to: process.env.GMAIL_USER,
       replyTo: email,
-      subject: `Ny henvendelse fra ${name}`,
+      subject: `Ny henvendelse fra ${safeName}`,
       html,
     });
 
     return NextResponse.json({ ok: true });
   } catch (err) {
-    console.error("Contact form email failed:", err);
+    console.error(
+      "Contact form email failed:",
+      err instanceof Error ? err.message : "unknown error"
+    );
     return NextResponse.json({ error: "Noe gikk galt. Prøv igjen." }, { status: 500 });
   }
 }
