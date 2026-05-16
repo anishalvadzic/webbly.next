@@ -1,14 +1,22 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Globe, ChevronDown } from "lucide-react";
 
 export default function Navbar({ lang, setLang }) {
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
   const moreRef = useRef(null);
+
+  // Only the landing page has the dark hero video behind the navbar. On all
+  // other pages the navbar sits on a light background, so the navbar must
+  // always render its dark variant regardless of scroll position.
+  const isLandingPage = pathname === "/";
+  const overHero = isLandingPage && !scrolled;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -101,16 +109,16 @@ export default function Navbar({ lang, setLang }) {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
       className={`fixed top-0 left-0 right-0 z-20 transition-all duration-300 ${
-        scrolled
-          ? "bg-beige-50/95 backdrop-blur-md shadow-sm border-b border-beige-200"
-          : "bg-transparent"
+        overHero
+          ? "bg-transparent"
+          : "bg-beige-50/95 backdrop-blur-md shadow-sm border-b border-beige-200"
       }`}
     >
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
         {/* Logo */}
         <a href="/" className="flex items-center gap-2">
           <img
-            src={scrolled ? "/logo.svg" : "/logo-white.svg"}
+            src={overHero ? "/logo-white.svg" : "/logo.svg"}
             alt="Webbly"
             className="h-14 w-auto transition-opacity duration-200"
           />
@@ -127,9 +135,9 @@ export default function Navbar({ lang, setLang }) {
                 scrollTo(link.href, link.external);
               }}
               className={`text-sm font-body transition-colors duration-200 cursor-pointer ${
-                scrolled
-                  ? "text-warm-brown/80 hover:text-deep-brown"
-                  : "text-beige-50/90 hover:text-white"
+                overHero
+                  ? "text-beige-50/90 hover:text-white"
+                  : "text-warm-brown/80 hover:text-deep-brown"
               }`}
             >
               {link.label}
@@ -144,9 +152,9 @@ export default function Navbar({ lang, setLang }) {
               aria-haspopup="menu"
               aria-expanded={moreOpen}
               className={`flex items-center gap-1 text-sm font-body transition-colors duration-200 cursor-pointer ${
-                scrolled
-                  ? "text-warm-brown/80 hover:text-deep-brown"
-                  : "text-beige-50/90 hover:text-white"
+                overHero
+                  ? "text-beige-50/90 hover:text-white"
+                  : "text-warm-brown/80 hover:text-deep-brown"
               }`}
             >
               {t.more}
@@ -193,9 +201,9 @@ export default function Navbar({ lang, setLang }) {
           <button
             onClick={() => setLang(lang === "no" ? "en" : "no")}
             className={`flex items-center gap-1.5 text-xs font-body rounded-full px-3 py-1.5 transition-colors duration-200 cursor-pointer border ${
-              scrolled
-                ? "text-warm-brown/70 hover:text-deep-brown border-beige-300"
-                : "text-beige-50/85 hover:text-white border-beige-50/30 hover:border-beige-50/60"
+              overHero
+                ? "text-beige-50/85 hover:text-white border-beige-50/30 hover:border-beige-50/60"
+                : "text-warm-brown/70 hover:text-deep-brown border-beige-300"
             }`}
           >
             <Globe className="w-3.5 h-3.5" />
@@ -216,7 +224,7 @@ export default function Navbar({ lang, setLang }) {
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
             className={`md:hidden p-2 cursor-pointer transition-colors duration-200 ${
-              scrolled || mobileOpen ? "text-deep-brown" : "text-beige-50"
+              overHero && !mobileOpen ? "text-beige-50" : "text-deep-brown"
             }`}
             aria-label="Toggle menu"
           >
