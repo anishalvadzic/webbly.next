@@ -110,7 +110,7 @@ export default function Hero({ lang }) {
           style={{ lineHeight: 1.05, letterSpacing: "-0.02em", textWrap: "balance" }}
         >
           {t.h1a}{" "}
-          <em className="italic text-beige-200">{t.h1b}</em>
+          <em className="italic text-beige-200">{t.h1b}</em>{" "}
           <br className="hidden md:block" />
           {t.h1c}
         </motion.h1>
