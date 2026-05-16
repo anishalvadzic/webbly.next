@@ -4,7 +4,18 @@ import { getCalendarClient } from "@/lib/googleCalendar";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+const HEADER_INJECT_RE = /[\r\n]/;
 const SLOTS = ["09:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00"];
+const ALLOWED_PLANS = new Set([
+  "Start",
+  "Vekst",
+  "Pro",
+  "Growth", // EN alias for Vekst
+]);
+
+function stripControlChars(s: string): string {
+  return s.replace(/[\r\n\x00-\x1F\x7F]/g, " ").trim();
+}
 
 function addOneHour(time: string): string {
   const [h, m] = time.split(":").map(Number);
@@ -53,6 +64,10 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Invalid time slot" }, { status: 400 });
   }
 
+  if (!ALLOWED_PLANS.has(plan)) {
+    return NextResponse.json({ error: "Invalid plan" }, { status: 400 });
+  }
+
   if (
     name.length > 100 ||
     email.length > 254 ||
@@ -60,6 +75,19 @@ export async function POST(request: NextRequest) {
   ) {
     return NextResponse.json({ error: "Ugyldig input" }, { status: 400 });
   }
+
+  // Reject newlines / control chars in any field that ends up in a mail header
+  // (name + plan -> Subject, email -> attendees / to).
+  if (
+    HEADER_INJECT_RE.test(name) ||
+    HEADER_INJECT_RE.test(email) ||
+    (company && HEADER_INJECT_RE.test(company))
+  ) {
+    return NextResponse.json({ error: "Ugyldig input" }, { status: 400 });
+  }
+
+  const safeName = stripControlChars(name);
+  const safeCompany = company ? stripControlChars(company) : "";
 
   const endTime = addOneHour(time);
   const formattedDate = formatDateNorwegian(date);
@@ -71,8 +99,8 @@ export async function POST(request: NextRequest) {
       calendarId: process.env.GOOGLE_CALENDAR_ID,
       conferenceDataVersion: 1,
       requestBody: {
-        summary: `Intromøte — ${company?.trim() || name} — ${plan}`,
-        description: `Bedrift: ${company || "—"}\nE-post: ${email}\nPakke: ${plan}`,
+        summary: `Intromøte — ${safeCompany || safeName} — ${plan}`,
+        description: `Bedrift: ${safeCompany || "—"}\nE-post: ${email}\nPakke: ${plan}`,
         start: { dateTime: `${date}T${time}:00`, timeZone: "Europe/Oslo" },
         end: { dateTime: `${date}T${endTime}:00`, timeZone: "Europe/Oslo" },
         attendees: [{ email }],
@@ -286,7 +314,7 @@ export async function POST(request: NextRequest) {
       transporter.sendMail({
         from: `"Webbly" <${process.env.GMAIL_USER}>`,
         to: process.env.GMAIL_USER,
-        subject: `Ny booking — ${plan} — ${name} — ${formattedDate} kl. ${time}`,
+        subject: `Ny booking — ${plan} — ${safeName} — ${formattedDate} kl. ${time}`,
         html: notificationHtml,
       }),
       transporter.sendMail({
@@ -299,7 +327,10 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ ok: true });
   } catch (err) {
-    console.error("Booking failed:", err);
+    console.error(
+      "Booking failed:",
+      err instanceof Error ? err.message : "unknown error"
+    );
     return NextResponse.json({ error: "Noe gikk galt. Prøv igjen." }, { status: 500 });
   }
 }
