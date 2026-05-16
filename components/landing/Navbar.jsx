@@ -109,7 +109,11 @@ export default function Navbar({ lang, setLang }) {
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
         {/* Logo */}
         <a href="/" className="flex items-center gap-2">
-          <img src="/logo.svg" alt="Webbly" className="h-14 w-auto" />
+          <img
+            src={scrolled ? "/logo.svg" : "/logo-white.svg"}
+            alt="Webbly"
+            className="h-14 w-auto transition-opacity duration-200"
+          />
         </a>
 
         {/* Desktop links */}
@@ -122,7 +126,11 @@ export default function Navbar({ lang, setLang }) {
                 e.preventDefault();
                 scrollTo(link.href, link.external);
               }}
-              className="text-sm font-body text-warm-brown/80 hover:text-deep-brown transition-colors duration-200 cursor-pointer"
+              className={`text-sm font-body transition-colors duration-200 cursor-pointer ${
+                scrolled
+                  ? "text-warm-brown/80 hover:text-deep-brown"
+                  : "text-beige-50/90 hover:text-white"
+              }`}
             >
               {link.label}
             </a>
@@ -135,7 +143,11 @@ export default function Navbar({ lang, setLang }) {
               onClick={() => setMoreOpen((v) => !v)}
               aria-haspopup="menu"
               aria-expanded={moreOpen}
-              className="flex items-center gap-1 text-sm font-body text-warm-brown/80 hover:text-deep-brown transition-colors duration-200 cursor-pointer"
+              className={`flex items-center gap-1 text-sm font-body transition-colors duration-200 cursor-pointer ${
+                scrolled
+                  ? "text-warm-brown/80 hover:text-deep-brown"
+                  : "text-beige-50/90 hover:text-white"
+              }`}
             >
               {t.more}
               <ChevronDown
@@ -180,7 +192,11 @@ export default function Navbar({ lang, setLang }) {
         <div className="flex items-center gap-3">
           <button
             onClick={() => setLang(lang === "no" ? "en" : "no")}
-            className="flex items-center gap-1.5 text-xs font-body text-warm-brown/70 hover:text-deep-brown border border-beige-300 rounded-full px-3 py-1.5 transition-colors duration-200 cursor-pointer"
+            className={`flex items-center gap-1.5 text-xs font-body rounded-full px-3 py-1.5 transition-colors duration-200 cursor-pointer border ${
+              scrolled
+                ? "text-warm-brown/70 hover:text-deep-brown border-beige-300"
+                : "text-beige-50/85 hover:text-white border-beige-50/30 hover:border-beige-50/60"
+            }`}
           >
             <Globe className="w-3.5 h-3.5" />
             {lang === "no" ? "EN" : "NO"}
@@ -199,7 +215,9 @@ export default function Navbar({ lang, setLang }) {
 
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="md:hidden p-2 cursor-pointer text-deep-brown"
+            className={`md:hidden p-2 cursor-pointer transition-colors duration-200 ${
+              scrolled || mobileOpen ? "text-deep-brown" : "text-beige-50"
+            }`}
             aria-label="Toggle menu"
           >
             {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
