@@ -1,9 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowUpRight, ArrowRight } from "lucide-react";
-import PortfolioModal from "./PortfolioModal";
 
 const EASE = [0.32, 0.72, 0, 1];
 
@@ -43,7 +41,7 @@ const CASES = [
   },
 ];
 
-function Case({ data, index, onOpen }) {
+function Case({ data, index }) {
   return (
     <motion.article
       initial={{ opacity: 0, y: 60 }}
@@ -97,24 +95,23 @@ function Case({ data, index, onOpen }) {
       </div>
 
       <div className="md:col-span-3 flex md:justify-end md:items-end">
-        <button
-          type="button"
-          onClick={() => onOpen(data)}
+        <a
+          href={data.url}
+          target="_blank"
+          rel="noopener noreferrer"
           className="group inline-flex items-center gap-2.5 bg-deep-brown text-beige-50 pl-5 pr-2 py-2 rounded-full text-sm font-medium hover:bg-warm-brown active:scale-[0.98] transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]"
         >
-          Se live
+          Åpne i ny fane
           <span className="w-8 h-8 rounded-full bg-beige-50/15 flex items-center justify-center group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]">
             <ArrowUpRight className="w-3.5 h-3.5" strokeWidth={2.2} />
           </span>
-        </button>
+        </a>
       </div>
     </motion.article>
   );
 }
 
 export default function Portfolio() {
-  const [modalCase, setModalCase] = useState(null);
-
   return (
     <section
       id="arbeid"
@@ -145,14 +142,14 @@ export default function Portfolio() {
           </h2>
           <p className="text-lg md:text-xl text-warm-brown/70 leading-relaxed max-w-[58ch]">
             Tre ekte eksempler bygget for ulike bransjer. Trykk{" "}
-            <em className="italic">Se live</em> for å åpne den faktiske
-            prototypen i nettleseren.
+            <em className="italic">Åpne i ny fane</em> for å se den faktiske
+            prototypen.
           </p>
         </motion.div>
 
         <div className="border-b border-deep-brown/10">
           {CASES.map((c, i) => (
-            <Case key={c.slug} data={c} index={i} onOpen={setModalCase} />
+            <Case key={c.slug} data={c} index={i} />
           ))}
         </div>
 
@@ -177,8 +174,6 @@ export default function Portfolio() {
           </a>
         </motion.div>
       </div>
-
-      <PortfolioModal data={modalCase} onClose={() => setModalCase(null)} />
     </section>
   );
 }
