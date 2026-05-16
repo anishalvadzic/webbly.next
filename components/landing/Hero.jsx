@@ -30,21 +30,19 @@ export default function Hero({ lang }) {
 
   const t = {
     no: {
-      eyebrow: "Webbly · Lørenskog",
       h1a: "Profesjonelle nettsider",
       h1b: "for bedrifter",
       h1c: "i Norge.",
-      sub: "Webbly bygger profesjonelle, raske og mobilvennlige nettsider for norske bedrifter. Fast månedspris fra 499 kr, publisering på eget domene og online på tre virkedager.",
+      sub: "Webbly bygger profesjonelle, raske og mobilvennlige nettsider for norske bedrifter. Fast månedspris fra 499 kr.",
       cta: "Velg din pakke",
       ctaSecondary: "Ta kontakt",
       scroll: "Utforsk",
     },
     en: {
-      eyebrow: "Webbly · Lørenskog",
       h1a: "Professional websites",
       h1b: "for businesses",
       h1c: "in Norway.",
-      sub: "Webbly builds professional, fast and mobile-friendly websites for Norwegian businesses. Fixed monthly price from 499 kr, published on your own domain and online in three business days.",
+      sub: "Webbly builds professional, fast and mobile-friendly websites for Norwegian businesses. Fixed monthly price from 499 kr.",
       cta: "Choose Your Plan",
       ctaSecondary: "Contact us",
       scroll: "Explore",
@@ -93,15 +91,6 @@ export default function Hero({ lang }) {
         style={prefersReducedMotion ? undefined : { opacity: contentOpacity, y: contentY }}
         className="relative z-10 max-w-4xl mx-auto px-6 text-center"
       >
-        <motion.div
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2, ease: EASE }}
-          className="inline-block text-[10px] tracking-[0.3em] uppercase font-semibold text-beige-50/80 mb-5 px-3 py-1 rounded-full border border-beige-50/15 bg-beige-50/[0.04] backdrop-blur-sm"
-        >
-          {t.eyebrow}
-        </motion.div>
-
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
