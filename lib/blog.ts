@@ -36,7 +36,7 @@ export const posts: BlogPost[] = [
       "Gode animasjoner gjør nettsider mer profesjonelle, mer moderne og bedre å bruke. Men hvordan bruker man dem riktig — uten å overdrive?",
     date: "2026-05-15",
     category: "Innsikt",
-    coverImage: "/moderne-animasjoner-2026.png",
+    coverImage: "/moderne-animasjoner.webp",
     content: [
       { type: "paragraph", text: "Det er lett å tenke at animasjoner på nettsider bare er «ekstra pynt»." },
       { type: "paragraph", text: "Men gode animasjoner gjør faktisk at en nettside føles mer profesjonell, mer moderne og mye bedre å bruke." },
