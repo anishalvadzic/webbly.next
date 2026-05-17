@@ -6,13 +6,16 @@ export type ContentBlock =
   | { type: "divider" }
   | { type: "faq"; items: { q: string; a: string }[] };
 
+export type CoverAnimation = "eyes" | "domains";
+
 export interface BlogPost {
   slug: string;
   title: string;
   excerpt: string;
   date: string;
   category: string;
-  coverImage: string;
+  coverImage?: string;
+  coverAnimation?: CoverAnimation;
   content: ContentBlock[];
 }
 
@@ -29,6 +32,103 @@ export function readingTime(post: BlogPost): number {
 }
 
 export const posts: BlogPost[] = [
+  {
+    slug: "det-forste-folk-gjor-pa-nettsiden-din",
+    title: "Det første folk gjør på nettsiden din (det er ikke å lese)",
+    excerpt:
+      "Folk leser ikke nettsiden din slik du tror. De scanner — og bestemmer seg på sekunder. Her er det jeg har lært etter å ha sett mange av dem.",
+    date: "2026-05-17",
+    category: "Innsikt",
+    coverAnimation: "eyes",
+    content: [
+      { type: "paragraph", text: "Jeg har sett en del nettsider de siste årene. Når jeg snakker med kunder kommer ofte spørsmålet: «Hvor mye tekst burde det være?» eller «Bør om-oss-siden være lang eller kort?»" },
+      { type: "paragraph", text: "Og jeg skjønner hvorfor de spør. Det er logisk å tenke at folk leser nettsiden din slik de leser en avis." },
+      { type: "paragraph", text: "Men det gjør de ikke." },
+      { type: "heading2", text: "Folk scanner. De leser ikke." },
+      { type: "paragraph", text: "Det som faktisk skjer når noen lander på siden din, er ikke at de starter på toppen og leser nedover. Øynene hopper rundt. De sjekker logoen, så headlinen, så et bilde, så en knapp, så headlinen igjen, så scroller de litt ned for å se hvor lang siden er, så går de tilbake opp." },
+      { type: "paragraph", text: "Det tar dem rundt tre til fem sekunder å bestemme om de blir værende." },
+      { type: "paragraph", text: "Det er litt urettferdig, men det er sånn det er." },
+      { type: "heading2", text: "Hva øynene faktisk fester seg på" },
+      { type: "paragraph", text: "Etter å ha sett en god del heatmaps og klikkopptak, har jeg blitt overrasket over hvor lite folk faktisk leser. De fleste fester blikket på:" },
+      {
+        type: "list",
+        items: [
+          "den største overskriften",
+          "knapper med tydelig farge",
+          "ansikter og bilder av mennesker",
+          "tall, priser og kjente logoer",
+          "den øverste delen av siden",
+        ],
+      },
+      { type: "paragraph", text: "Resten skummer de. Har du ikke fanget oppmerksomheten deres på de første par skjermhøydene, scroller de sjelden lenger." },
+      { type: "heading2", text: "Det betyr ikke at du skal kutte ut all tekst" },
+      { type: "paragraph", text: "Tekst er fortsatt viktig. Google leser den. SEO trenger den. Og når noen først bestemmer seg for å lese, vil de ha noe å lese." },
+      { type: "paragraph", text: "Men strukturen må respektere at de fleste bare skummer." },
+      { type: "paragraph", text: "Jeg pleier å si til kunder: «Tenk på siden din som en tegneserie, ikke som en bok.» Hver seksjon skal ha én tydelig idé, én tydelig handling, og være forståelig på to sekunder — selv om du bare ser bildet og hopper over teksten." },
+      { type: "heading2", text: "Knappen er viktigere enn paragrafen" },
+      { type: "paragraph", text: "Hvis noe skal vinne plassen på siden, så er det knappen. Det er den som faktisk gjør jobben." },
+      { type: "paragraph", text: "Jeg har sett firmaer med fantastiske om-oss-tekster og null konvertering, og jeg har sett firmaer med tre setninger og én god knapp som får henvendelser hver dag." },
+      { type: "paragraph", text: "Det er en god påminnelse om at det viktigste ikke alltid er det fineste." },
+      { type: "divider" },
+      { type: "heading2", text: "Oppsummering" },
+      { type: "paragraph", text: "Folk leser ikke nettsiden din slik du leste den da du laget den. De flyr forbi, de scanner, de leter etter hint. Bygger du siden for «den som leser hvert ord», bygger du for en kunde som ikke eksisterer." },
+      { type: "paragraph", text: "Bygg for den som har dårlig tid. De andre er bonus." },
+    ],
+  },
+  {
+    slug: "hvorfor-no-domene-slar-com-for-norske-bedrifter",
+    title: "Hvorfor jeg alltid anbefaler .no før .com til norske kunder",
+    excerpt:
+      ".com er kanskje konge internasjonalt, men i Norge er det noe annet som gjelder. Her er hvorfor jeg nesten alltid sier .no først.",
+    date: "2026-05-16",
+    category: "Guider",
+    coverAnimation: "domains",
+    content: [
+      { type: "paragraph", text: "Hver gang jeg snakker med en norsk bedrift om nytt domene, kommer det samme spørsmålet:" },
+      { type: "paragraph", text: "«Bør vi ta .no eller .com?»" },
+      { type: "paragraph", text: "Og hver gang svarer jeg det samme: ta .no." },
+      { type: "paragraph", text: "Det er litt rart, fordi i de fleste land er .com kongen. Men i Norge er det noe annet som gjelder." },
+      { type: "heading2", text: "Nordmenn stoler på .no" },
+      { type: "paragraph", text: "Det er ikke noe jeg fant på. Det er et mønster jeg har lagt merke til over år." },
+      { type: "paragraph", text: "Når noen ser et .no-domene, tenker hjernen deres nesten automatisk:" },
+      {
+        type: "list",
+        items: [
+          "norsk firma",
+          "norsk kundeservice",
+          "norske priser",
+          "norske rettigheter hvis noe skjærer seg",
+        ],
+      },
+      { type: "paragraph", text: "Det er en form for tillit du får helt gratis, bare av endelsen." },
+      { type: "paragraph", text: "Når noen ser et .com på en norsk bedrift, blir det litt mer abstrakt. «Er dette egentlig norsk? Er det et internasjonalt selskap? Snakker de norsk hvis jeg ringer?»" },
+      { type: "paragraph", text: "Det er ikke nødvendigvis bevisste tanker. Men de er der." },
+      { type: "heading2", text: "Google liker også .no for norsk søk" },
+      { type: "paragraph", text: "Dette er ikke alltid avgjørende, men det hjelper. Google bruker domene-endelsen som ett av mange hint når den prøver å forstå hvilken region innholdet ditt hører hjemme i." },
+      { type: "paragraph", text: "Hvis du selger til nordmenn, er det greit at Google vet at du holder til i Norge." },
+      { type: "heading2", text: "Men ta .com også (hvis du kan)" },
+      { type: "paragraph", text: "Misforstå meg rett — jeg sier ikke at du skal la .com ligge. Hvis du har sjansen, kjøp begge." },
+      { type: "paragraph", text: "Det koster et par hundrelapper ekstra i året, og du slipper å oppdage senere at noen andre har snappet .com-versjonen og sender folk til en falsk side." },
+      { type: "paragraph", text: "Du peker bare .com-en til .no-en og bruker .no som hovedadresse." },
+      { type: "heading2", text: "Hva med .org, .net og resten?" },
+      { type: "paragraph", text: "Disse bruker jeg sjelden. .org passer for foreninger og frivillige organisasjoner. .net er teknisk arv fra 90-tallet og brukes nesten ikke seriøst lenger. .biz føles billig." },
+      { type: "paragraph", text: "Hvis ditt foretrukne navn er opptatt på .no, er det stort sett bedre å justere navnet litt enn å gå for en sjelden endelse. Et navn folk husker er mer verdt enn et navn med eksotisk slutt." },
+      { type: "heading2", text: "Når .com faktisk gir mening" },
+      { type: "paragraph", text: "Det er egentlig bare to tilfeller hvor .com vinner:" },
+      {
+        type: "list",
+        items: [
+          "Du selger primært utenfor Norge.",
+          "Merkenavnet ditt er allerede et .com som folk kjenner igjen.",
+        ],
+      },
+      { type: "paragraph", text: "Ellers: .no." },
+      { type: "divider" },
+      { type: "heading2", text: "Oppsummering" },
+      { type: "paragraph", text: "For norske bedrifter med norske kunder er .no nesten alltid det riktige valget. Det gir umiddelbar tillit, det hjelper litt på Google, og det føles riktig på et språk og en kultur folk allerede er hjemme i." },
+      { type: "paragraph", text: "Og hvis du er rask, er domenet ditt fortsatt ledig. Sjekk det i dag." },
+    ],
+  },
   {
     slug: "hvorfor-moderne-animasjoner-gjor-nettsider-bedre",
     title: "Hvorfor moderne animasjoner gjør nettsider mye bedre",

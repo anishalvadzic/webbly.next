@@ -7,6 +7,7 @@ import { nb } from "date-fns/locale";
 import Navbar from "@/components/landing/Navbar";
 import Footer from "@/components/landing/Footer";
 import CookieBanner from "@/components/landing/CookieBanner";
+import BlogCoverAnimation from "@/components/blog/BlogCoverAnimation";
 import { readingTime } from "@/lib/blog";
 
 function renderBlock(block, i) {
@@ -84,13 +85,17 @@ export default function ArticlePage({ post }) {
     <div className="min-h-screen bg-beige-50">
       <Navbar lang={lang} setLang={setLang} />
 
-      {/* Cover image — sits below the fixed navbar */}
-      <div className="w-full mt-16 aspect-video md:aspect-[21/9] overflow-hidden bg-beige-200">
-        <img
-          src={post.coverImage}
-          alt={post.title}
-          className="w-full h-full object-cover"
-        />
+      {/* Cover — sits below the fixed navbar */}
+      <div className="relative w-full mt-16 aspect-video md:aspect-[21/9] overflow-hidden bg-beige-200">
+        {post.coverAnimation ? (
+          <BlogCoverAnimation variant={post.coverAnimation} />
+        ) : (
+          <img
+            src={post.coverImage}
+            alt={post.title}
+            className="w-full h-full object-cover"
+          />
+        )}
       </div>
 
       <div className="max-w-2xl mx-auto px-6 py-14">
