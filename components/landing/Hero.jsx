@@ -117,10 +117,10 @@ export default function Hero({ lang }) {
         >
           {t.subPre}
           <span
-            className="font-medium text-[hsl(42,85%,75%)]"
+            className="font-medium text-white"
             style={{
               textShadow:
-                "0 0 14px hsla(42, 100%, 70%, 0.5), 0 0 28px hsla(42, 100%, 70%, 0.25)",
+                "0 0 14px hsla(0, 0%, 100%, 0.55), 0 0 28px hsla(0, 0%, 100%, 0.3)",
             }}
           >
             {t.subPrice}
