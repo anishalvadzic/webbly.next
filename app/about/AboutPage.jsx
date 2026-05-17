@@ -149,12 +149,12 @@ export default function AboutPage() {
               Hvem står bak Webbly?
             </h2>
             <div className="bg-white border border-beige-200 rounded-3xl p-8 md:p-10">
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-14 h-14 rounded-full bg-deep-brown flex items-center justify-center flex-shrink-0">
-                  <span className="font-display text-xl font-semibold text-beige-50">
-                    A
-                  </span>
-                </div>
+              <div className="flex items-center gap-5 mb-6">
+                <img
+                  src="/anis.jpg"
+                  alt="Anis Halvadzic"
+                  className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover flex-shrink-0 ring-1 ring-beige-200"
+                />
                 <div>
                   <p className="font-display text-lg font-semibold text-deep-brown">
                     Anis Halvadzic
