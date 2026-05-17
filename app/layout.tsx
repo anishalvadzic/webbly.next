@@ -5,6 +5,7 @@ import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const GA_ID = "G-B98GRHFQR0";
+const FB_PIXEL_ID = "878709445252401";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -176,6 +177,40 @@ export default function RootLayout({
             gtag('config', '${GA_ID}', { anonymize_ip: true });
           `}
         </Script>
+
+        {/* Meta Pixel — Consent Mode. Default revoked; the cookie banner
+            grants consent when the user accepts. PageView is queued and fires
+            once consent is granted. */}
+        <Script id="fb-pixel-init" strategy="afterInteractive">
+          {`
+            !function(f,b,e,v,n,t,s)
+            {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t,s)}(window, document,'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+            fbq('consent', 'revoke');
+            fbq('init', '${FB_PIXEL_ID}');
+            fbq('track', 'PageView');
+            try {
+              if (localStorage.getItem('webbly_cookie_consent') === 'accepted') {
+                fbq('consent', 'grant');
+              }
+            } catch (e) {}
+          `}
+        </Script>
+        <noscript>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            height="1"
+            width="1"
+            style={{ display: "none" }}
+            alt=""
+            src={`https://www.facebook.com/tr?id=${FB_PIXEL_ID}&ev=PageView&noscript=1`}
+          />
+        </noscript>
 
         {children}
         <Analytics />
