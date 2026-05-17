@@ -1,54 +1,27 @@
 import type { MetadataRoute } from "next";
+import { posts } from "@/lib/blog";
+
+const BASE = "https://webbly.no";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [
-    {
-      url: "https://webbly.no",
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 1,
-    },
-    {
-      url: "https://webbly.no/about",
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: "https://webbly.no/blog",
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.8,
-    },
-    {
-      url: "https://webbly.no/blog/hvorfor-norske-bedrifter-taper-kunder-pa-darlig-nettside-2026",
-      lastModified: new Date("2026-05-14"),
-      changeFrequency: "monthly",
-      priority: 0.9,
-    },
-    {
-      url: "https://webbly.no/blog/hva-koster-en-nettside-i-norge-i-2026",
-      lastModified: new Date("2026-05-11"),
-      changeFrequency: "monthly",
-      priority: 0.9,
-    },
-    {
-      url: "https://webbly.no/faq",
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: "https://webbly.no/terms",
-      lastModified: new Date(),
-      changeFrequency: "yearly",
-      priority: 0.3,
-    },
-    {
-      url: "https://webbly.no/personvern",
-      lastModified: new Date(),
-      changeFrequency: "yearly",
-      priority: 0.6,
-    },
+  const now = new Date();
+
+  const staticPages: MetadataRoute.Sitemap = [
+    { url: BASE, lastModified: now, changeFrequency: "weekly", priority: 1 },
+    { url: `${BASE}/about`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${BASE}/examples`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${BASE}/blog`, lastModified: now, changeFrequency: "weekly", priority: 0.8 },
+    { url: `${BASE}/faq`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${BASE}/personvern`, lastModified: now, changeFrequency: "yearly", priority: 0.6 },
+    { url: `${BASE}/terms`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
   ];
+
+  const blogPages: MetadataRoute.Sitemap = posts.map((post) => ({
+    url: `${BASE}/blog/${post.slug}`,
+    lastModified: new Date(post.date),
+    changeFrequency: "monthly",
+    priority: 0.9,
+  }));
+
+  return [...staticPages, ...blogPages];
 }
