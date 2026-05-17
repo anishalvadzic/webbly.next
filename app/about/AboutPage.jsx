@@ -149,11 +149,11 @@ export default function AboutPage() {
               Hvem står bak Webbly?
             </h2>
             <div className="bg-white border border-beige-200 rounded-3xl p-8 md:p-10">
-              <div className="flex items-center gap-5 mb-6">
+              <div className="flex items-center gap-5 sm:gap-6 mb-6">
                 <img
                   src="/anis.jpg"
                   alt="Anis Halvadzic"
-                  className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover flex-shrink-0 ring-1 ring-beige-200"
+                  className="w-28 h-28 sm:w-32 sm:h-32 md:w-36 md:h-36 rounded-full object-cover flex-shrink-0 ring-1 ring-beige-200"
                 />
                 <div>
                   <p className="font-display text-lg font-semibold text-deep-brown">
