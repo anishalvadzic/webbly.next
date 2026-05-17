@@ -17,10 +17,14 @@ export default function CookieBanner({ lang, forceOpen, onClose }) {
   }, [forceOpen]);
 
   const updateConsent = (granted) => {
-    if (typeof window !== "undefined" && typeof window.gtag === "function") {
+    if (typeof window === "undefined") return;
+    if (typeof window.gtag === "function") {
       window.gtag("consent", "update", {
         analytics_storage: granted ? "granted" : "denied",
       });
+    }
+    if (typeof window.fbq === "function") {
+      window.fbq("consent", granted ? "grant" : "revoke");
     }
   };
 
