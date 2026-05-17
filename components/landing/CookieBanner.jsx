@@ -16,15 +16,25 @@ export default function CookieBanner({ lang, forceOpen, onClose }) {
     if (forceOpen) setVisible(true);
   }, [forceOpen]);
 
+  const updateConsent = (granted) => {
+    if (typeof window !== "undefined" && typeof window.gtag === "function") {
+      window.gtag("consent", "update", {
+        analytics_storage: granted ? "granted" : "denied",
+      });
+    }
+  };
+
   const accept = () => {
     setVisible(false);
     onClose?.();
     setTimeout(() => localStorage.setItem("webbly_cookie_consent", "accepted"), 0);
+    updateConsent(true);
   };
   const decline = () => {
     setVisible(false);
     onClose?.();
     setTimeout(() => localStorage.setItem("webbly_cookie_consent", "declined"), 0);
+    updateConsent(false);
   };
 
   const t = {
