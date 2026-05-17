@@ -33,7 +33,9 @@ export default function Hero({ lang }) {
       h1a: "Profesjonelle nettsider",
       h1b: "for bedrifter",
       h1c: "i Norge.",
-      sub: "Webbly bygger profesjonelle, raske og mobilvennlige nettsider for norske bedrifter. Fast månedspris fra 499 kr.",
+      subPre: "Webbly bygger profesjonelle, raske og mobilvennlige nettsider for norske bedrifter. Fast månedspris fra ",
+      subPrice: "499 kr",
+      subPost: ".",
       cta: "Velg din pakke",
       ctaSecondary: "Ta kontakt",
       scroll: "Utforsk",
@@ -42,7 +44,9 @@ export default function Hero({ lang }) {
       h1a: "Professional websites",
       h1b: "for businesses",
       h1c: "in Norway.",
-      sub: "Webbly builds professional, fast and mobile-friendly websites for Norwegian businesses. Fixed monthly price from 499 kr.",
+      subPre: "Webbly builds professional, fast and mobile-friendly websites for Norwegian businesses. Fixed monthly price from ",
+      subPrice: "499 kr",
+      subPost: ".",
       cta: "Choose Your Plan",
       ctaSecondary: "Contact us",
       scroll: "Explore",
@@ -99,7 +103,7 @@ export default function Hero({ lang }) {
           style={{ lineHeight: 1.05, letterSpacing: "-0.02em", textWrap: "balance" }}
         >
           {t.h1a}{" "}
-          <em className="italic text-beige-200">{t.h1b}</em>{" "}
+          <em className="italic text-[hsl(30,65%,78%)]">{t.h1b}</em>{" "}
           <br className="hidden md:block" />
           {t.h1c}
         </motion.h1>
@@ -111,7 +115,17 @@ export default function Hero({ lang }) {
           className="font-body text-lg text-beige-100/85 max-w-2xl mx-auto leading-relaxed mb-10"
           style={{ textWrap: "pretty" }}
         >
-          {t.sub}
+          {t.subPre}
+          <span
+            className="font-medium text-[hsl(42,85%,75%)]"
+            style={{
+              textShadow:
+                "0 0 14px hsla(42, 100%, 70%, 0.5), 0 0 28px hsla(42, 100%, 70%, 0.25)",
+            }}
+          >
+            {t.subPrice}
+          </span>
+          {t.subPost}
         </motion.p>
 
         <motion.div
