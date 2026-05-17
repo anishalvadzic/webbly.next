@@ -7,6 +7,7 @@ import { nb } from "date-fns/locale";
 import Navbar from "@/components/landing/Navbar";
 import Footer from "@/components/landing/Footer";
 import CookieBanner from "@/components/landing/CookieBanner";
+import BlogCoverAnimation from "@/components/blog/BlogCoverAnimation";
 import { readingTime } from "@/lib/blog";
 
 function ArticleCard({ post }) {
@@ -16,11 +17,15 @@ function ArticleCard({ post }) {
       className="group bg-white border border-beige-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col"
     >
       <div className="aspect-[16/9] overflow-hidden bg-beige-100 relative">
-        <img
-          src={post.coverImage}
-          alt={post.title}
-          className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
-        />
+        {post.coverAnimation ? (
+          <BlogCoverAnimation variant={post.coverAnimation} />
+        ) : (
+          <img
+            src={post.coverImage}
+            alt={post.title}
+            className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
+          />
+        )}
         <span className="absolute top-3 left-3 bg-deep-brown/80 text-beige-50 text-[10px] font-body font-semibold uppercase tracking-widest px-2.5 py-1 rounded-full">
           {post.category}
         </span>
